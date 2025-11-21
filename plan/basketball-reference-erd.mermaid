@@ -1,0 +1,316 @@
+erDiagram
+    %% Basketball Reference Clone - Entity Relationship Diagram
+
+    players {
+        varchar player_id PK "e.g., jamesle01"
+        varchar first_name
+        varchar last_name
+        varchar full_name
+        date birth_date
+        varchar birth_city
+        varchar birth_country
+        int height_inches
+        int weight_lbs
+        varchar shoots "Right/Left/Both"
+        varchar position "Can be multiple"
+        varchar high_school
+        varchar college
+        int draft_year
+        int draft_round
+        int draft_pick
+        varchar draft_team_id FK
+        date nba_debut
+        boolean is_active
+        int hof_year
+    }
+
+    teams {
+        varchar team_id PK "e.g., LAL"
+        varchar franchise_id FK
+        varchar full_name
+        varchar abbreviation
+        varchar city
+        varchar arena
+        int founded_year
+        varchar conference "Eastern/Western"
+        varchar division
+        boolean is_active
+    }
+
+    franchises {
+        varchar franchise_id PK
+        varchar current_team_id FK
+        varchar original_name
+        int founded_year
+        int total_championships
+    }
+
+    seasons {
+        varchar season_id PK "e.g., 2024-25"
+        varchar league "NBA/ABA/BAA"
+        int start_year
+        int end_year
+        varchar champion_team_id FK
+        varchar mvp_player_id FK
+        decimal salary_cap
+    }
+
+    player_season_stats {
+        int stat_id PK
+        varchar player_id FK
+        varchar season_id FK
+        varchar team_id FK
+        varchar season_type "Regular/Playoffs"
+        int games_played
+        int minutes_played
+        int field_goals_made
+        int field_goals_attempted
+        decimal field_goal_pct
+        int three_pointers_made
+        int three_pointers_attempted
+        int free_throws_made
+        int free_throws_attempted
+        int offensive_rebounds
+        int defensive_rebounds
+        int assists
+        int steals
+        int blocks
+        int turnovers
+        int personal_fouls
+        int points
+    }
+
+    player_advanced_stats {
+        int stat_id PK
+        varchar player_id FK
+        varchar season_id FK
+        decimal player_efficiency_rating "PER"
+        decimal true_shooting_pct "TS%"
+        decimal usage_pct "USG%"
+        decimal offensive_win_shares "OWS"
+        decimal defensive_win_shares "DWS"
+        decimal win_shares "WS"
+        decimal box_plus_minus "BPM"
+        decimal value_over_replacement "VORP"
+        decimal offensive_rating
+        decimal defensive_rating
+    }
+
+    player_shooting_stats {
+        int stat_id PK
+        varchar player_id FK
+        varchar season_id FK
+        decimal fg_pct_at_rim "0-3 feet"
+        decimal fg_pct_3_10 "3-10 feet"
+        decimal fg_pct_10_16 "10-16 feet"
+        decimal fg_pct_16_3pt "16ft to 3pt"
+        decimal fg_pct_3pt "3 pointers"
+        decimal corner_3_pct
+        int dunks
+    }
+
+    player_splits {
+        int split_id PK
+        varchar player_id FK
+        varchar season_id FK
+        varchar split_type "Location/Month/etc"
+        varchar split_value "Home/Away/Jan/etc"
+        int games
+        int points
+        decimal points_per_game
+    }
+
+    games {
+        varchar game_id PK "e.g., 202411180LAL"
+        varchar season_id FK
+        date game_date
+        time game_time
+        varchar game_type "Regular/Playoffs"
+        varchar home_team_id FK
+        varchar away_team_id FK
+        int home_team_score
+        int away_team_score
+        varchar arena
+        int attendance
+        varchar winner_team_id FK
+        varchar playoff_round
+    }
+
+    box_scores {
+        int box_score_id PK
+        varchar game_id FK
+        varchar player_id FK
+        varchar team_id FK
+        boolean is_starter
+        int minutes_played
+        int field_goals_made
+        int field_goals_attempted
+        int three_pointers_made
+        int free_throws_made
+        int rebounds
+        int assists
+        int steals
+        int blocks
+        int turnovers
+        int points
+        int plus_minus
+    }
+
+    team_game_stats {
+        int stat_id PK
+        varchar game_id FK
+        varchar team_id FK
+        boolean is_home
+        int field_goals_made
+        int field_goals_attempted
+        int points
+        decimal pace
+        decimal offensive_rating
+        decimal defensive_rating
+    }
+
+    team_season_stats {
+        int stat_id PK
+        varchar team_id FK
+        varchar season_id FK
+        int wins
+        int losses
+        decimal win_pct
+        int conference_rank
+        int playoff_seed
+        decimal points_per_game
+        decimal pace
+        decimal offensive_rating
+        decimal defensive_rating
+        decimal net_rating
+    }
+
+    draft_picks {
+        int pick_id PK
+        int draft_year
+        int round
+        int pick_number
+        int overall_pick
+        varchar player_id FK
+        varchar team_id FK
+        varchar college
+        decimal height_no_shoes
+        decimal wingspan
+        decimal standing_vertical
+        decimal max_vertical
+    }
+
+    player_contracts {
+        int contract_id PK
+        varchar player_id FK
+        varchar team_id FK
+        varchar contract_type
+        date signing_date
+        decimal total_value
+        int years
+        decimal year_1_salary
+        decimal year_2_salary
+        decimal year_3_salary
+        boolean no_trade_clause
+    }
+
+    team_payrolls {
+        int payroll_id PK
+        varchar team_id FK
+        varchar season_id FK
+        decimal total_payroll
+        decimal salary_cap
+        decimal cap_space
+        decimal luxury_tax_bill
+    }
+
+    awards {
+        int award_id PK
+        varchar season_id FK
+        varchar award_type "MVP/DPOY/ROY/etc"
+        varchar player_id FK
+        int first_place_votes
+        int total_points
+        decimal vote_share
+        int rank
+    }
+
+    all_nba_teams {
+        int selection_id PK
+        varchar season_id FK
+        varchar team_type "All-NBA/All-Def/Rookie"
+        int team_number "1st/2nd/3rd"
+        varchar player_id FK
+        varchar position
+    }
+
+    playoff_series {
+        int series_id PK
+        varchar season_id FK
+        varchar round "First Round/Finals/etc"
+        varchar conference
+        varchar higher_seed_team_id FK
+        varchar lower_seed_team_id FK
+        int higher_seed_wins
+        int lower_seed_wins
+        varchar winner_team_id FK
+    }
+
+    coaches {
+        varchar coach_id PK
+        varchar first_name
+        varchar last_name
+        date birth_date
+        boolean played_in_nba
+        varchar player_id FK
+        int career_wins
+        int championships
+    }
+
+    coach_seasons {
+        int coach_season_id PK
+        varchar coach_id FK
+        varchar team_id FK
+        varchar season_id FK
+        boolean is_head_coach
+        int wins
+        int losses
+    }
+
+    %% Relationships
+    players ||--o{ player_season_stats : "has"
+    players ||--o{ player_advanced_stats : "has"
+    players ||--o{ player_shooting_stats : "has"
+    players ||--o{ player_splits : "has"
+    players ||--o{ box_scores : "appears in"
+    players ||--o{ draft_picks : "was picked"
+    players ||--o{ player_contracts : "signs"
+    players ||--o{ awards : "wins"
+    players ||--o{ all_nba_teams : "selected to"
+
+    teams ||--o{ player_season_stats : "employs"
+    teams ||--o{ games : "plays (home)"
+    teams ||--o{ games : "plays (away)"
+    teams ||--o{ box_scores : "includes"
+    teams ||--o{ team_game_stats : "records"
+    teams ||--o{ team_season_stats : "has"
+    teams ||--o{ draft_picks : "selects"
+    teams ||--o{ player_contracts : "signs"
+    teams ||--o{ team_payrolls : "has"
+    teams ||--o{ playoff_series : "competes in"
+    teams ||--o{ coach_seasons : "employs"
+    teams }o--|| franchises : "belongs to"
+
+    seasons ||--o{ player_season_stats : "contains"
+    seasons ||--o{ games : "schedules"
+    seasons ||--o{ team_season_stats : "tracks"
+    seasons ||--o{ awards : "presents"
+    seasons ||--o{ all_nba_teams : "selects"
+    seasons ||--o{ playoff_series : "hosts"
+    seasons ||--o{ team_payrolls : "tracks"
+    seasons ||--o{ coach_seasons : "includes"
+
+    games ||--o{ box_scores : "contains"
+    games ||--o{ team_game_stats : "records"
+
+    coaches ||--o{ coach_seasons : "works"

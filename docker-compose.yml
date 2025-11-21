@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+    environment:
+      - DB_PATH=/data/nba.duckdb
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+    stdin_open: true
+    tty: true

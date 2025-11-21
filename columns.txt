@@ -1,0 +1,9 @@
+
+Columns of player_stats_per_game:
+['seas_id', 'season', 'player_id', 'player', 'birth_year', 'pos', 'age', 'experience', 'lg', 'tm', 'g', 'gs', 'mp_per_game', 'fg_per_game', 'fga_per_game', 'fg_percent', 'x3p_per_game', 'x3pa_per_game', 'x3p_percent', 'x2p_per_game', 'x2pa_per_game', 'x2p_percent', 'e_fg_percent', 'ft_per_game', 'fta_per_game', 'ft_percent', 'orb_per_game', 'drb_per_game', 'trb_per_game', 'ast_per_game', 'stl_per_game', 'blk_per_game', 'tov_per_game', 'pf_per_game', 'pts_per_game']
+
+Columns of other_stats:
+['game_id', 'league_id', 'team_id_home', 'team_abbreviation_home', 'team_city_home', 'pts_paint_home', 'pts_2nd_chance_home', 'pts_fb_home', 'largest_lead_home', 'lead_changes', 'times_tied', 'team_turnovers_home', 'total_turnovers_home', 'team_rebounds_home', 'pts_off_to_home', 'team_id_away', 'team_abbreviation_away', 'team_city_away', 'pts_paint_away', 'pts_2nd_chance_away', 'pts_fb_away', 'largest_lead_away', 'team_turnovers_away', 'total_turnovers_away', 'team_rebounds_away', 'pts_off_to_away']
+
+Columns of player_play_by_play:
+['seas_id', 'season', 'player_id', 'player', 'birth_year', 'pos', 'age', 'experience', 'lg', 'tm', 'g', 'mp', 'pg_percent', 'sg_percent', 'sf_percent', 'pf_percent', 'c_percent', 'on_court_plus_minus_per_100_poss', 'net_plus_minus_per_100_poss', 'bad_pass_turnover', 'lost_ball_turnover', 'shooting_foul_committed', 'offensive_foul_committed', 'shooting_foul_drawn', 'offensive_foul_drawn', 'points_generated_by_assists', 'and1', 'fga_blocked']
