@@ -1,6 +1,6 @@
-from fastapi import APIRouter, HTTPException, Query
-from typing import List, Optional
-from database import execute_query, execute_query_df
+from fastapi import APIRouter, HTTPException
+from typing import List, Optional, Any
+from database import execute_query_df
 from models import Game, GameStats
 import numpy as np
 
@@ -15,7 +15,7 @@ def get_games(
 ):
     query = "SELECT * FROM game"
     conditions = []
-    params = []
+    params: List[Any] = []
     
     if date:
         conditions.append("game_date = ?")
@@ -36,9 +36,7 @@ def get_games(
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/games/{game_id}", response_model=Game)
 def get_game(game_id: str):
@@ -53,9 +51,7 @@ def get_game(game_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/games/{game_id}/stats", response_model=Optional[GameStats])
 def get_game_stats(game_id: str):
@@ -68,6 +64,4 @@ def get_game_stats(game_id: str):
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")[0]
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e

@@ -1,5 +1,45 @@
 # Generic, formatter-friendly config.
-select = ["B", "D3", "E", "F"]
+target-version = "py313"
+line-length = 100
+
+[lint]
+# Expand selection to include comprehensive rules suitable for a modern Python project
+select = [
+  "B",    # flake8-bugbear
+  "D3",   # pydocstyle (subset)
+  "E",    # pycodestyle errors
+  "F",    # Pyflakes
+  "I",    # isort (Import sorting)
+  "UP",   # pyupgrade (Upgrade syntax for newer Python versions)
+  "ARG",  # flake8-unused-arguments
+  "C4",   # flake8-comprehensions
+  "ERA",  # eradicate (commented out code)
+  "FURB", # refurb (modernize python code)
+  "ICN",  # flake8-import-conventions
+  "ISC",  # flake8-implicit-str-concat
+  "NPY",  # NumPy-specific rules
+  "PD",   # pandas-vet
+  "PGH",  # pygrep-hooks
+  "PIE",  # flake8-pie
+  "PL",   # Pylint
+  "PT",   # flake8-pytest-style
+  "Q",    # flake8-quotes
+  "RSE",  # flake8-raise
+  "RUF",  # Ruff-specific rules
+  "S",    # flake8-bandit (security)
+  "SLF",  # flake8-self
+  "SLOT", # flake8-slots
+  "T20",  # flake8-print
+  "TID",  # flake8-tidy-imports
+  "TCH",  # flake8-type-checking
+  "W",    # pycodestyle warnings
+]
 
 # Never enforce `E501` (line length violations). This should be handled by formatters.
 ignore = ["E501"]
+
+[lint.isort]
+known-first-party = ["backend"]
+
+[lint.flake8-pytest-style]
+fixture-parentheses = false

@@ -15,9 +15,7 @@ def get_teams():
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/teams/{team_id}", response_model=Team)
 def get_team(team_id: str):
@@ -33,7 +31,7 @@ def get_team(team_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/teams/{team_id}/players", response_model=List[dict])
 def get_team_players(team_id: str):
@@ -61,6 +59,4 @@ def get_team_players(team_id: str):
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e

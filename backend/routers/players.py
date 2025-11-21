@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from models import Player
 from database import execute_query_df
@@ -27,9 +27,7 @@ def get_players(search: Optional[str] = None, limit: int = 50, offset: int = 0):
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/players/{player_id}", response_model=Player)
 def get_player(player_id: str):
@@ -54,9 +52,7 @@ def get_player(player_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 @router.get("/players/{player_id}/stats", response_model=List[dict])
 def get_player_stats(player_id: str):
@@ -100,6 +96,4 @@ def get_player_stats(player_id: str):
         df = df.replace({np.nan: None})
         return df.to_dict(orient="records")
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e

@@ -1,0 +1,1065 @@
+Checking 0% [>                                                     ]  0/2  0.0s 
+                                                                                [0G[2K[1A[2KChecking 33% [=================>                                   ]  1/3  0.2s 
+ ↳ trunk                                                                        
+   ↳ Scanning the filesystem ⠙                                                  
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2KChecking 21% [=========>                                       ]  115/557  0.4s 
+ ↳ git-diff-check                                                               
+   ↳ .trunk\.gitignore... (64 files) ⠹                                          
+   ↳ frontend\src\pages\_document.tsx... (19 files) ⠹                           
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠹                                                 
+ ↳ sort-package-json                                                            
+   ↳ frontend\package.json (config scanning) ⠹                                  
+ ↳ taplo                                                                        
+   ↳ backend\pyproject.toml [format] ⠹                                          
+   ↳ backend\pyproject.toml [lint] ⠹                                            
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 24% [===========>                                     ]  132/557  0.6s 
+ ↳ markdown-link-check                                                          
+   ↳ DATA_NOTES.md ⠸                                                            
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠸                                                 
+ ↳ sort-package-json                                                            
+   ↳ frontend\package.json ⠸                                                    
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠸                                   
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠸                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 25% [===========>                                     ]  138/557  0.8s 
+ ↳ markdown-link-check                                                          
+   ↳ DATA_NOTES.md ⠼                                                            
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠼                                                 
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠼                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠼                                         
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠼                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 26% [============>                                    ]  144/557  1.1s 
+ ↳ markdown-link-check                                                          
+   ↳ DATA_NOTES.md ⠴                                                            
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠴                                                 
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠴                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠴                                         
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠴                                
+ ↳ yamllint                                                                     
+   ↳ .trunk\configs\.hadolint.yaml (config scanning) ⠴                          
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 26% [============>                                    ]  146/557  1.3s 
+ ↳ mypy                                                                         
+   ↳ Installing hermetic tool mypy v1.18.2 ⠦                                    
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠦                                                 
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠦                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠦                                         
+   ↳ frontend\Dockerfile [lint-docker] ⠦                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠦                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 27% [============>                                    ]  148/557  1.5s 
+ ↳ mypy                                                                         
+   ↳ backend\check_games.py ⠧                                                   
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠧                                                 
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠧                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠧                                         
+   ↳ frontend\Dockerfile [lint-docker] ⠧                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠧                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 27% [============>                                    ]  148/557  1.7s 
+ ↳ mypy                                                                         
+   ↳ backend\check_games.py ⠇                                                   
+ ↳ osv-scanner                                                                  
+   ↳ backend\requirements.txt ⠇                                                 
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠇                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠇                                         
+   ↳ frontend\Dockerfile [lint-docker] ⠇                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠇                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 27% [=============>                                   ]  151/557  1.9s 
+ ↳ markdownlint                                                                 
+   ↳ DATA_NOTES.md ⠏                                                            
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠏                                               
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [lint] ⠏                                   
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠏                                         
+   ↳ frontend\Dockerfile [lint-docker] ⠏                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠏                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 45% [=====================>                           ]  252/557  2.1s 
+ ↳ eslint                                                                       
+   ↳ frontend\postcss.config.mjs (config scanning) [lint] ⠋                     
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠋                                               
+ ↳ svgo                                                                         
+   ↳ frontend\public\file.svg... (5 files) ⠋                                    
+ ↳ terrascan                                                                    
+   ↳ backend\Dockerfile [lint-docker] ⠋                                         
+   ↳ frontend\Dockerfile [lint-docker] ⠋                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠋                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 45% [=====================>                           ]  253/557  2.3s 
+ ↳ eslint                                                                       
+   ↳ frontend\eslint.config.mjs... (2 files) [lint] ⠙                           
+   ↳ frontend\next.config.ts (config scanning) [lint] ⠙                         
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠙                                               
+ ↳ svgo                                                                         
+   ↳ frontend\public\file.svg... (5 files) ⠙                                    
+ ↳ terrascan                                                                    
+   ↳ frontend\Dockerfile [lint-docker] ⠙                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠙                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 46% [======================>                          ]  256/557  2.5s 
+ ↳ eslint                                                                       
+   ↳ frontend\eslint.config.mjs [lint] ⠹                                        
+   ↳ frontend\next.config.ts... (2 files) [lint] ⠹                              
+   ↳ frontend\src\pages\teams\[team_id].tsx (config scanning) [lint] ⠹          
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠹                                               
+ ↳ terrascan                                                                    
+   ↳ frontend\Dockerfile [lint-docker] ⠹                                        
+ ↳ trufflehog                                                                   
+   ↳ frontend\src\pages\_app.tsx... (20 files) ⠹                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 47% [======================>                          ]  260/557  2.7s 
+ ↳ eslint                                                                       
+   ↳ frontend\eslint.config.mjs [lint] ⠸                                        
+   ↳ frontend\next.config.ts [lint] ⠸                                           
+   ↳ frontend\src\components\Hero.tsx... (10 files) [lint] ⠸                    
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠸                                               
+ ↳ prettier                                                                     
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) ⠸                               
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 47% [======================>                          ]  260/557  2.9s 
+ ↳ eslint                                                                       
+   ↳ frontend\eslint.config.mjs [lint] ⠼                                        
+   ↳ frontend\next.config.ts [lint] ⠼                                           
+   ↳ frontend\src\components\Hero.tsx... (10 files) [lint] ⠼                    
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠼                                               
+ ↳ prettier                                                                     
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) ⠼                               
+   ↳ .trunk\configs\svgo.config.mjs... (3 files) ⠼                              
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 48% [======================>                          ]  265/557  3.1s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Hero.tsx [lint] ⠴                                  
+ ↳ osv-scanner                                                                  
+   ↳ frontend\package-lock.json ⠴                                               
+ ↳ prettier                                                                     
+   ↳ .trunk\configs\svgo.config.mjs... (3 files) ⠴                              
+   ↳ .vscode\extensions.json... (4 files) ⠴                                     
+   ↳ DATA_NOTES.md... (5 files) ⠴                                               
+   ↳ frontend\next.config.ts... (2 files) ⠴                                     
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 48% [=======================>                         ]  268/557  3.4s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Hero.tsx [lint] ⠦                                  
+ ↳ prettier                                                                     
+   ↳ .vscode\extensions.json... (4 files) ⠦                                     
+   ↳ DATA_NOTES.md... (5 files) ⠦                                               
+   ↳ frontend\next.config.ts... (2 files) ⠦                                     
+   ↳ frontend\src\components\Hero.tsx... (10 files) ⠦                           
+   ↳ frontend\src\styles\globals.css (config scanning) ⠦                        
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 48% [=======================>                         ]  268/557  3.6s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Hero.tsx [lint] ⠧                                  
+ ↳ prettier                                                                     
+   ↳ .vscode\extensions.json... (4 files) ⠧                                     
+   ↳ DATA_NOTES.md... (5 files) ⠧                                               
+   ↳ frontend\next.config.ts... (2 files) ⠧                                     
+   ↳ frontend\src\components\Hero.tsx... (10 files) ⠧                           
+   ↳ frontend\src\styles\globals.css ⠧                                          
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 49% [=======================>                         ]  271/557  3.8s 
+ ↳ prettier                                                                     
+   ↳ DATA_NOTES.md... (5 files) ⠇                                               
+   ↳ frontend\next.config.ts... (2 files) ⠇                                     
+   ↳ frontend\src\components\Hero.tsx... (10 files) ⠇                           
+   ↳ frontend\src\styles\globals.css ⠇                                          
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠇                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 49% [=======================>                         ]  273/557  4.0s 
+ ↳ markdown-link-check                                                          
+   ↳ README.md ⠏                                                                
+ ↳ prettier                                                                     
+   ↳ DATA_NOTES.md... (5 files) ⠏                                               
+   ↳ frontend\src\components\Hero.tsx... (10 files) ⠏                           
+   ↳ frontend\src\styles\globals.css ⠏                                          
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠏                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 50% [=======================>                         ]  276/557  4.2s 
+ ↳ markdown-link-check                                                          
+   ↳ README.md ⠋                                                                
+   ↳ backend\README.md ⠋                                                        
+   ↳ frontend\README.md ⠋                                                       
+   ↳ plan\basketball-reference-clone-spec.md (config scanning) ⠋                
+ ↳ prettier                                                                     
+   ↳ frontend\src\components\Hero.tsx... (10 files) ⠋                           
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠋                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 50% [=======================>                         ]  277/557  4.4s 
+ ↳ markdown-link-check                                                          
+   ↳ README.md ⠙                                                                
+   ↳ backend\README.md ⠙                                                        
+   ↳ frontend\README.md ⠙                                                       
+   ↳ plan\basketball-reference-clone-spec.md ⠙                                  
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠙                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 73% [==================================>              ]  405/557  4.6s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠹                        
+   ↳ .vscode\extensions.json (config scanning) [lint] ⠹                         
+ ↳ markdown-link-check                                                          
+   ↳ backend\README.md ⠹                                                        
+   ↳ frontend\README.md ⠹                                                       
+   ↳ plan\basketball-reference-clone-spec.md ⠹                                  
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠹                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 73% [==================================>              ]  406/557  4.8s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠸                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠸                              
+   ↳ backend\Dockerfile (config scanning) [lint] ⠸                              
+ ↳ markdown-link-check                                                          
+   ↳ frontend\README.md ⠸                                                       
+   ↳ plan\basketball-reference-clone-spec.md ⠸                                  
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠸                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 74% [===================================>             ]  413/557  5.0s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠼                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠼                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠼                                   
+ ↳ markdown-link-check                                                          
+   ↳ frontend\README.md ⠼                                                       
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠼                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 74% [===================================>             ]  414/557  5.2s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠴                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠴                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠴                                   
+ ↳ markdown-link-check                                                          
+   ↳ frontend\README.md ⠴                                                       
+ ↳ stylelint                                                                    
+   ↳ frontend\src\styles\globals.css [fix] ⠴                                    
+ ↳ yamllint                                                                     
+   ↳ .trunk\configs\.yamllint.yaml (config scanning) ⠴                          
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 75% [===================================>             ]  416/557  5.4s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠦                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠦                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠦                                   
+ ↳ markdown-link-check                                                          
+   ↳ frontend\README.md ⠦                                                       
+ ↳ yamllint                                                                     
+   ↳ .trunk\trunk.yaml ⠦                                                        
+   ↳ docker-compose.yml (config scanning) ⠦                                     
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 75% [====================================>            ]  418/557  5.7s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠧                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠧                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠧                                   
+ ↳ markdown-link-check                                                          
+   ↳ frontend\README.md ⠧                                                       
+ ↳ mypy                                                                         
+   ↳ backend\check_players.py ⠧                                                 
+   ↳ backend\check_teams.py (config scanning) ⠧                                 
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 75% [====================================>            ]  419/557  5.9s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠇                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠇                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠇                                   
+ ↳ mypy                                                                         
+   ↳ backend\check_players.py ⠇                                                 
+   ↳ backend\check_teams.py ⠇                                                   
+   ↳ backend\database.py (config scanning) ⠇                                    
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 76% [====================================>            ]  421/557  6.1s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠏                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠏                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠏                                   
+ ↳ mypy                                                                         
+   ↳ backend\database.py ⠏                                                      
+   ↳ backend\inspect_game_stats.py ⠏                                            
+   ↳ backend\inspect_player.py (config scanning) ⠏                              
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 76% [====================================>            ]  421/557  6.3s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠋                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠋                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠋                                   
+ ↳ mypy                                                                         
+   ↳ backend\database.py ⠋                                                      
+   ↳ backend\inspect_game_stats.py ⠋                                            
+   ↳ backend\inspect_player.py ⠋                                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 76% [====================================>            ]  423/557  6.5s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠙                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠙                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠙                                   
+ ↳ mypy                                                                         
+   ↳ backend\inspect_player.py ⠙                                                
+   ↳ backend\inspect_schema.py ⠙                                                
+   ↳ backend\list_tables.py (config scanning) ⠙                                 
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 76% [====================================>            ]  425/557  6.7s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠹                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠹                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠹                                   
+ ↳ mypy                                                                         
+   ↳ backend\list_tables.py ⠹                                                   
+   ↳ backend\main.py ⠹                                                          
+   ↳ backend\models.py (config scanning) ⠹                                      
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 76% [====================================>            ]  426/557  6.9s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠸                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠸                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠸                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠸                                                          
+   ↳ backend\models.py ⠸                                                        
+   ↳ backend\reproduce_error.py (config scanning) ⠸                             
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [====================================>            ]  427/557  7.1s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠼                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠼                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠼                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠼                                                          
+   ↳ backend\reproduce_error.py ⠼                                               
+   ↳ backend\routers\games.py (config scanning) ⠼                               
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [====================================>            ]  428/557  7.3s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠴                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠴                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠴                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠴                                                          
+   ↳ backend\routers\games.py ⠴                                                 
+   ↳ backend\routers\players.py (config scanning) ⠴                             
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [====================================>            ]  428/557  7.5s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠦                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠦                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠦                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠦                                                          
+   ↳ backend\routers\games.py ⠦                                                 
+   ↳ backend\routers\players.py (config scanning) ⠦                             
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [====================================>            ]  428/557  7.7s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠧                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠧                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠧                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠧                                                          
+   ↳ backend\routers\games.py ⠧                                                 
+   ↳ backend\routers\players.py ⠧                                               
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [====================================>            ]  429/557  7.9s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠇                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠇                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠇                                   
+ ↳ mypy                                                                         
+   ↳ backend\main.py ⠇                                                          
+   ↳ backend\routers\games.py ⠇                                                 
+   ↳ backend\routers\teams.py (config scanning) ⠇                               
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [=====================================>           ]  430/557  8.1s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠏                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠏                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠏                                   
+ ↳ mypy                                                                         
+   ↳ backend\routers\games.py ⠏                                                 
+   ↳ backend\routers\teams.py ⠏                                                 
+   ↳ backend\test_db.py (config scanning) ⠏                                     
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 77% [=====================================>           ]  430/557  8.4s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠋                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠋                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠋                                   
+ ↳ mypy                                                                         
+   ↳ backend\routers\games.py ⠋                                                 
+   ↳ backend\routers\teams.py ⠋                                                 
+   ↳ backend\test_db.py ⠋                                                       
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 78% [=====================================>           ]  436/557  8.6s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠙                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠙                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠙                                   
+ ↳ eslint                                                                       
+   ↳ frontend\postcss.config.mjs [lint] ⠙                                       
+ ↳ mypy                                                                         
+   ↳ backend\routers\games.py ⠙                                                 
+   ↳ verify_endpoints.py ⠙                                                      
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 80% [======================================>          ]  447/557  8.8s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠹                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠹                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠹                                   
+ ↳ eslint                                                                       
+   ↳ frontend\postcss.config.mjs [lint] ⠹                                       
+   ↳ frontend\src\pages\api\hello.ts [lint] ⠹                                   
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 83% [=======================================>         ]  463/557  9.0s 
+ ↳ checkov                                                                      
+   ↳ .trunk\configs\.hadolint.yaml... (5 files) [lint] ⠸                        
+   ↳ .vscode\extensions.json... (5 files) [lint] ⠸                              
+   ↳ backend\Dockerfile... (2 files) [lint] ⠸                                   
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Layout.tsx [lint] ⠸                                
+   ↳ frontend\src\components\Navbar.tsx [lint] ⠸                                
+   ↳ frontend\src\pages\_app.tsx [lint] ⠸                                       
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 84% [========================================>        ]  467/557  9.2s 
+ ↳ checkov                                                                      
+   ↳ backend\Dockerfile... (2 files) [lint] ⠼                                   
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Layout.tsx [lint] ⠼                                
+   ↳ frontend\src\components\Navbar.tsx [lint] ⠼                                
+   ↳ frontend\src\pages\_app.tsx [lint] ⠼                                       
+   ↳ frontend\src\pages\_document.tsx [lint] ⠼                                  
+   ↳ frontend\src\pages\games\[game_id].tsx [lint] ⠼                            
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 84% [========================================>        ]  470/557  9.4s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\components\Navbar.tsx [lint] ⠴                                
+   ↳ frontend\src\pages\_app.tsx [lint] ⠴                                       
+   ↳ frontend\src\pages\_document.tsx [lint] ⠴                                  
+   ↳ frontend\src\pages\games\[game_id].tsx [lint] ⠴                            
+   ↳ frontend\src\pages\index.tsx [lint] ⠴                                      
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 85% [========================================>        ]  473/557  9.6s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\pages\games\[game_id].tsx [lint] ⠦                            
+   ↳ frontend\src\pages\index.tsx [lint] ⠦                                      
+   ↳ frontend\src\pages\players\[player_id].tsx [lint] ⠦                        
+   ↳ frontend\src\pages\teams\[team_id].tsx [lint] ⠦                            
+   ↳ frontend\src\pages\teams\index.tsx [lint] ⠦                                
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 99% [===============================================> ]  554/557  9.8s 
+ ↳ eslint                                                                       
+   ↳ frontend\src\pages\teams\[team_id].tsx [lint] ⠧                            
+                                                                                [0G[2K[1A[2K[1A[2K[1A[2KChecking 100% [=============================================> ]  555/557  10.0s 
+                                                                                [0G[2K[1A[2KChecking 100% [==============================================>]  557/557  10.0s 
+                                                                                [0G[1m[30m[107m  AUTOFIXES  [0m
+
+[1m[4mdocker-compose.yml
+[0m[1m[90m 1:1[0m[31m  high[0m  Incorrect formatting[1m[90m  
+[0m
+[90m   1 | [0m[31mversion: '3.8'
+[0m[90m   2 | [0m[31m
+[0m[90m   3 | [0m[31mservices:
+[0m[90m   4 | [0m[31m  backend:
+[0m[90m   5 | [0m[31m    build: ./backend
+[0m[90m   6 | [0m[31m    ports:
+[0m[90m   7 | [0m[31m      - "8001:8000"
+[0m[90m   8 | [0m[31m    volumes:
+[0m[90m   9 | [0m[31m      - ./backend:/app
+[0m[90m  10 | [0m[31m      - ./data:/data
+[0m[90m  11 | [0m[31m    environment:
+[0m[90m  12 | [0m[31m      - DB_PATH=/data/nba.duckdb
+[0m[90m  13 | [0m[31m    restart: always
+[0m[90m  14 | [0m[31m
+[0m[90m  15 | [0m[31m  frontend:
+[0m[90m  16 | [0m[31m    build: ./frontend
+[0m[90m  17 | [0m[31m    ports:
+[0m[90m  18 | [0m[31m      - "3002:3000"
+[0m[90m  19 | [0m[31m    volumes:
+[0m[90m  20 | [0m[31m      - ./frontend:/app
+[0m[90m  21 | [0m[31m      - /app/node_modules
+[0m[90m  22 | [0m[31m    environment:
+[0m[90m  23 | [0m[31m      - WATCHPACK_POLLING=true
+[0m[90m  24 | [0m[31m    stdin_open: true
+[0m[90m  25 | [0m[31m    tty: true
+[0m[90m     | [0m[32mversion: "3.8"
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32mservices:
+[0m[90m     | [0m[32m  backend:
+[0m[90m     | [0m[32m    build: ./backend
+[0m[90m     | [0m[32m    ports:
+[0m[90m     | [0m[32m      - "8001:8000"
+[0m[90m     | [0m[32m    volumes:
+[0m[90m     | [0m[32m      - ./backend:/app
+[0m[90m     | [0m[32m      - ./data:/data
+[0m[90m     | [0m[32m    environment:
+[0m[90m     | [0m[32m      - DB_PATH=/data/nba.duckdb
+[0m[90m     | [0m[32m    restart: always
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m  frontend:
+[0m[90m     | [0m[32m    build: ./frontend
+[0m[90m     | [0m[32m    ports:
+[0m[90m     | [0m[32m      - "3002:3000"
+[0m[90m     | [0m[32m    volumes:
+[0m[90m     | [0m[32m      - ./frontend:/app
+[0m[90m     | [0m[32m      - /app/node_modules
+[0m[90m     | [0m[32m    environment:
+[0m[90m     | [0m[32m      - WATCHPACK_POLLING=true
+[0m[90m     | [0m[32m    stdin_open: true
+[0m[90m     | [0m[32m    tty: true
+[0m
+[1m[4mfrontend\tsconfig.json
+[0m[1m[90m 1:1[0m[31m  high[0m  Incorrect formatting[1m[90m  
+[0m
+[90m   2 | [0m  "compilerOptions": {
+[90m   3 | [0m    "target": "ES2017",
+[90m   4 | [0m[31m    "lib": [
+[0m[90m   5 | [0m[31m      "dom",
+[0m[90m   6 | [0m[31m      "dom.iterable",
+[0m[90m   7 | [0m[31m      "esnext"
+[0m[90m   8 | [0m[31m    ],
+[0m[90m     | [0m[32m    "lib": ["dom", "dom.iterable", "esnext"],
+[0m[90m   9 | [0m    "allowJs": true,
+[90m  10 | [0m    "skipLibCheck": true,
+
+[90m  19 | [0m    "incremental": true,
+[90m  20 | [0m    "paths": {
+[90m  21 | [0m[31m      "@/*": [
+[0m[90m  22 | [0m[31m        "./src/*"
+[0m[90m  23 | [0m[31m      ]
+[0m[90m     | [0m[32m      "@/*": ["./src/*"]
+[0m[90m  24 | [0m    }
+[90m  25 | [0m  },
+
+[90m  32 | [0m    "**/*.mts"
+[90m  33 | [0m  ],
+[90m  34 | [0m[31m  "exclude": [
+[0m[90m  35 | [0m[31m    "node_modules"
+[0m[90m  36 | [0m[31m  ]
+[0m[90m     | [0m[32m  "exclude": ["node_modules"]
+[0m[90m  37 | [0m}
+
+[1m[4mDATA_NOTES.md
+[0m[1m[90m 1:1[0m[31m  high[0m  Incorrect formatting[1m[90m  
+[0m
+[90m   1 | [0m[31m# Data Notes
+[0m[90m   2 | [0m[31m
+[0m[90m   3 | [0m[31m## Player Tables Discrepancy
+[0m[90m   4 | [0m[31m
+[0m[90m   5 | [0m[31mWe observed a discrepancy between the `player` table and the `common_player_info` table:
+[0m[90m   6 | [0m[31m
+[0m[90m   7 | [0m[31m- **`player` Table**: Contains ~5100 rows. Appears to be the master list of all players, including basic information (`id`, `full_name`, `is_active`).
+[0m[90m   8 | [0m[31m- **`common_player_info` Table**: Contains ~3600 rows. Contains detailed information (`height`, `weight`, `birthdate`, `school`, etc.).
+[0m[90m   9 | [0m[31m
+[0m[90m  10 | [0m[31m**Key Finding:**
+[0m[90m  11 | [0m[31mSome prominent players, such as **LeBron James (ID 2544)**, are present in the `player` table but **missing** from `common_player_info`. Other legends like Michael Jordan and active stars like Stephen Curry are present in both.
+[0m[90m  12 | [0m[31m
+[0m[90m  13 | [0m[31m**Implication:**
+[0m[90m  14 | [0m[31mThe application uses a fallback mechanism:
+[0m[90m  15 | [0m[31m1.  Try to fetch detailed info from `common_player_info`.
+[0m[90m  16 | [0m[31m2.  If not found, fall back to basic info from the `player` table.
+[0m[90m  17 | [0m[31m3.  This ensures all players are accessible, even if some details are missing.
+[0m[90m     | [0m[32m# Data Notes
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m## Player Tables Discrepancy
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32mWe observed a discrepancy between the `player` table and the `common_player_info` table:
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m- **`player` Table**: Contains ~5100 rows. Appears to be the master list of all players, including
+[0m[90m     | [0m[32m  basic information (`id`, `full_name`, `is_active`).
+[0m[90m     | [0m[32m- **`common_player_info` Table**: Contains ~3600 rows. Contains detailed information (`height`,
+[0m[90m     | [0m[32m  `weight`, `birthdate`, `school`, etc.).
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m**Key Finding:** Some prominent players, such as **LeBron James (ID 2544)**, are present in the
+[0m[90m     | [0m[32m`player` table but **missing** from `common_player_info`. Other legends like Michael Jordan and
+[0m[90m     | [0m[32mactive stars like Stephen Curry are present in both.
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m**Implication:** The application uses a fallback mechanism:
+[0m[90m     | [0m[32m
+[0m[90m     | [0m[32m1.  Try to fetch detailed info from `common_player_info`.
+[0m[90m     | [0m[32m2.  If not found, fall back to basic info from the `player` table.
+[0m[90m     | [0m[32m3.  This ensures all players are accessible, even if some details are missing.
+[0m
+[1m[4mfrontend\README.md
+[0m[1m[90m 1:1[0m[31m  high[0m  Incorrect formatting[1m[90m  
+[0m
+[90m  1 | [0m[31mThis is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+[0m[90m    | [0m[32mThis is a [Next.js](https://nextjs.org) project bootstrapped with
+[0m[90m    | [0m[32m[`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+[0m[90m  2 | [0m
+[90m  3 | [0m## Getting Started
+
+[90m  17 | [0mOpen [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[90m  18 | [0m
+[90m  19 | [0m[31mYou can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+[0m[90m     | [0m[32mYou can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the
+[0m[90m     | [0m[32mfile.
+[0m[90m  20 | [0m
+[90m  21 | [0m[31m[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+[0m[90m     | [0m[32m[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be
+[0m[90m     | [0m[32maccessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be
+[0m[90m     | [0m[32medited in `pages/api/hello.ts`.
+[0m[90m  22 | [0m
+[90m  23 | [0m[31mThe `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+[0m[90m     | [0m[32mThe `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as
+[0m[90m     | [0m[32m[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of
+[0m[90m     | [0m[32mReact pages.
+[0m[90m  24 | [0m
+[90m  25 | [0m[31mThis project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[0m[90m     | [0m[32mThis project uses
+[0m[90m     | [0m[32m[`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to
+[0m[90m     | [0m[32mautomatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[0m[90m  26 | [0m
+[90m  27 | [0m## Learn More
+
+[90m  32 | [0m- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+[90m  33 | [0m
+[90m  34 | [0m[31mYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[0m[90m     | [0m[32mYou can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback
+[0m[90m     | [0m[32mand contributions are welcome!
+[0m[90m  35 | [0m
+[90m  36 | [0m## Deploy on Vercel
+[90m  37 | [0m
+[90m  38 | [0m[31mThe easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[0m[90m     | [0m[32mThe easiest way to deploy your Next.js app is to use the
+[0m[90m     | [0m[32m[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
+[0m[90m     | [0m[32mfrom the creators of Next.js.
+[0m[90m  39 | [0m
+[90m  40 | [0m[31mCheck out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+[0m[90m     | [0m[32mCheck out our
+[0m[90m     | [0m[32m[Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying)
+[0m[90m     | [0m[32mfor more details.
+[0m
+[1m[4mplan\basketball-reference-clone-spec.md
+[0m[1m[90m 1:1[0m[31m  high[0m  Incorrect formatting[1m[90m  
+[0m
+[90m  61 | [0m
+[90m  62 | [0m#### `players`
+[90m     | [0m[32m
+[0m[90m  63 | [0m```sql
+[90m  64 | [0mCREATE TABLE players (
+
+[90m   98 | [0m
+[90m   99 | [0m#### `teams`
+[90m      | [0m[32m
+[0m[90m  100 | [0m```sql
+[90m  101 | [0mCREATE TABLE teams (
+
+[90m  123 | [0m
+[90m  124 | [0m#### `franchises`
+[90m      | [0m[32m
+[0m[90m  125 | [0m```sql
+[90m  126 | [0mCREATE TABLE franchises (
+
+[90m  137 | [0m
+[90m  138 | [0m#### `seasons`
+[90m      | [0m[32m
+[0m[90m  139 | [0m```sql
+[90m  140 | [0mCREATE TABLE seasons (
+
+[90m  162 | [0m
+[90m  163 | [0m#### `player_season_stats` (Per Game / Totals / Per 36 / Per 100)
+[90m      | [0m[32m
+[0m[90m  164 | [0m```sql
+[90m  165 | [0mCREATE TABLE player_season_stats (
+
+[90m  171 | [0m    season_type ENUM('Regular', 'Playoffs', 'All-Star'),
+[90m  172 | [0m    age INTEGER,
+[90m  173 | [0m[31m    
+[0m[90m      | [0m[32m
+[0m[90m  174 | [0m    -- Basic Counting Stats
+[90m  175 | [0m    games_played INTEGER,
+
+[90m  177 | [0m    minutes_played INTEGER,
+[90m  178 | [0m    minutes_per_game DECIMAL(5,2),
+[90m  179 | [0m[31m    
+[0m[90m      | [0m[32m
+[0m[90m  180 | [0m    -- Scoring
+[90m  181 | [0m    field_goals_made INTEGER,
+
+[90m  194 | [0m    points INTEGER,
+[90m  195 | [0m    points_per_game DECIMAL(5,2),
+[90m  196 | [0m[31m    
+[0m[90m      | [0m[32m
+[0m[90m  197 | [0m    -- Rebounding
+[90m  198 | [0m    offensive_rebounds INTEGER,
+
+[90m  200 | [0m    total_rebounds INTEGER,
+[90m  201 | [0m    rebounds_per_game DECIMAL(5,2),
+[90m  202 | [0m[31m    
+[0m[90m      | [0m[32m
+[0m[90m  203 | [0m    -- Playmaking
+[90m  204 | [0m    assists INTEGER,
+
+[90m  206 | [0m    turnovers INTEGER,
+[90m      | ...869 additional lines hidden...
+[0m
+[1m[90m...Hiding additional autofix details (use --diff=full to print all autofixes)...
+
+[0m
+[1m[30m[107m  ISSUES  [0m
+
+[1m[4mDATA_NOTES.md[0m
+ [1m[90m[49m-:-[22m[39m[49m  [31m[49mfmt[39m[49m  Incorrect formatting, autoformat by running 'trunk fmt'  [1m[90m[49mprettier[22m[39m[49m
+
+[1m[4mbackend\Dockerfile[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Ensure that HEALTHCHECK instructions have been  [1m[90m[49mcheckov/CKV_DOCKER_2[22m[39m[49m
+            added to container images                                           
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Ensure that a user for the container has been   [1m[90m[49mcheckov/CKV_DOCKER_3[22m[39m[49m
+            created                                                             
+
+[1m[4mbackend\check_games.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m 6:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (103 > 100)                  [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m 7:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (129 > 100)                  [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m 8:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m11:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m16:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m19:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (126 > 100)                  [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m20:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m21:11 [22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\check_players.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m6:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (151 > 100)                  [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m8:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (152 > 100)                  [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m9:11 [22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\check_teams.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m7:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\database.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m
+
+[1m[4mbackend\inspect_game_stats.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m15:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m16:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\inspect_player.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m15:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m16:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\inspect_schema.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m
+
+[1m[4mbackend\list_tables.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m10:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\models.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m  1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m  5:0[22m[39m[49m  [33m[49mlow[39m[49m   Too few public methods (0/2)               [1m[90m[49mpylint/R0903[22m[39m[49m
+ [1m[90m[49m 21:0[22m[39m[49m  [33m[49mlow[39m[49m   Too few public methods (0/2)               [1m[90m[49mpylint/R0903[22m[39m[49m
+ [1m[90m[49m 56:0[22m[39m[49m  [33m[49mlow[39m[49m   Too few public methods (0/2)               [1m[90m[49mpylint/R0903[22m[39m[49m
+ [1m[90m[49m 74:0[22m[39m[49m  [33m[49mlow[39m[49m   Too few public methods (0/2)               [1m[90m[49mpylint/R0903[22m[39m[49m
+ [1m[90m[49m111:0[22m[39m[49m  [33m[49mlow[39m[49m   Too few public methods (0/2)               [1m[90m[49mpylint/R0903[22m[39m[49m
+
+[1m[4mbackend\reproduce_error.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted  [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m 3:0 [22m[39m[49m  [35m[49mmedium[39m[49m  Unused pandas imported as pd               [1m[90m[49mpylint/W0611[22m[39m[49m
+ [1m[90m[49m 3:18[22m[39m[49m  [31m[49mhigh[39m[49m    `pandas` imported but unused               [1m[90m[49mruff/F401[22m[39m[49m   
+ [1m[90m[49m11:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m13:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m17:19[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+ [1m[90m[49m23:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace             [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m24:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception   [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mbackend\routers\games.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted         [1m[90m[49mruff/I001[22m[39m[49m     
+ [1m[90m[49m11:32[22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                               [1m[90m[49mruff/W291[22m[39m[49m     
+ [1m[90m[49m12:35[22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                               [1m[90m[49mruff/W291[22m[39m[49m     
+ [1m[90m[49m13:21[22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                               [1m[90m[49mruff/W291[22m[39m[49m     
+ [1m[90m[49m19:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m23:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m27:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m30:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m32:20[22m[39m[49m  [31m[49mhigh[39m[49m    List item 0 has incompatible type "int";          [1m[90m[49mmypy/list-item[22m[39m[49m
+                expected "str"                                                  
+ [1m[90m[49m32:27[22m[39m[49m  [31m[49mhigh[39m[49m    List item 1 has incompatible type "int";          [1m[90m[49mmypy/list-item[22m[39m[49m
+                expected "str"                                                  
+ [1m[90m[49m33:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m39:8 [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise       [1m[90m[49mpylint/W0707[22m[39m[49m  
+                HTTPException(status_code=500, detail=str(e))                   
+                from e'                                                         
+ [1m[90m[49m48:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m54:8 [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise       [1m[90m[49mpylint/W0707[22m[39m[49m  
+                HTTPException(status_code=500, detail=str(e))                   
+                from e'                                                         
+ [1m[90m[49m63:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                    [1m[90m[49mruff/W293[22m[39m[49m     
+ [1m[90m[49m67:8 [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise       [1m[90m[49mpylint/W0707[22m[39m[49m  
+                HTTPException(status_code=500, detail=str(e))                   
+                from e'                                                         
+
+[1m[4mbackend\routers\players.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted          [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m13:91 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m14:24 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m15:42 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m22:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (125 > 100)                          [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m24:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m30:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+ [1m[90m[49m41:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m43:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (130 > 100)                          [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m45:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m48:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m51:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m55:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+ [1m[90m[49m62:15 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m76:35 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m81:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (106 > 100)                          [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m82:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (105 > 100)                          [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m89:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m91:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m95:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m99:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+
+[1m[4mbackend\routers\teams.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted          [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m18:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+ [1m[90m[49m27:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m34:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+ [1m[90m[49m39:101[22m[39m[49m  [31m[49mhigh[39m[49m    Line too long (121 > 100)                          [1m[90m[49mruff/E501[22m[39m[49m   
+ [1m[90m[49m42:15 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m43:23 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m44:32 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m45:22 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m46:20 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m47:20 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m48:20 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m49:23 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m50:20 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m51:32 [22m[39m[49m  [31m[49mhigh[39m[49m    Trailing whitespace                                [1m[90m[49mruff/W291[22m[39m[49m   
+ [1m[90m[49m58:1  [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace                     [1m[90m[49mruff/W293[22m[39m[49m   
+ [1m[90m[49m62:8  [22m[39m[49m  [35m[49mmedium[39m[49m  Consider explicitly re-raising using 'raise        [1m[90m[49mpylint/W0707[22m[39m[49m
+                 HTTPException(status_code=500, detail=str(e))                  
+                 from e'                                                        
+
+[1m[4mbackend\test_db.py[0m[4m[90m:1:0[0m
+ [1m[90m[49m 1:0 [22m[39m[49m  [33m[49mlow[39m[49m     Similar lines in 2 files ↵ ==games:[50:56] ↵        [1m[90m[49mpylint/R0801[22m[39m[49m
+                ==teams:[30:35] ↵         df = df.replace({np.nan:              
+                None}) ↵         return                                         
+                df.to_dict(orient="records")[0] ↵     except                    
+                HTTPExc... .trunk\out\3Lw.txt                                   
+ [1m[90m[49m 1:0 [22m[39m[49m  [33m[49mlow[39m[49m     Similar lines in 2 files ↵                          [1m[90m[49mpylint/R0801[22m[39m[49m
+                ==inspect_game_stats:[12:21] ↵                                  
+                ==inspect_player:[12:21] ↵         for col in                   
+                schema: ↵             print(f"  {col[0]}                        
+                ({col[1]})") ↵  ↵     except ...                                
+                .trunk\out\Orz.txt                                              
+ [1m[90m[49m 1:0 [22m[39m[49m  [33m[49mlow[39m[49m     Similar lines in 2 files ↵                          [1m[90m[49mpylint/R0801[22m[39m[49m
+                ==inspect_game_stats:[15:21] ↵                                  
+                ==list_tables:[9:15] ↵     except Exception as e:               
+                ↵         print(f"Error: {e}") ↵     finally: ↵                 
+                     conn.close... .trunk\out\Cl9.txt                           
+ [1m[90m[49m 1:0 [22m[39m[49m  [33m[49mlow[39m[49m     Similar lines in 2 files ↵ ==games:[35:44] ↵        [1m[90m[49mpylint/R0801[22m[39m[49m
+                ==teams:[14:23] ↵         df = df.replace({np.nan:              
+                None}) ↵         return                                         
+                df.to_dict(orient="records") ↵     except                       
+                Exception ... .trunk\out\ZSF.txt                                
+ [1m[90m[49m 1:0 [22m[39m[49m  [35m[49mmedium[39m[49m  Unused execute_query imported from database         [1m[90m[49mpylint/W0611[22m[39m[49m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted           [1m[90m[49mruff/I001[22m[39m[49m   
+ [1m[90m[49m 1:22[22m[39m[49m  [31m[49mhigh[39m[49m    `database.execute_query` imported but unused        [1m[90m[49mruff/F401[22m[39m[49m   
+ [1m[90m[49m12:11[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception            [1m[90m[49mpylint/W0718[22m[39m[49m
+ [1m[90m[49m21:15[22m[39m[49m  [35m[49mmedium[39m[49m  Catching too general exception Exception            [1m[90m[49mpylint/W0718[22m[39m[49m
+
+[1m[4mdocker-compose.yml[0m[4m[90m:7:9[0m
+ [1m[90m[49m -:-[22m[39m[49m  [31m[49mfmt[39m[49m   Incorrect formatting, autoformat by         [1m[90m[49mprettier[22m[39m[49m               
+             running 'trunk fmt'                                                
+ [1m[90m[49m 7:9[22m[39m[49m  [31m[49mhigh[39m[49m  string value is redundantly quoted with     [1m[90m[49myamllint/quoted-strings[22m[39m[49m
+             any quotes                                                         
+ [1m[90m[49m18:9[22m[39m[49m  [31m[49mhigh[39m[49m  string value is redundantly quoted with     [1m[90m[49myamllint/quoted-strings[22m[39m[49m
+             any quotes                                                         
+
+[1m[4mfrontend\Dockerfile[0m[4m[90m:1:1[0m
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Ensure that a user for the container has been   [1m[90m[49mcheckov/CKV_DOCKER_3[22m[39m[49m
+            created                                                             
+ [1m[90m[49m1:1[22m[39m[49m  [31m[49mhigh[39m[49m  Ensure that HEALTHCHECK instructions have been  [1m[90m[49mcheckov/CKV_DOCKER_2[22m[39m[49m
+            added to container images                                           
+
+[1m[4mfrontend\README.md[0m[4m[90m:1:0[0m
+ [1m[90m[49m 1:0  [22m[39m[49m  [33m[49mlow[39m[49m   First line in a file should be a          [1m[90m[49mmarkdownlint/MD041[22m[39m[49m     
+               top-level heading                                                
+ [1m[90m[49m -:-  [22m[39m[49m  [31m[49mfmt[39m[49m   Incorrect formatting, autoformat by       [1m[90m[49mprettier[22m[39m[49m               
+               running 'trunk fmt'                                              
+ [1m[90m[49m21:110[22m[39m[49m  [31m[49mhigh[39m[49m  http://localhost:3000/api/hello           [1m[90m[49mmarkdown-link-check/404[22m[39m[49m
+ [1m[90m[49m32:19 [22m[39m[49m  [31m[49mhigh[39m[49m  https://nextjs.org/learn-pages-router     [1m[90m[49mmarkdown-link-check/404[22m[39m[49m
+
+[1m[4mfrontend\package-lock.json[0m[4m[90m:12:0[0m
+ [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Content Injection        [1m[90m[49mosv-scanner/GHSA-xv57-4mr9-wg8v[22m[39m[49m
+                Vulnerability for Image                                         
+                Optimization. Current version                                   
+                of 'next' is vulnerable:                                        
+                14.2.15.                                                        
+ [1m[90m[49m 12:0[22m[39m[49m  [33m[49mlow[39m[49m     Next.js Race Condition to Cache  [1m[90m[49mosv-scanner/GHSA-qpjv-v59x-3qc4[22m[39m[49m
+                Poisoning. Current version of                                   
+                'next' is vulnerable: 14.2.15.                                  
+ [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Affected by Cache Key    [1m[90m[49mosv-scanner/GHSA-g5qg-72qw-gw5v[22m[39m[49m
+                Confusion for Image                                             
+                Optimization API Routes.                                        
+                Current version of 'next' is                                    
+                vulnerable: 14.2.15.                                            
+ [1m[90m[49m 12:0[22m[39m[49m  [31m[49mhigh[39m[49m    Authorization Bypass in Next.js  [1m[90m[49mosv-scanner/GHSA-f82v-jwr5-mffw[22m[39m[49m
+                Middleware. Current version of                                  
+                'next' is vulnerable: 14.2.15.                                  
+ [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Allows a Denial of       [1m[90m[49mosv-scanner/GHSA-7m27-7ghc-44w9[22m[39m[49m
+                Service (DoS) with Server                                       
+                Actions. Current version of                                     
+                'next' is vulnerable: 14.2.15.                                  
+ [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Improper Middleware      [1m[90m[49mosv-scanner/GHSA-4342-x723-ch2f[22m[39m[49m
+                Redirect Handling Leads to                                      
+                SSRF. Current version of 'next'                                 
+                is vulnerable: 14.2.15.                                         
+ [1m[90m[49m 12:0[22m[39m[49m  [33m[49mlow[39m[49m     Information exposure in Next.js  [1m[90m[49mosv-scanner/GHSA-3h52-269p-cp9r[22m[39m[49m
+                dev server due to lack of                                       
+                origin verification. Current                                    
+                version of 'next' is                                            
+                vulnerable: 14.2.15.                                            
+ [1m[90m[49m300:0[22m[39m[49m  [31m[49mhigh[39m[49m    'glob' CLI: Command injection    [1m[90m[49mosv-scanner/GHSA-5j98-mcp5-4vw2[22m[39m[49m
+                via -c/--cmd executes matches                                   
+                with shell:true. Current                                        
+                version is vulnerable: 10.3.10.                                 
+
+[1m[4mfrontend\src\pages\api\hello.ts[0m
+ [1m[90m[49m-:-[22m[39m[49m  [31m[49mfmt[39m[49m  Incorrect formatting, autoformat by running 'trunk fmt'  [1m[90m[49mprettier[22m[39m[49m
+
+[1m[4mfrontend\src\styles\globals.css[0m[4m[90m:8:1[0m
+ [1m[90m[49m8:1[22m[39m[49m  [31m[49mhigh[39m[49m  Unexpected unknown at-rule         [1m[90m[49mstylelint/scss/at-rule-no-unknown[22m[39m[49m
+            "@theme"                                                            
+            (scss/at-rule-no-unknown)                                           
+
+[1m[4mfrontend\tsconfig.json[0m
+ [1m[90m[49m-:-[22m[39m[49m  [31m[49mfmt[39m[49m  Incorrect formatting, autoformat by running 'trunk fmt'  [1m[90m[49mprettier[22m[39m[49m
+
+[1m[4mplan\basketball-reference-clone-spec.md[0m[4m[90m:11:0[0m
+ [1m[90m[49m   -:-[22m[39m[49m  [31m[49mfmt[39m[49m  Incorrect formatting, autoformat by running     [1m[90m[49mprettier[22m[39m[49m          
+              'trunk fmt'                                                       
+ [1m[90m[49m  11:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m 862:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m 864:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m 908:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m 911:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+ [1m[90m[49m 928:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m 930:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m 965:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m 968:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+ [1m[90m[49m 985:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m 987:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1014:0[22m[39m[49m  [33m[49mlow[39m[49m  Trailing punctuation in heading                 [1m[90m[49mmarkdownlint/MD026[22m[39m[49m
+ [1m[90m[49m1017:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+ [1m[90m[49m1037:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1076:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1107:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1130:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1151:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1182:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1192:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1199:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1206:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1214:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1222:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1232:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1239:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1245:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1253:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1324:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+ [1m[90m[49m1345:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1393:0[22m[39m[49m  [33m[49mlow[39m[49m  Fenced code blocks should have a language       [1m[90m[49mmarkdownlint/MD040[22m[39m[49m
+              specified                                                         
+ [1m[90m[49m1456:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+ [1m[90m[49m1491:0[22m[39m[49m  [33m[49mlow[39m[49m  Table column style                              [1m[90m[49mmarkdownlint/MD060[22m[39m[49m
+
+[1m[4mverify_endpoints.py[0m[4m[90m:1:1[0m
+ [1m[90m[49m 1:1 [22m[39m[49m  [90m[49mnote[39m[49m    [90m[49mHint: "python3 -m pip install[39m[49m                [1m[90m[49mmypy/note[22m[39m[49m          
+                [90m[49mtypes-requests". (or run "mypy[39m[49m                                  
+                [90m[49m--install-types" to install all missing[39m[49m                         
+                [90m[49mstub packages). See[39m[49m                                             
+                [90m[49mhttps://mypy.readthedocs.io/en/stable/run..[39m[49m                     
+                [90m[49m. .trunk\out\2y7.txt[39m[49m                                            
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Library stubs not installed for "requests"   [1m[90m[49mmypy/import-untyped[22m[39m[49m
+ [1m[90m[49m 1:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Import block is un-sorted or un-formatted    [1m[90m[49mruff/I001[22m[39m[49m          
+ [1m[90m[49m 8:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m10:0 [22m[39m[49m  [35m[49mmedium[39m[49m  Call to requests without timeout             [1m[90m[49mbandit/B113[22m[39m[49m        
+ [1m[90m[49m10:20[22m[39m[49m  [31m[49mhigh[39m[49m    Probable use of `requests` call without      [1m[90m[49mruff/S113[22m[39m[49m          
+                timeout                                                         
+ [1m[90m[49m11:8 [22m[39m[49m  [33m[49mlow[39m[49m     Unnecessary "else" after "return", remove    [1m[90m[49mpylint/R1705[22m[39m[49m       
+                the "else" and de-indent the code inside it                     
+ [1m[90m[49m11:36[22m[39m[49m  [31m[49mhigh[39m[49m    Magic value used in comparison, consider     [1m[90m[49mruff/PLR2004[22m[39m[49m       
+                replacing `200` with a constant variable                        
+ [1m[90m[49m12:13[22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m15:13[22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m16:13[22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m19:9 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m23:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m24:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace               [1m[90m[49mruff/W293[22m[39m[49m          
+ [1m[90m[49m29:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m35:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m41:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m44:28[22m[39m[49m  [31m[49mhigh[39m[49m    Single quotes found but double quotes        [1m[90m[49mruff/Q000[22m[39m[49m          
+                preferred                                                       
+ [1m[90m[49m45:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace               [1m[90m[49mruff/W293[22m[39m[49m          
+ [1m[90m[49m47:8 [22m[39m[49m  [35m[49mmedium[39m[49m  Unused variable 'game'                       [1m[90m[49mpylint/W0612[22m[39m[49m       
+ [1m[90m[49m47:9 [22m[39m[49m  [31m[49mhigh[39m[49m    Local variable `game` is assigned to but     [1m[90m[49mruff/F841[22m[39m[49m          
+                never used                                                      
+ [1m[90m[49m48:1 [22m[39m[49m  [31m[49mhigh[39m[49m    Blank line contains whitespace               [1m[90m[49mruff/W293[22m[39m[49m          
+ [1m[90m[49m52:14[22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+ [1m[90m[49m54:5 [22m[39m[49m  [31m[49mhigh[39m[49m    `print` found                                [1m[90m[49mruff/T201[22m[39m[49m          
+
+[1m[30m[107m  FAILURES  [0m
+
+ [1meslint[22m    [1mfrontend\eslint.config.mjs[22m                      .trunk\out\vrMv3.yaml
+ [1meslint[22m    [1mfrontend\postcss.config.mjs[22m                     .trunk\out\3fYmR.yaml
+ [1meslint[22m    [1mfrontend\next.config.ts[22m                         .trunk\out\kLdy3.yaml
+ [1meslint[22m    [1mfrontend\src\pages\api\hello.ts[22m                 .trunk\out\mg6Jq.yaml
+ [1meslint[22m    [1mfrontend\src\components\Hero.tsx[22m                .trunk\out\AzRcr.yaml
+ [1meslint[22m    [1mfrontend\src\components\Layout.tsx[22m              .trunk\out\U32wb.yaml
+ [1meslint[22m    [1mfrontend\src\components\Navbar.tsx[22m              .trunk\out\9fUk4.yaml
+ [1meslint[22m    [1mfrontend\src\pages\_app.tsx[22m                     .trunk\out\P9Ayn.yaml
+ [1meslint[22m    [1mfrontend\src\pages\_document.tsx[22m                .trunk\out\coHyN.yaml
+ [1meslint[22m    [1mfrontend\src\pages\games\[game_id].tsx[22m          .trunk\out\TPIRm.yaml
+ [1meslint[22m    [1mfrontend\src\pages\index.tsx[22m                    .trunk\out\jzeGy.yaml
+ [1meslint[22m    [1mfrontend\src\pages\players\[player_id].tsx[22m      .trunk\out\BH256.yaml
+ [1meslint[22m    [1mfrontend\src\pages\teams\[team_id].tsx[22m          .trunk\out\KOWf3.yaml
+ [1meslint[22m    [1mfrontend\src\pages\teams\index.tsx[22m              .trunk\out\pRSx9.yaml
+ [1mprettier[22m  [1mfrontend\src\components\Hero.tsx... (10 files)[22m  .trunk\out\F3s38.yaml
+
+[1m[30m[107m  NOTICES  [0m
+
+ [4m[90m[49mtrunk_all_output_3.txt[24m[39m[49m  [90m[49mdiscarded as modified during check [trufflehog][39m[49m
+
+ [90m[49mSome tools failed to run. You can open the details yaml files for more[39m[49m         
+ [90m[49minformation.[39m[49m                                                                   
+ [90m[49m'semgrep' is not supported on your platform[39m[49m                                    
+ [90m[49m'trunk-toolbox' has no matching download for current os/cpu @ version:0.5.4[39m[49m    
+
+Checked 84 files
+[90m1 non-blocking issue
+[0m[1m[91m✖ 6 unformatted files
+[0m[1m[91m✖ 13 security issues
+[0m[1m[91m✖ 163 lint issues (77 auto-fixable)
+[0m
