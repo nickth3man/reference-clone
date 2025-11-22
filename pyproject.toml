@@ -66,3 +66,11 @@ line-ending = "auto"
 # Group imports by type
 combine-as-imports = true
 force-wrap-aliases = true
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["tests"]
+
+[tool.mypy]
+mypy_path = "backend"

@@ -21,8 +21,8 @@ def get_teams(active_only: bool = True) -> list[dict[str, Any]]:
 
     try:
         df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = df.replace({np.nan: None})  # type: ignore
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -40,8 +40,8 @@ def get_team(team_id: str) -> dict[str, Any]:
             if df.empty:
                 raise HTTPException(status_code=404, detail="Team not found")
 
-        df = df.replace({np.nan: None})
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = df.replace({np.nan: None})  # type: ignore
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
         return records[0]
     except HTTPException:
         raise
@@ -82,7 +82,7 @@ def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = df.replace({np.nan: None})  # type: ignore
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

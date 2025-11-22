@@ -17,7 +17,7 @@ REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 redis_client: redis.Redis | None = None
 
 
-def get_redis_client() -> redis.Redis:
+def get_redis_client() -> redis.Redis | None:
     """
     Get or create Redis client connection.
 
@@ -37,7 +37,7 @@ def get_redis_client() -> redis.Redis:
                 "Failed to connect to Redis, caching disabled",
                 extra={"error": str(e)},
             )
-            return None  # type: ignore[return-value]
+            return None
     return redis_client
 
 

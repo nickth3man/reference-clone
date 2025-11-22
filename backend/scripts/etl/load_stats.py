@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 import duckdb
 
@@ -128,7 +129,7 @@ def load_stats():
     ambiguous_names = 0
     skipped_teams = 0
 
-    batch_data = []
+    batch_data: list[Any] = []
     batch_size = 5000
 
     for row in all_stats:

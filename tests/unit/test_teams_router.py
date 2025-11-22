@@ -2,13 +2,14 @@
 Unit tests for teams router.
 """
 
-import pytest
-import pandas as pd
-import numpy as np
-from fastapi import HTTPException
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
-from app.routers.teams import get_teams, get_team, get_team_players
+import numpy as np
+import pandas as pd
+import pytest
+from fastapi import HTTPException
+
+from app.routers.teams import get_team, get_team_roster, get_teams
 
 
 class TestGetTeams:
@@ -90,7 +91,7 @@ class TestGetTeam:
 
 
 class TestGetTeamPlayers:
-    """Tests for get_team_players endpoint."""
+    """Tests for get_team_roster endpoint."""
 
     @patch("app.routers.teams.execute_query_df")
     def test_get_team_players_success(self, mock_execute: Mock) -> None:
@@ -104,7 +105,7 @@ class TestGetTeamPlayers:
         )
         mock_execute.return_value = mock_df
 
-        result = get_team_players("1610612738")
+        result = get_team_roster("1610612738")
 
         assert len(result) == 2
         assert result[0]["display_first_last"] == "Player One"
@@ -114,6 +115,6 @@ class TestGetTeamPlayers:
         """Test that empty roster returns empty list."""
         mock_execute.return_value = pd.DataFrame()
 
-        result = get_team_players("1610612738")
+        result = get_team_roster("1610612738")
 
         assert result == []
