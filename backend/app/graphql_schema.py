@@ -57,7 +57,7 @@ class Query:
     def teams(self) -> List[Team]:
         """Get all teams."""
         logger.info("GraphQL: Fetching all teams")
-        query = "SELECT * FROM team_details"
+        query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details"
         df = execute_query_df(query)
         df = df.replace({np.nan: None})
         return [Team(**row) for row in df.to_dict(orient="records")]
@@ -66,7 +66,7 @@ class Query:
     def team(self, team_id: str) -> Optional[Team]:
         """Get team by ID."""
         logger.info(f"GraphQL: Fetching team {team_id}")
-        query = "SELECT * FROM team_details WHERE team_id = ?"
+        query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details WHERE team_id = ?"
         df = execute_query_df(query, [team_id])
         if df.empty:
             return None
@@ -91,7 +91,12 @@ class Query:
     def player(self, player_id: str) -> Optional[Player]:
         """Get player by ID."""
         logger.info(f"GraphQL: Fetching player {player_id}")
-        query = "SELECT * FROM common_player_info WHERE person_id = ?"
+        query = """
+            SELECT person_id, display_first_last, team_name, position,
+                   height, weight, country
+            FROM common_player_info
+            WHERE person_id = ?
+        """
         df = execute_query_df(query, [player_id])
         if df.empty:
             return None
