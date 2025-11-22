@@ -3,45 +3,13 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import Link from "next/link";
 import { API_URL } from "@/lib/api";
-
-// Define types based on backend models
-interface Player {
-  person_id: string;
-  display_first_last: string;
-  team_name: string;
-  team_id: string;
-  position: string;
-  height: string;
-  weight: string;
-  birthdate: string;
-  school: string;
-  country: string;
-  jersey: string;
-  from_year: number;
-  to_year: number;
-}
-
-interface PlayerStats {
-  season_id: string;
-  team_id: string;
-  pts_per_game: number;
-  ast_per_game: number;
-  trb_per_game: number;
-  stl_per_game: number;
-  blk_per_game: number;
-  fg_percent: number;
-  x3p_percent: number;
-  ft_percent: number;
-  games_played: number;
-  games_started: number;
-  minutes_per_game: number;
-}
+import type { Player, PlayerSeasonStats } from "../../types";
 
 export default function PlayerPage() {
   const router = useRouter();
   const { player_id } = router.query;
   const [player, setPlayer] = useState<Player | null>(null);
-  const [stats, setStats] = useState<PlayerStats[]>([]);
+  const [stats, setStats] = useState<PlayerSeasonStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -102,34 +70,29 @@ export default function PlayerPage() {
       <div className="bg-white shadow">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-            <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center text-4xl font-bold text-gray-500">
-              {player.display_first_last.charAt(0)}
+            <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+               {player.headshot_url ? (
+                  <img src={player.headshot_url} alt={player.full_name} className="w-full h-full object-cover" />
+               ) : (
+                  <span className="text-4xl font-bold text-gray-500">{(player.full_name || "").charAt(0)}</span>
+               )}
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">{player.display_first_last}</h1>
+              <h1 className="text-4xl font-bold text-gray-900">{player.full_name}</h1>
               <div className="mt-2 flex flex-wrap gap-4 text-gray-600">
-                {player.team_name && (
-                  <span className="flex items-center">
-                    Team:{" "}
-                    <Link
-                      href={`/teams/${player.team_id}`}
-                      className="text-blue-600 hover:underline ml-1"
-                    >
-                      {player.team_name}
-                    </Link>
-                  </span>
-                )}
+               {/* Note: Currently active team not always available on player object unless joined. 
+                   If needed, we can fetch current team or check stats.
+               */}
                 {player.position && <span>Position: {player.position}</span>}
-                {player.jersey && <span>Jersey: #{player.jersey}</span>}
               </div>
               <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
-                {player.height && <span>Height: {player.height}</span>}
-                {player.weight && <span>Weight: {player.weight}lbs</span>}
-                {player.birthdate && (
-                  <span>Born: {new Date(player.birthdate).toLocaleDateString()}</span>
+                {player.height_inches && <span>Height: {Math.floor(player.height_inches / 12)}'{player.height_inches % 12}"</span>}
+                {player.weight_lbs && <span>Weight: {player.weight_lbs}lbs</span>}
+                {player.birth_date && (
+                  <span>Born: {new Date(player.birth_date).toLocaleDateString()}</span>
                 )}
-                {player.school && <span>College: {player.school}</span>}
-                {player.country && <span>Country: {player.country}</span>}
+                {player.college && <span>College: {player.college}</span>}
+                {player.birth_country && <span>Country: {player.birth_country}</span>}
               </div>
             </div>
           </div>
@@ -190,9 +153,11 @@ export default function PlayerPage() {
                     {stat.season_id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <Link href={`/teams/${stat.team_id}`} className="text-blue-600 hover:underline">
-                      {stat.team_id}
-                    </Link>
+                    {stat.team_id === 'TOT' ? 'TOT' : (
+                        <Link href={`/teams/${stat.team_id}`} className="text-blue-600 hover:underline">
+                        {stat.team_id} 
+                        </Link>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {stat.games_played}
@@ -204,28 +169,28 @@ export default function PlayerPage() {
                     {stat.minutes_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                    {stat.pts_per_game}
+                    {stat.points_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.trb_per_game}
+                    {stat.rebounds_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.ast_per_game}
+                    {stat.assists_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.stl_per_game}
+                    {stat.steals_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.blk_per_game}
+                    {stat.blocks_per_game}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.fg_percent}
+                    {stat.field_goal_pct}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.x3p_percent}
+                    {stat.three_point_pct}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.ft_percent}
+                    {stat.free_throw_pct}
                   </td>
                 </tr>
               ))}

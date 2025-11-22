@@ -2,8 +2,6 @@
 GraphQL schema and resolvers using Strawberry.
 """
 
-from typing import List, Optional
-
 import numpy as np
 import strawberry
 
@@ -18,10 +16,10 @@ class Team:
     """GraphQL type for Team."""
 
     team_id: str
-    abbreviation: Optional[str] = None
-    nickname: Optional[str] = None
-    city: Optional[str] = None
-    arena: Optional[str] = None
+    abbreviation: str | None = None
+    nickname: str | None = None
+    city: str | None = None
+    arena: str | None = None
 
 
 @strawberry.type
@@ -29,12 +27,12 @@ class Player:
     """GraphQL type for Player."""
 
     person_id: str
-    display_first_last: Optional[str] = None
-    team_name: Optional[str] = None
-    position: Optional[str] = None
-    height: Optional[str] = None
-    weight: Optional[str] = None
-    country: Optional[str] = None
+    display_first_last: str | None = None
+    team_name: str | None = None
+    position: str | None = None
+    height: str | None = None
+    weight: str | None = None
+    country: str | None = None
 
 
 @strawberry.type
@@ -42,11 +40,11 @@ class Game:
     """GraphQL type for Game."""
 
     game_id: str
-    game_date: Optional[str] = None
-    team_abbreviation_home: Optional[str] = None
-    team_abbreviation_away: Optional[str] = None
-    pts_home: Optional[float] = None
-    pts_away: Optional[float] = None
+    game_date: str | None = None
+    team_abbreviation_home: str | None = None
+    team_abbreviation_away: str | None = None
+    pts_home: float | None = None
+    pts_away: float | None = None
 
 
 @strawberry.type
@@ -54,7 +52,7 @@ class Query:
     """GraphQL Query root."""
 
     @strawberry.field
-    def teams(self) -> List[Team]:
+    def teams(self) -> list[Team]:
         """Get all teams."""
         logger.info("GraphQL: Fetching all teams")
         query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details"
@@ -63,7 +61,7 @@ class Query:
         return [Team(**row) for row in df.to_dict(orient="records")]
 
     @strawberry.field
-    def team(self, team_id: str) -> Optional[Team]:
+    def team(self, team_id: str) -> Team | None:
         """Get team by ID."""
         logger.info(f"GraphQL: Fetching team {team_id}")
         query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details WHERE team_id = ?"
@@ -74,7 +72,7 @@ class Query:
         return Team(**df.to_dict(orient="records")[0])
 
     @strawberry.field
-    def players(self, limit: int = 50, offset: int = 0) -> List[Player]:
+    def players(self, limit: int = 50, offset: int = 0) -> list[Player]:
         """Get all players with pagination."""
         logger.info(f"GraphQL: Fetching players (limit={limit}, offset={offset})")
         query = """
@@ -88,7 +86,7 @@ class Query:
         return [Player(**row) for row in df.to_dict(orient="records")]
 
     @strawberry.field
-    def player(self, player_id: str) -> Optional[Player]:
+    def player(self, player_id: str) -> Player | None:
         """Get player by ID."""
         logger.info(f"GraphQL: Fetching player {player_id}")
         query = """
@@ -104,7 +102,7 @@ class Query:
         return Player(**df.to_dict(orient="records")[0])
 
     @strawberry.field
-    def games(self, limit: int = 20) -> List[Game]:
+    def games(self, limit: int = 20) -> list[Game]:
         """Get recent games."""
         logger.info(f"GraphQL: Fetching games (limit={limit})")
         query = """

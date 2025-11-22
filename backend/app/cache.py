@@ -4,7 +4,7 @@ Redis caching utilities.
 
 import json
 import os
-from typing import Any, Optional
+from typing import Any
 
 import redis
 
@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 
 # Redis connection
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
-redis_client: Optional[redis.Redis] = None
+redis_client: redis.Redis | None = None
 
 
 def get_redis_client() -> redis.Redis:
@@ -39,7 +39,7 @@ def get_redis_client() -> redis.Redis:
     return redis_client
 
 
-def cache_get(key: str) -> Optional[Any]:
+def cache_get(key: str) -> Any | None:
     """
     Get value from cache.
 

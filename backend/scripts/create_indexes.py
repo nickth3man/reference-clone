@@ -62,12 +62,8 @@ def create_indexes() -> None:
         # Game indexes
         logger.info("Creating game indexes...")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_game_game_id ON game(game_id)")
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_game_team_home ON game(team_id_home)"
-        )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_game_team_away ON game(team_id_away)"
-        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_game_team_home ON game(team_id_home)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_game_team_away ON game(team_id_away)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_game_date ON game(game_date)")
 
         # Game stats indexes

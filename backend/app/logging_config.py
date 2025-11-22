@@ -7,6 +7,7 @@ import sys
 
 from pythonjsonlogger import jsonlogger
 
+
 # Configure root logger
 def configure_logging(level: str = "INFO") -> None:
     """
