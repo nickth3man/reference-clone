@@ -1,7 +1,7 @@
 from typing import Any, cast
 
-from database import execute_query_df
-from models import Team
+from app.database import execute_query_df
+from app.models import Team
 
 
 def reproduce() -> None:

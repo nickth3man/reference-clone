@@ -1,16 +1,16 @@
-from database import get_db_connection
+from app.database import get_db_connection
 
 
-def inspect_game_stats_schema() -> None:
+def inspect_player_schema() -> None:
     conn = get_db_connection(read_only=True)
     try:
-        print("Schema for 'game':")
-        schema = conn.execute("DESCRIBE game").fetchall()
+        print("Schema for 'player':")
+        schema = conn.execute("DESCRIBE player").fetchall()
         for col in schema:
             print(f"  {col[0]} ({col[1]})")
 
-        print("\nSchema for 'player_stats_per_game':")
-        schema = conn.execute("DESCRIBE player_stats_per_game").fetchall()
+        print("\nSchema for 'common_player_info':")
+        schema = conn.execute("DESCRIBE common_player_info").fetchall()
         for col in schema:
             print(f"  {col[0]} ({col[1]})")
 
@@ -21,4 +21,4 @@ def inspect_game_stats_schema() -> None:
 
 
 if __name__ == "__main__":
-    inspect_game_stats_schema()
+    inspect_player_schema()

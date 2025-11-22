@@ -1,4 +1,4 @@
-from database import execute_query_df
+from app.database import execute_query_df
 
 
 def check_teams() -> None:
