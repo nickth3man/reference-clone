@@ -1,0 +1,27 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["unused-imports"],
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "ignorePatterns": [
+    ".next/",
+    "out/",
+    "build/",
+    "next-env.d.ts",
+    "postcss.config.mjs",
+    "next.config.ts",
+    "src/pages/api/hello.ts"
+  ]
+}

@@ -1,343 +1,0 @@
-Checking 0% [>                                                     ]  0/2  0.0s 
-                                                                                [0G[2K[1A[2KChecking 22% [==========>                                       ]  56/250  0.2s 
- ↳ git-diff-check                                                               
-   ↳ .trunk\configs\.hadolint.yaml... (12 files) [upstream] ⠙                   
-   ↳ .trunk\configs\.hadolint.yaml... (25 files) ⠙                              
- ↳ markdown-link-check                                                          
-   ↳ backend\README.md ⠙                                                        
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠙                                               
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠙                              
-   ↳ frontend\src\styles\globals.css (config scanning) [upstream] ⠙             
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 30% [==============>                                   ]  74/250  0.4s 
- ↳ markdown-link-check                                                          
-   ↳ backend\README.md ⠹                                                        
- ↳ mypy                                                                         
-   ↳ backend\main.py ⠹                                                          
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠹                                               
- ↳ ruff                                                                         
-   ↳ backend\main.py (config scanning) [lint] ⠹                                 
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠹                              
- ↳ yamllint                                                                     
-   ↳ .trunk\configs\.hadolint.yaml ⠹                                            
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 35% [=================>                                ]  87/250  0.6s 
- ↳ eslint                                                                       
-   ↳ frontend\eslint.config.mjs (config scanning) [lint] ⠸                      
- ↳ markdown-link-check                                                          
-   ↳ backend\README.md ⠸                                                        
- ↳ mypy                                                                         
-   ↳ backend\main.py ⠸                                                          
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠸                                               
- ↳ sort-package-json                                                            
-   ↳ frontend\package.json ⠸                                                    
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠸                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 38% [==================>                               ]  94/250  0.8s 
- ↳ eslint                                                                       
-   ↳ frontend\eslint.config.mjs [lint] ⠼                                        
- ↳ mypy                                                                         
-   ↳ backend\main.py ⠼                                                          
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠼                                               
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠼                                   
- ↳ taplo                                                                        
-   ↳ .trunk\configs\ruff.toml (config scanning) [format] ⠼                      
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠼                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 46% [======================>                          ]  115/250  1.0s 
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠴                                               
-   ↳ frontend\package-lock.json [upstream] ⠴                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠴                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠴                              
- ↳ yamllint                                                                     
-   ↳ .trunk\configs\.hadolint.yaml [upstream] ⠴                                 
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 48% [======================>                          ]  119/250  1.3s 
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠦                                               
-   ↳ frontend\package-lock.json [upstream] ⠦                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠦                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠦                              
- ↳ yamllint                                                                     
-   ↳ .trunk\trunk.yaml [upstream] ⠦                                             
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 61% [=============================>                   ]  153/250  1.5s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠧               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠧                        
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json ⠧                                               
-   ↳ frontend\package-lock.json [upstream] ⠧                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠧                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠧                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 62% [=============================>                   ]  154/250  1.7s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠇               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠇                        
-   ↳ frontend\package-lock.json (config scanning) [lint] ⠇                      
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json [upstream] ⠇                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠇                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠇                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 62% [=============================>                   ]  154/250  1.9s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠏               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠏                        
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠏                           
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json [upstream] ⠏                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠏                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠏                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 62% [=============================>                   ]  154/250  2.1s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠋               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠋                        
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠋                           
- ↳ osv-scanner                                                                  
-   ↳ frontend\package-lock.json [upstream] ⠋                                    
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint] ⠋                                   
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠋                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 62% [=============================>                   ]  156/250  2.3s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠙               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠙                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠙                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠙                           
- ↳ svgo                                                                         
-   ↳ frontend\public\globe.svg (config scanning) ⠙                              
- ↳ trufflehog                                                                   
-   ↳ .trunk\configs\.hadolint.yaml... (26 files) ⠙                              
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 63% [==============================>                  ]  157/250  2.5s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠹               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠹                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠹                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠹                           
- ↳ svgo                                                                         
-   ↳ frontend\public\file.svg... (5 files) ⠹                                    
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 63% [==============================>                  ]  158/250  2.7s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠸               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠸                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠸                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠸                           
- ↳ eslint                                                                       
-   ↳ frontend\eslint.config.mjs [lint/upstream] ⠸                               
- ↳ svgo                                                                         
-   ↳ frontend\public\file.svg... (5 files) ⠸                                    
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 64% [==============================>                  ]  161/250  2.9s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠼               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠼                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠼                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠼                           
- ↳ eslint                                                                       
-   ↳ frontend\src\pages\games\[game_id].tsx [lint] ⠼                            
- ↳ prettier                                                                     
-   ↳ .trunk\trunk.yaml (config scanning) ⠼                                      
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 64% [==============================>                  ]  161/250  3.1s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠴               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠴                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠴                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠴                           
- ↳ eslint                                                                       
-   ↳ frontend\src\pages\games\[game_id].tsx [lint] ⠴                            
- ↳ prettier                                                                     
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) ⠴                               
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 66% [===============================>                 ]  164/250  3.3s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠦               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠦                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠦                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠦                           
- ↳ prettier                                                                     
-   ↳ backend\README.md ⠦                                                        
-   ↳ frontend\eslint.config.mjs (config scanning) ⠦                             
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 66% [===============================>                 ]  164/250  3.5s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠧               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠧                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠧                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠧                           
- ↳ prettier                                                                     
-   ↳ backend\README.md ⠧                                                        
-   ↳ frontend\eslint.config.mjs ⠧                                               
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 66% [===============================>                 ]  165/250  3.7s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠇               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠇                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠇                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠇                           
- ↳ prettier                                                                     
-   ↳ frontend\eslint.config.mjs ⠇                                               
-   ↳ frontend\package.json (config scanning) ⠇                                  
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 66% [===============================>                 ]  166/250  3.9s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠏               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠏                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠏                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠏                           
- ↳ prettier                                                                     
-   ↳ frontend\package.json ⠏                                                    
-   ↳ frontend\src\pages\games\[game_id].tsx ⠏                                   
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 67% [================================>                ]  168/250  4.2s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠋               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠋                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠋                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠋                           
- ↳ prettier                                                                     
-   ↳ frontend\src\styles\globals.css ⠋                                          
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠋                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 67% [================================>                ]  168/250  4.4s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠙               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠙                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠙                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠙                           
- ↳ prettier                                                                     
-   ↳ frontend\src\styles\globals.css ⠙                                          
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠙                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 68% [================================>                ]  169/250  4.6s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠹               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠹                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠹                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠹                           
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css (config scanning) [fix] ⠹                  
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠹                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 68% [================================>                ]  169/250  4.8s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠸               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠸                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠸                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠸                           
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [fix] ⠸                                    
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠸                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 68% [================================>                ]  169/250  5.0s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠼               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠼                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠼                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠼                           
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [fix] ⠼                                    
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠼                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 68% [================================>                ]  169/250  5.2s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠴               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠴                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠴                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠴                           
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [fix] ⠴                                    
-   ↳ frontend\src\styles\globals.css [lint/upstream] ⠴                          
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 69% [=================================>               ]  172/250  5.4s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠦               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠦                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠦                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠦                           
- ↳ stylelint                                                                    
-   ↳ frontend\src\styles\globals.css [fix] ⠦                                    
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 94% [=============================================>   ]  236/250  5.6s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠧               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠧                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠧                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠧                           
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 94% [=============================================>   ]  236/250  5.8s 
- ↳ checkov                                                                      
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint/upstream] ⠇               
-   ↳ .trunk\configs\.hadolint.yaml... (2 files) [lint] ⠇                        
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠇                  
-   ↳ frontend\package-lock.json... (2 files) [lint] ⠇                           
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KChecking 98% [===============================================> ]  245/250  6.0s 
- ↳ checkov                                                                      
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠏                  
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2KChecking 98% [===============================================> ]  245/250  6.2s 
- ↳ checkov                                                                      
-   ↳ frontend\package-lock.json... (2 files) [lint/upstream] ⠋                  
-                                                                                [0G[2K[1A[2K[1A[2K[1A[2KChecking 99% [===============================================> ]  247/250  6.4s 
-                                                                                [0G[2K[1A[2KChecking 100% [===============================================>]  250/250  6.5s 
-                                                                                [0G
-[1m[30m[107m  ISSUES  [0m
-
-[1m[4mfrontend\package-lock.json[0m[4m[90m:12:0[0m
- [1m[90m[49m 12:0[22m[39m[49m  [31m[49mhigh[39m[49m    Authorization Bypass in Next.js  [1m[90m[49mosv-scanner/GHSA-f82v-jwr5-mffw[22m[39m[49m
-                Middleware. Current version of                                  
-                'next' is vulnerable: 14.2.15.                                  
- [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Allows a Denial of       [1m[90m[49mosv-scanner/GHSA-7m27-7ghc-44w9[22m[39m[49m
-                Service (DoS) with Server                                       
-                Actions. Current version of                                     
-                'next' is vulnerable: 14.2.15.                                  
- [1m[90m[49m 12:0[22m[39m[49m  [33m[49mlow[39m[49m     Information exposure in Next.js  [1m[90m[49mosv-scanner/GHSA-3h52-269p-cp9r[22m[39m[49m
-                dev server due to lack of                                       
-                origin verification. Current                                    
-                version of 'next' is                                            
-                vulnerable: 14.2.15.                                            
- [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Improper Middleware      [1m[90m[49mosv-scanner/GHSA-4342-x723-ch2f[22m[39m[49m
-                Redirect Handling Leads to                                      
-                SSRF. Current version of 'next'                                 
-                is vulnerable: 14.2.15.                                         
- [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Affected by Cache Key    [1m[90m[49mosv-scanner/GHSA-g5qg-72qw-gw5v[22m[39m[49m
-                Confusion for Image                                             
-                Optimization API Routes.                                        
-                Current version of 'next' is                                    
-                vulnerable: 14.2.15.                                            
- [1m[90m[49m 12:0[22m[39m[49m  [35m[49mmedium[39m[49m  Next.js Content Injection        [1m[90m[49mosv-scanner/GHSA-xv57-4mr9-wg8v[22m[39m[49m
-                Vulnerability for Image                                         
-                Optimization. Current version                                   
-                of 'next' is vulnerable:                                        
-                14.2.15.                                                        
- [1m[90m[49m 12:0[22m[39m[49m  [33m[49mlow[39m[49m     Next.js Race Condition to Cache  [1m[90m[49mosv-scanner/GHSA-qpjv-v59x-3qc4[22m[39m[49m
-                Poisoning. Current version of                                   
-                'next' is vulnerable: 14.2.15.                                  
- [1m[90m[49m300:0[22m[39m[49m  [31m[49mhigh[39m[49m    'glob' CLI: Command injection    [1m[90m[49mosv-scanner/GHSA-5j98-mcp5-4vw2[22m[39m[49m
-                via -c/--cmd executes matches                                   
-                with shell:true. Current                                        
-                version is vulnerable: 10.3.10.                                 
-
-[1m[30m[107m  FAILURES  [0m
-
- [1meslint[22m    [1mfrontend\eslint.config.mjs[22m              .trunk\out\hKDTo.yaml
- [1meslint[22m    [1mfrontend\eslint.config.mjs[22m              .trunk\out\MXLHe.yaml
- [1meslint[22m    [1mfrontend\src\pages\games\[game_id].tsx[22m  .trunk\out\t5pCH.yaml
- [1mprettier[22m  [1mfrontend\src\pages\games\[game_id].tsx[22m  .trunk\out\IUUdx.yaml
-
-[1m[30m[107m  NOTICES  [0m
-
- [4m[90m[49mtrunk_output_2.txt[24m[39m[49m  [90m[49mdiscarded as modified during check[39m[49m                         
-                     [90m[49m[git-diff-check,trufflehog][39m[49m                                
-
- [90m[49mSome tools failed to run. You can open the details yaml files for more[39m[49m         
- [90m[49minformation.[39m[49m                                                                   
- [90m[49m'semgrep' is not supported on your platform[39m[49m                                    
- [90m[49m'trunk-toolbox' has no matching download for current os/cpu @ version:0.5.4[39m[49m    
-
-Checked 26 modified files
-[90m1 existing issue (use --show-existing to see it)
-[0m[1m[91m✖ 8 new security issues
-[0m[1m[91m✖ 4 failures
-[0m

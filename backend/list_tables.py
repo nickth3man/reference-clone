@@ -1,5 +1,6 @@
 from database import get_db_connection
 
+
 def list_tables():
     conn = get_db_connection(read_only=True)
     try:
@@ -7,10 +8,11 @@ def list_tables():
         print("All Tables:")
         for t in tables:
             print(t[0])
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print(f"Error: {e}")
     finally:
         conn.close()
+
 
 if __name__ == "__main__":
     list_tables()

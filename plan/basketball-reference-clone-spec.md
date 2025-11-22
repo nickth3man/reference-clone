@@ -947,7 +947,7 @@ CREATE TABLE coach_seasons (
 
 #### Team Season Page Sections
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │ HEADER                                                          │
 │ - Team Logo                                                     │
@@ -1003,7 +1003,7 @@ CREATE TABLE coach_seasons (
 
 #### Season Page Sections
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │ HEADER                                                          │
 │ - Season Name (e.g., "2024-25 NBA Season")                      │

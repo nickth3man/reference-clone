@@ -15,6 +15,6 @@ active stars like Stephen Curry are present in both.
 
 **Implication:** The application uses a fallback mechanism:
 
-1.  Try to fetch detailed info from `common_player_info`.
-2.  If not found, fall back to basic info from the `player` table.
-3.  This ensures all players are accessible, even if some details are missing.
+1. Try to fetch detailed info from `common_player_info`.
+2. If not found, fall back to basic info from the `player` table.
+3. This ensures all players are accessible, even if some details are missing.

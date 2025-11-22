@@ -1,7 +1,10 @@
-from database import execute_query, DB_PATH
+# pylint: disable=duplicate-code
 import duckdb
+from database import DB_PATH
+
 
 def test_connection():
+    # pylint: disable=duplicate-code
     try:
         # Query to list tables in DuckDB
         conn = duckdb.connect(DB_PATH, read_only=False)
@@ -9,7 +12,7 @@ def test_connection():
         print("Connection successful (Read/Write)!")
         print("Tables found:", tables)
         conn.close()
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print(f"Read/Write connection failed: {e}")
         try:
             print("Attempting Read-Only connection...")
@@ -18,8 +21,9 @@ def test_connection():
             print("Connection successful (Read-Only)!")
             print("Tables found:", tables)
             conn.close()
-        except Exception as e2:
+        except Exception as e2:  # pylint: disable=broad-exception-caught
             print(f"Read-Only connection failed: {e2}")
+
 
 if __name__ == "__main__":
     test_connection()

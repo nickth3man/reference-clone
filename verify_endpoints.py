@@ -1,57 +1,63 @@
-import requests
 import sys
 
+import requests  # type: ignore[import]
+
 BASE_URL = "http://localhost:8001"
+HTTP_OK = 200
+
 
 def test_endpoint(endpoint, description):
     url = f"{BASE_URL}{endpoint}"
-    print(f"Testing {description} ({url})...", end=" ")
+    print(f"Testing {description} ({url})...", end=" ")  # noqa: T201
     try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            print("✅ OK")
+        response = requests.get(url, timeout=10)
+        if response.status_code == HTTP_OK:
+            print("✅ OK")  # noqa: T201
             return response.json()
-        else:
-            print(f"❌ Failed (Status: {response.status_code})")
-            print(response.text)
-            return None
+
+        print(f"❌ Failed (Status: {response.status_code})")  # noqa: T201
+        print(response.text)  # noqa: T201
+        return None
     except requests.exceptions.ConnectionError:
-        print("❌ Connection Refused (Is the backend running?)")
+        print("❌ Connection Refused (Is the backend running?)")  # noqa: T201
         return None
 
+
 def main():
-    print("Starting API Verification...")
-    
+    print("Starting API Verification...")  # noqa: T201
+
     # 1. Test Teams
     teams = test_endpoint("/teams", "Teams List")
     if not teams:
         sys.exit(1)
-    print(f"   Found {len(teams)} teams.")
+    print(f"   Found {len(teams)} teams.")  # noqa: T201
 
     # 2. Test Players (limit 10)
     players = test_endpoint("/players?limit=10", "Players List")
     if not players:
         sys.exit(1)
-    print(f"   Found {len(players)} players.")
+    print(f"   Found {len(players)} players.")  # noqa: T201
 
     # 3. Test Games (limit 5)
     games = test_endpoint("/games?limit=5", "Games List")
     if not games:
         sys.exit(1)
-    print(f"   Found {len(games)} games.")
+    print(f"   Found {len(games)} games.")  # noqa: T201
 
     if games:
-        game_id = games[0]['game_id']
-        
+        game_id = games[0]["game_id"]
+
         # 4. Test Single Game
-        game = test_endpoint(f"/games/{game_id}", f"Single Game ({game_id})")
-        
+        # We assign to _ to avoid unused variable warning, or just call it.
+        _ = test_endpoint(f"/games/{game_id}", f"Single Game ({game_id})")
+
         # 5. Test Game Stats
         stats = test_endpoint(f"/games/{game_id}/stats", f"Game Stats ({game_id})")
         if stats:
-             print("   Stats keys:", list(stats.keys())[:5], "...")
+            print("   Stats keys:", list(stats.keys())[:5], "...")  # noqa: T201
 
-    print("\nVerification Complete.")
+    print("\nVerification Complete.")  # noqa: T201
+
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,9 @@
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+# pylint: disable=too-few-public-methods
+from pydantic import BaseModel
+
 
 class Team(BaseModel):
     team_id: str
@@ -17,6 +20,7 @@ class Team(BaseModel):
     facebook: Optional[str] = None
     instagram: Optional[str] = None
     twitter: Optional[str] = None
+
 
 class Player(BaseModel):
     person_id: str
@@ -53,6 +57,7 @@ class Player(BaseModel):
     draft_number: Optional[str] = None
     greatest_75_flag: Optional[str] = None
 
+
 class Game(BaseModel):
     game_id: str
     season_id: Optional[str] = None
@@ -70,6 +75,7 @@ class Game(BaseModel):
     wl_away: Optional[str] = None
     pts_away: Optional[float] = None
     season_type: Optional[str] = None
+
 
 class PlayerStats(BaseModel):
     seas_id: str
@@ -107,6 +113,7 @@ class PlayerStats(BaseModel):
     tov_per_game: Optional[float] = None
     pf_per_game: Optional[float] = None
     pts_per_game: Optional[float] = None
+
 
 class GameStats(BaseModel):
     game_id: str

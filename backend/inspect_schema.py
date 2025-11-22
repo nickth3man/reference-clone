@@ -1,5 +1,6 @@
 from database import get_db_connection
 
+
 def inspect_schema():
     conn = get_db_connection(read_only=True)
     try:
@@ -8,6 +9,7 @@ def inspect_schema():
         print(df.to_string())
     finally:
         conn.close()
+
 
 if __name__ == "__main__":
     inspect_schema()

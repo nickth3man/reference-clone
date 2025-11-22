@@ -1,0 +1,3 @@
+frontend/src/pages/games/[game_id].tsx
+frontend/src/pages/players/[player_id].tsx
+frontend/src/pages/teams/[team_id].tsx
