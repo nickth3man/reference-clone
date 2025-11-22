@@ -6,11 +6,23 @@ A full-stack basketball statistics dashboard with Python backend and Next.js fro
 
 ```
 .
-├── backend/           # FastAPI backend
-├── frontend/          # Next.js frontend
-├── database/          # DuckDB database files
-└── pyproject.toml     # Python project configuration
+├── backend/              # FastAPI backend
+│   ├── app/             # Production application code
+│   │   ├── main.py      # FastAPI app entry point
+│   │   ├── database.py  # Database utilities
+│   │   ├── models.py    # Data models
+│   │   └── routers/     # API endpoints
+│   └── scripts/         # Dev utilities (db inspection, debug, misc)
+├── frontend/            # Next.js frontend
+│   └── src/             # Source code
+├── tests/               # Test suite
+│   ├── integration/     # Integration tests (API tests)
+│   └── unit/            # Unit tests
+├── data/                # DuckDB database files
+└── pyproject.toml       # Python project configuration
 ```
+
+See [backend/README.md](./backend/README.md) for detailed backend structure.
 
 ## Linting & Formatting
 
