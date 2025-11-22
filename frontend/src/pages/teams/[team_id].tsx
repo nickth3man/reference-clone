@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
+import { fetchAPI } from "@/lib/api";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface Team {
@@ -23,49 +24,39 @@ interface Player {
   country: string;
 }
 
-export default function TeamPage() {
-  const router = useRouter();
-  const { team_id } = router.query;
-  const [team, setTeam] = useState<Team | null>(null);
-  const [roster, setRoster] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
+interface TeamPageProps {
+  team: Team | null;
+  roster: Player[];
+}
 
-  useEffect(() => {
-    if (!team_id) return;
+export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (context) => {
+  const { team_id } = context.params!;
 
-    const fetchData = async () => {
-      try {
-        const [teamRes, rosterRes] = await Promise.all([
-          fetch(`http://localhost:8001/teams/${team_id}`),
-          fetch(`http://localhost:8001/teams/${team_id}/players`),
-        ]);
+  try {
+    const [team, roster] = await Promise.all([
+      fetchAPI<Team>(`/teams/${team_id}`).catch(() => null),
+      fetchAPI<Player[]>(`/teams/${team_id}/players`).catch(() => []),
+    ]);
 
-        if (teamRes.ok) {
-          const teamData = await teamRes.json();
-          setTeam(teamData);
-        }
-
-        if (rosterRes.ok) {
-          const rosterData = await rosterRes.json();
-          setRoster(rosterData);
-        }
-      } catch (error) {
-        console.error("Failed to fetch team data:", error);
-      } finally {
-        setLoading(false);
-      }
+    return {
+      props: {
+        team,
+        roster,
+      },
     };
-
-    fetchData();
-  }, [team_id]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-      </div>
-    );
+  } catch (error) {
+    console.error("Failed to fetch team data:", error);
+    return {
+      props: {
+        team: null,
+        roster: [],
+      },
+    };
   }
+};
+
+export default function TeamPage({ team, roster }: TeamPageProps) {
+  const router = useRouter();
 
   if (!team) {
     return (

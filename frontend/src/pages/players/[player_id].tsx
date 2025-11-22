@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import Link from "next/link";
+import { API_URL } from "@/lib/api";
 
 // Define types based on backend models
 interface Player {
@@ -50,13 +51,13 @@ export default function PlayerPage() {
     const fetchData = async () => {
       try {
         // Fetch player details
-        const playerRes = await fetch(`http://localhost:8001/players/${player_id}`);
+        const playerRes = await fetch(`${API_URL}/players/${player_id}`);
         if (!playerRes.ok) throw new Error("Failed to fetch player details");
         const playerData = await playerRes.json();
         setPlayer(playerData);
 
         // Fetch player stats
-        const statsRes = await fetch(`http://localhost:8001/players/${player_id}/stats`);
+        const statsRes = await fetch(`${API_URL}/players/${player_id}/stats`);
         if (statsRes.ok) {
           const statsData = await statsRes.json();
           setStats(statsData);

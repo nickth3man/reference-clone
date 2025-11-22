@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
+import { fetchAPI } from "@/lib/api";
 
 interface Team {
   team_id: string;
@@ -9,16 +10,29 @@ interface Team {
   city: string;
 }
 
-export default function Home() {
-  const [teams, setTeams] = useState<Team[]>([]);
+interface HomeProps {
+  teams: Team[];
+}
 
-  useEffect(() => {
-    // Fetch teams from backend
-    fetch("http://localhost:8001/teams")
-      .then((res) => res.json())
-      .then((data) => setTeams(data.slice(0, 6))) // Show first 6 teams
-      .catch((err) => console.error("Failed to fetch teams:", err));
-  }, []);
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  try {
+    const teams = await fetchAPI<Team[]>("/teams");
+    return {
+      props: {
+        teams: teams.slice(0, 6), // Show first 6 teams
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch teams:", error);
+    return {
+      props: {
+        teams: [],
+      },
+    };
+  }
+};
+
+export default function Home({ teams }: HomeProps) {
 
   return (
     <div>

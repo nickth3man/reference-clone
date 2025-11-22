@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/api";
 
 interface Game {
   game_id: string;
@@ -51,8 +52,8 @@ export default function GamePage() {
     const fetchData = async () => {
       try {
         const [gameRes, statsRes] = await Promise.all([
-          fetch(`http://localhost:8001/games/${game_id}`),
-          fetch(`http://localhost:8001/games/${game_id}/stats`),
+          fetch(`${API_URL}/games/${game_id}`),
+          fetch(`${API_URL}/games/${game_id}/stats`),
         ]);
 
         if (gameRes.ok) {
