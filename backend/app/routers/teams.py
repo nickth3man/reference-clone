@@ -4,20 +4,25 @@ import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
+from app.logging_config import get_logger
 from app.models import Team
 
+logger = get_logger(__name__)
 router = APIRouter()
 
 
 @router.get("/teams", response_model=list[Team])
 def get_teams() -> list[dict[str, Any]]:
+    logger.info("Fetching all teams")
     query = "SELECT * FROM team_details"
     try:
         df = execute_query_df(query)
         # Replace NaN and Inf with None for JSON compatibility
         df = df.replace({np.nan: None})  # type: ignore
+        logger.info("Successfully fetched teams", extra={"count": len(df)})
         return df.to_dict(orient="records")  # type: ignore[return-value]
     except Exception as e:
+        logger.error("Failed to fetch teams", extra={"error": str(e)})
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 

@@ -1,9 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.logging_config import configure_logging, get_logger
 from app.routers import games, players, teams
 
+# Configure structured logging
+configure_logging("INFO")
+logger = get_logger(__name__)
+
 app = FastAPI(title="Basketball Reference Clone API")
+
+logger.info("Application started", extra={"app_name": "Basketball Reference Clone API"})
 
 # CORS Setup
 origins = [
