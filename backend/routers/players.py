@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
@@ -9,8 +9,12 @@ from models import Player
 router = APIRouter()
 
 
-@router.get("/players", response_model=List[Player])
-def get_players(search: Optional[str] = None, limit: int = 50, offset: int = 0):
+@router.get("/players", response_model=list[Player])
+def get_players(
+    search: str | None = None, limit: int = 50, offset: int = 0
+) -> list[dict[str, Any]]:
+    params: list[Any]
+
     if search:
         query = """
             SELECT id as person_id, full_name as display_first_last, first_name, last_name
@@ -30,21 +34,21 @@ def get_players(search: Optional[str] = None, limit: int = 50, offset: int = 0):
 
     try:
         df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})
-        return df.to_dict(orient="records")
+        df = df.replace({np.nan: None})  # type: ignore
+        return df.to_dict(orient="records")  # type: ignore[return-value]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @router.get("/players/{player_id}", response_model=Player)
-def get_player(player_id: str):
+def get_player(player_id: str) -> dict[str, Any]:
     # Try common_player_info first for details
     query = "SELECT * FROM common_player_info WHERE person_id = ?"
     try:
         df = execute_query_df(query, [player_id])
         if not df.empty:
-            df = df.replace({np.nan: None})
-            return df.to_dict(orient="records")[0]
+            df = df.replace({np.nan: None})  # type: ignore
+            return df.to_dict(orient="records")[0]  # type: ignore[return-value]
 
         # Fallback to player table
         query_fallback = (
@@ -56,8 +60,8 @@ def get_player(player_id: str):
         if df_fallback.empty:
             raise HTTPException(status_code=404, detail="Player not found")
 
-        df_fallback = df_fallback.replace({np.nan: None})
-        return df_fallback.to_dict(orient="records")[0]
+        df_fallback = df_fallback.replace({np.nan: None})  # type: ignore
+        return df_fallback.to_dict(orient="records")[0]  # type: ignore[return-value]
 
     except HTTPException:
         raise
@@ -65,8 +69,8 @@ def get_player(player_id: str):
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.get("/players/{player_id}/stats", response_model=List[dict])
-def get_player_stats(player_id: str):
+@router.get("/players/{player_id}/stats", response_model=list[dict[str, Any]])
+def get_player_stats(player_id: str) -> list[dict[str, Any]]:
     # Query player_stats_per_game for season stats
     # We select relevant fields.
     query = """
@@ -105,7 +109,7 @@ def get_player_stats(player_id: str):
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})
-        return df.to_dict(orient="records")
+        df = df.replace({np.nan: None})  # type: ignore
+        return df.to_dict(orient="records")  # type: ignore[return-value]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

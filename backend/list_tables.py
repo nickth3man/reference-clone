@@ -1,7 +1,7 @@
 from database import get_db_connection
 
 
-def list_tables():
+def list_tables() -> None:
     conn = get_db_connection(read_only=True)
     try:
         tables = conn.execute("SHOW TABLES").fetchall()

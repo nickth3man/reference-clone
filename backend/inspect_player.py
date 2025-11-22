@@ -1,7 +1,7 @@
 from database import get_db_connection
 
 
-def inspect_player_schema():
+def inspect_player_schema() -> None:
     conn = get_db_connection(read_only=True)
     try:
         print("Schema for 'player':")

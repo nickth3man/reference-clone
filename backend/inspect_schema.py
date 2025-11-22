@@ -1,7 +1,7 @@
 from database import get_db_connection
 
 
-def inspect_schema():
+def inspect_schema() -> None:
     conn = get_db_connection(read_only=True)
     try:
         print("Data from other_stats (first 5 rows):")

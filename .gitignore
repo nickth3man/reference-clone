@@ -1,8 +1,21 @@
-__pycache__/
-*.pyc
+# General
 .DS_Store
 .env
-.venv/
-node_modules/
-.next/
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.mypy_cache/
+*.egg-info/
+
+# Node/JS
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js
+.next/
+*.tsbuildinfo

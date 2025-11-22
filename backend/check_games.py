@@ -1,7 +1,7 @@
 from database import execute_query_df
 
 
-def check_games():
+def check_games() -> None:
     try:
         # Check total count vs unique game_ids
         count = execute_query_df("SELECT COUNT(*) as total FROM game", read_only=True).iloc[0][

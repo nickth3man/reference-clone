@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 # pylint: disable=too-few-public-methods
 from pydantic import BaseModel
@@ -7,74 +6,74 @@ from pydantic import BaseModel
 
 class Team(BaseModel):
     team_id: str
-    abbreviation: Optional[str] = None
-    nickname: Optional[str] = None
-    yearfounded: Optional[float] = None
-    city: Optional[str] = None
-    arena: Optional[str] = None
-    arenacapacity: Optional[float] = None
-    owner: Optional[str] = None
-    generalmanager: Optional[str] = None
-    headcoach: Optional[str] = None
-    dleagueaffiliation: Optional[str] = None
-    facebook: Optional[str] = None
-    instagram: Optional[str] = None
-    twitter: Optional[str] = None
+    abbreviation: str | None = None
+    nickname: str | None = None
+    yearfounded: float | None = None
+    city: str | None = None
+    arena: str | None = None
+    arenacapacity: float | None = None
+    owner: str | None = None
+    generalmanager: str | None = None
+    headcoach: str | None = None
+    dleagueaffiliation: str | None = None
+    facebook: str | None = None
+    instagram: str | None = None
+    twitter: str | None = None
 
 
 class Player(BaseModel):
     person_id: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    display_first_last: Optional[str] = None
-    display_last_comma_first: Optional[str] = None
-    display_fi_last: Optional[str] = None
-    player_slug: Optional[str] = None
-    birthdate: Optional[datetime] = None
-    school: Optional[str] = None
-    country: Optional[str] = None
-    last_affiliation: Optional[str] = None
-    height: Optional[str] = None
-    weight: Optional[str] = None
-    season_exp: Optional[float] = None
-    jersey: Optional[str] = None
-    position: Optional[str] = None
-    rosterstatus: Optional[str] = None
-    games_played_current_season_flag: Optional[str] = None
-    team_id: Optional[int] = None
-    team_name: Optional[str] = None
-    team_abbreviation: Optional[str] = None
-    team_code: Optional[str] = None
-    team_city: Optional[str] = None
-    playercode: Optional[str] = None
-    from_year: Optional[float] = None
-    to_year: Optional[float] = None
-    dleague_flag: Optional[str] = None
-    nba_flag: Optional[str] = None
-    games_played_flag: Optional[str] = None
-    draft_year: Optional[str] = None
-    draft_round: Optional[str] = None
-    draft_number: Optional[str] = None
-    greatest_75_flag: Optional[str] = None
+    first_name: str | None = None
+    last_name: str | None = None
+    display_first_last: str | None = None
+    display_last_comma_first: str | None = None
+    display_fi_last: str | None = None
+    player_slug: str | None = None
+    birthdate: datetime | None = None
+    school: str | None = None
+    country: str | None = None
+    last_affiliation: str | None = None
+    height: str | None = None
+    weight: str | None = None
+    season_exp: float | None = None
+    jersey: str | None = None
+    position: str | None = None
+    rosterstatus: str | None = None
+    games_played_current_season_flag: str | None = None
+    team_id: int | None = None
+    team_name: str | None = None
+    team_abbreviation: str | None = None
+    team_code: str | None = None
+    team_city: str | None = None
+    playercode: str | None = None
+    from_year: float | None = None
+    to_year: float | None = None
+    dleague_flag: str | None = None
+    nba_flag: str | None = None
+    games_played_flag: str | None = None
+    draft_year: str | None = None
+    draft_round: str | None = None
+    draft_number: str | None = None
+    greatest_75_flag: str | None = None
 
 
 class Game(BaseModel):
     game_id: str
-    season_id: Optional[str] = None
-    game_date: Optional[datetime] = None
-    team_id_home: Optional[str] = None
-    team_abbreviation_home: Optional[str] = None
-    team_name_home: Optional[str] = None
-    matchup_home: Optional[str] = None
-    wl_home: Optional[str] = None
-    pts_home: Optional[float] = None
-    team_id_away: Optional[str] = None
-    team_abbreviation_away: Optional[str] = None
-    team_name_away: Optional[str] = None
-    matchup_away: Optional[str] = None
-    wl_away: Optional[str] = None
-    pts_away: Optional[float] = None
-    season_type: Optional[str] = None
+    season_id: str | None = None
+    game_date: datetime | None = None
+    team_id_home: str | None = None
+    team_abbreviation_home: str | None = None
+    team_name_home: str | None = None
+    matchup_home: str | None = None
+    wl_home: str | None = None
+    pts_home: float | None = None
+    team_id_away: str | None = None
+    team_abbreviation_away: str | None = None
+    team_name_away: str | None = None
+    matchup_away: str | None = None
+    wl_away: str | None = None
+    pts_away: float | None = None
+    season_type: str | None = None
 
 
 class PlayerStats(BaseModel):
@@ -82,63 +81,63 @@ class PlayerStats(BaseModel):
     season: int
     player_id: int
     player: str
-    birth_year: Optional[float] = None
-    pos: Optional[str] = None
-    age: Optional[float] = None
-    experience: Optional[float] = None
-    lg: Optional[str] = None
-    tm: Optional[str] = None
-    g: Optional[int] = None
-    gs: Optional[int] = None
-    mp_per_game: Optional[float] = None
-    fg_per_game: Optional[float] = None
-    fga_per_game: Optional[float] = None
-    fg_percent: Optional[float] = None
-    x3p_per_game: Optional[float] = None
-    x3pa_per_game: Optional[float] = None
-    x3p_percent: Optional[float] = None
-    x2p_per_game: Optional[float] = None
-    x2pa_per_game: Optional[float] = None
-    x2p_percent: Optional[float] = None
-    e_fg_percent: Optional[float] = None
-    ft_per_game: Optional[float] = None
-    fta_per_game: Optional[float] = None
-    ft_percent: Optional[float] = None
-    orb_per_game: Optional[float] = None
-    drb_per_game: Optional[float] = None
-    trb_per_game: Optional[float] = None
-    ast_per_game: Optional[float] = None
-    stl_per_game: Optional[float] = None
-    blk_per_game: Optional[float] = None
-    tov_per_game: Optional[float] = None
-    pf_per_game: Optional[float] = None
-    pts_per_game: Optional[float] = None
+    birth_year: float | None = None
+    pos: str | None = None
+    age: float | None = None
+    experience: float | None = None
+    lg: str | None = None
+    tm: str | None = None
+    g: int | None = None
+    gs: int | None = None
+    mp_per_game: float | None = None
+    fg_per_game: float | None = None
+    fga_per_game: float | None = None
+    fg_percent: float | None = None
+    x3p_per_game: float | None = None
+    x3pa_per_game: float | None = None
+    x3p_percent: float | None = None
+    x2p_per_game: float | None = None
+    x2pa_per_game: float | None = None
+    x2p_percent: float | None = None
+    e_fg_percent: float | None = None
+    ft_per_game: float | None = None
+    fta_per_game: float | None = None
+    ft_percent: float | None = None
+    orb_per_game: float | None = None
+    drb_per_game: float | None = None
+    trb_per_game: float | None = None
+    ast_per_game: float | None = None
+    stl_per_game: float | None = None
+    blk_per_game: float | None = None
+    tov_per_game: float | None = None
+    pf_per_game: float | None = None
+    pts_per_game: float | None = None
 
 
 class GameStats(BaseModel):
     game_id: str
-    league_id: Optional[str] = None
-    team_id_home: Optional[str] = None
-    team_abbreviation_home: Optional[str] = None
-    team_city_home: Optional[str] = None
-    pts_paint_home: Optional[float] = None
-    pts_2nd_chance_home: Optional[float] = None
-    pts_fb_home: Optional[float] = None
-    largest_lead_home: Optional[float] = None
-    lead_changes: Optional[float] = None
-    times_tied: Optional[float] = None
-    team_turnovers_home: Optional[float] = None
-    total_turnovers_home: Optional[float] = None
-    team_rebounds_home: Optional[float] = None
-    pts_off_to_home: Optional[float] = None
-    team_id_away: Optional[str] = None
-    team_abbreviation_away: Optional[str] = None
-    team_city_away: Optional[str] = None
-    pts_paint_away: Optional[float] = None
-    pts_2nd_chance_away: Optional[float] = None
-    pts_fb_away: Optional[float] = None
-    largest_lead_away: Optional[float] = None
-    team_turnovers_away: Optional[float] = None
-    total_turnovers_away: Optional[float] = None
-    team_rebounds_away: Optional[float] = None
-    pts_off_to_away: Optional[float] = None
+    league_id: str | None = None
+    team_id_home: str | None = None
+    team_abbreviation_home: str | None = None
+    team_city_home: str | None = None
+    pts_paint_home: float | None = None
+    pts_2nd_chance_home: float | None = None
+    pts_fb_home: float | None = None
+    largest_lead_home: float | None = None
+    lead_changes: float | None = None
+    times_tied: float | None = None
+    team_turnovers_home: float | None = None
+    total_turnovers_home: float | None = None
+    team_rebounds_home: float | None = None
+    pts_off_to_home: float | None = None
+    team_id_away: str | None = None
+    team_abbreviation_away: str | None = None
+    team_city_away: str | None = None
+    pts_paint_away: float | None = None
+    pts_2nd_chance_away: float | None = None
+    pts_fb_away: float | None = None
+    largest_lead_away: float | None = None
+    team_turnovers_away: float | None = None
+    total_turnovers_away: float | None = None
+    team_rebounds_away: float | None = None
+    pts_off_to_away: float | None = None

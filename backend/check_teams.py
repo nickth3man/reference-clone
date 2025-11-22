@@ -1,7 +1,7 @@
 from database import execute_query_df
 
 
-def check_teams():
+def check_teams() -> None:
     try:
         df = execute_query_df("SELECT * FROM team_details LIMIT 5", read_only=True)
         print(df[["team_id", "abbreviation", "nickname"]])

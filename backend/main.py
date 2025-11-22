@@ -27,10 +27,10 @@ app.include_router(games.router, tags=["Games"])
 
 
 @app.get("/")
-def read_root():
+def read_root() -> dict[str, str]:
     return {"message": "Welcome to the Basketball Reference Clone API"}
 
 
 @app.get("/health")
-def health_check():
+def health_check() -> dict[str, str]:
     return {"status": "healthy"}

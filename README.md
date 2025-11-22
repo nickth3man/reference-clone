@@ -21,12 +21,14 @@ This project uses modern, industry-standard linting tools:
 
 See [LINTING.md](./LINTING.md) for detailed commands and configuration.
 
-### Quick Commands
 
 **Backend:**
 ```bash
 # Lint
 ruff check backend/
+
+# Lint covering auto-fixable errors
+ruff check backend/ --fix
 
 # Format
 ruff format backend/
@@ -38,6 +40,9 @@ cd frontend
 
 # Lint
 npm run lint
+
+# Lint and fix
+npm run lint:fix
 
 # Format
 npm run format

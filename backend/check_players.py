@@ -1,7 +1,7 @@
 from database import execute_query_df
 
 
-def check_players():
+def check_players() -> None:
     try:
         print("Curry in common_player_info:")
         print(

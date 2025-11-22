@@ -1,13 +1,15 @@
+from typing import Any, cast
+
 from database import execute_query_df
 from models import Team
 
 
-def reproduce():
+def reproduce() -> None:
     query = "SELECT * FROM team_details"
     try:
         df = execute_query_df(query, read_only=True)
         df = df.where(df.notnull(), None)
-        records = df.to_dict(orient="records")
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
         print(f"Found {len(records)} records.")
 

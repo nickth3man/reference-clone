@@ -6,43 +6,43 @@ BASE_URL = "http://localhost:8001"
 HTTP_OK = 200
 
 
-def test_endpoint(endpoint, description):
+def test_endpoint(endpoint: str, description: str):
     url = f"{BASE_URL}{endpoint}"
-    print(f"Testing {description} ({url})...", end=" ")  # noqa: T201
+    print(f"Testing {description} ({url})...", end=" ")
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == HTTP_OK:
-            print("✅ OK")  # noqa: T201
+            print("✅ OK")
             return response.json()
 
-        print(f"❌ Failed (Status: {response.status_code})")  # noqa: T201
-        print(response.text)  # noqa: T201
+        print(f"❌ Failed (Status: {response.status_code})")
+        print(response.text)
         return None
     except requests.exceptions.ConnectionError:
-        print("❌ Connection Refused (Is the backend running?)")  # noqa: T201
+        print("❌ Connection Refused (Is the backend running?)")
         return None
 
 
 def main():
-    print("Starting API Verification...")  # noqa: T201
+    print("Starting API Verification...")
 
     # 1. Test Teams
     teams = test_endpoint("/teams", "Teams List")
     if not teams:
         sys.exit(1)
-    print(f"   Found {len(teams)} teams.")  # noqa: T201
+    print(f"   Found {len(teams)} teams.")
 
     # 2. Test Players (limit 10)
     players = test_endpoint("/players?limit=10", "Players List")
     if not players:
         sys.exit(1)
-    print(f"   Found {len(players)} players.")  # noqa: T201
+    print(f"   Found {len(players)} players.")
 
     # 3. Test Games (limit 5)
     games = test_endpoint("/games?limit=5", "Games List")
     if not games:
         sys.exit(1)
-    print(f"   Found {len(games)} games.")  # noqa: T201
+    print(f"   Found {len(games)} games.")
 
     if games:
         game_id = games[0]["game_id"]
@@ -54,9 +54,9 @@ def main():
         # 5. Test Game Stats
         stats = test_endpoint(f"/games/{game_id}/stats", f"Game Stats ({game_id})")
         if stats:
-            print("   Stats keys:", list(stats.keys())[:5], "...")  # noqa: T201
+            print("   Stats keys:", list(stats.keys())[:5], "...")
 
-    print("\nVerification Complete.")  # noqa: T201
+    print("\nVerification Complete.")
 
 
 if __name__ == "__main__":

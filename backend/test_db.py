@@ -4,7 +4,7 @@ import duckdb
 from database import DB_PATH
 
 
-def test_connection():
+def test_connection() -> None:
     # pylint: disable=duplicate-code
     try:
         # Query to list tables in DuckDB
