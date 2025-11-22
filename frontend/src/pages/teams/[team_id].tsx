@@ -1,27 +1,30 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
-import type { Team, Player } from "../../types";
+import type { Team, Player, Game } from "../../types";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface TeamPageProps {
   team: Team | null;
   roster: Player[];
+  games: Game[];
 }
 
 export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (context) => {
   const { team_id } = context.params!;
 
   try {
-    const [team, roster] = await Promise.all([
+    const [team, roster, games] = await Promise.all([
       fetchAPI<Team>(`/teams/${team_id}`).catch(() => null),
       fetchAPI<Player[]>(`/teams/${team_id}/roster`).catch(() => []),
+      fetchAPI<Game[]>(`/games?team_id=${team_id}`).catch(() => []),
     ]);
 
     return {
       props: {
         team,
         roster,
+        games,
       },
     };
   } catch (error) {
@@ -30,12 +33,13 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (cont
       props: {
         team: null,
         roster: [],
+        games: [],
       },
     };
   }
 };
 
-export default function TeamPage({ team, roster }: TeamPageProps) {
+export default function TeamPage({ team, roster, games }: TeamPageProps) {
   const router = useRouter();
 
   if (!team) {
@@ -135,6 +139,63 @@ export default function TeamPage({ team, roster }: TeamPageProps) {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Schedule */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+             Game Schedule
+          </h2>
+           <span className="text-sm text-slate-500">{games.length} Games</span>
+        </div>
+        <div className="overflow-x-auto">
+             <table className="w-full text-left">
+                <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                <tr>
+                    <th className="px-6 py-3 font-medium">Date</th>
+                    <th className="px-6 py-3 font-medium">Opponent</th>
+                    <th className="px-6 py-3 font-medium">Result</th>
+                    <th className="px-6 py-3 font-medium">Score</th>
+                </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                {games.map((game) => {
+                     const isHome = game.home_team_id === team.team_id;
+                     const opponentId = isHome ? game.away_team_id : game.home_team_id;
+                     const win = isHome ? (game.home_team_score! > game.away_team_score!) : (game.away_team_score! > game.home_team_score!);
+                     // We don't have opponent name here easily, so show ID for now or just At/Vs
+                     const label = isHome ? "vs " + opponentId : "@ " + opponentId;
+
+                     return (
+                         <tr 
+                            key={game.game_id} 
+                            onClick={() => router.push(`/boxscores/${game.game_id}`)}
+                            className="hover:bg-slate-50 cursor-pointer transition-colors"
+                        >
+                            <td className="px-6 py-4 text-slate-900">{game.game_date}</td>
+                            <td className="px-6 py-4 text-slate-900">{label}</td>
+                            <td className="px-6 py-4">
+                                <span className={`px-2 py-1 rounded text-xs font-semibold ${win ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                    {win ? 'W' : 'L'}
+                                </span>
+                            </td>
+                            <td className="px-6 py-4 text-slate-500">
+                                {game.home_team_score} - {game.away_team_score}
+                            </td>
+                         </tr>
+                     );
+                })}
+                {games.length === 0 && (
+                    <tr>
+                    <td colSpan={4} className="px-6 py-8 text-center text-slate-400">
+                        No games found.
+                    </td>
+                    </tr>
+                )}
+                </tbody>
+             </table>
         </div>
       </div>
     </div>

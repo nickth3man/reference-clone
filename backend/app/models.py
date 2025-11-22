@@ -118,6 +118,22 @@ class Game(BaseModel):
     away_team_id: str | None = None
     home_team_score: int | None = None
     away_team_score: int | None = None
+    home_q1: int | None = None
+    home_q2: int | None = None
+    home_q3: int | None = None
+    home_q4: int | None = None
+    home_ot1: int | None = None
+    home_ot2: int | None = None
+    home_ot3: int | None = None
+    home_ot4: int | None = None
+    away_q1: int | None = None
+    away_q2: int | None = None
+    away_q3: int | None = None
+    away_q4: int | None = None
+    away_ot1: int | None = None
+    away_ot2: int | None = None
+    away_ot3: int | None = None
+    away_ot4: int | None = None
     arena: str | None = None
     attendance: int | None = None
     game_duration_minutes: int | None = None
@@ -133,10 +149,25 @@ class BoxScore(BaseModel):
     team_id: str
     is_starter: bool | None = None
     minutes_played: int | None = None
-    points: int | None = None
-    rebounds: int | None = None
+    did_not_play: bool | None = False
+    dnp_reason: str | None = None
+    field_goals_made: int | None = None
+    field_goals_attempted: int | None = None
+    three_pointers_made: int | None = None
+    three_pointers_attempted: int | None = None
+    free_throws_made: int | None = None
+    free_throws_attempted: int | None = None
+    offensive_rebounds: int | None = None
+    defensive_rebounds: int | None = None
+    total_rebounds: int | None = None
     assists: int | None = None
-    # ... add others as needed
+    steals: int | None = None
+    blocks: int | None = None
+    turnovers: int | None = None
+    personal_fouls: int | None = None
+    points: int | None = None
+    plus_minus: int | None = None
+    game_score: float | None = None
 
 
 class TeamGameStats(BaseModel):
@@ -150,6 +181,65 @@ class TeamGameStats(BaseModel):
 
 # Alias for backward compatibility if needed, or just remove usage in games.py
 GameStats = TeamGameStats
+
+
+class Season(BaseModel):
+    season_id: str
+    league: str | None = None
+    start_year: int | None = None
+    end_year: int | None = None
+    champion_team_id: str | None = None
+    finals_mvp_player_id: str | None = None
+    mvp_player_id: str | None = None
+    roy_player_id: str | None = None
+    dpoy_player_id: str | None = None
+    sixth_man_player_id: str | None = None
+    mip_player_id: str | None = None
+    coy_coach_id: str | None = None
+    salary_cap: float | None = None
+    luxury_tax_threshold: float | None = None
+    num_teams: int | None = None
+
+
+class TeamSeasonStats(BaseModel):
+    stat_id: int
+    team_id: str
+    season_id: str
+    season_type: str | None = None
+    wins: int | None = None
+    losses: int | None = None
+    win_pct: float | None = None
+    games_behind: float | None = None
+    conference_rank: int | None = None
+    division_rank: int | None = None
+    playoff_seed: int | None = None
+    current_streak: str | None = None
+    home_record: str | None = None
+    away_record: str | None = None
+    points_per_game: float | None = None
+    opponent_points_per_game: float | None = None
+    point_differential: float | None = None
+    pace: float | None = None
+    offensive_rating: float | None = None
+    defensive_rating: float | None = None
+    net_rating: float | None = None
+    pythagorean_wins: float | None = None
+    strength_of_schedule: float | None = None
+    simple_rating_system: float | None = None
+    field_goal_pct: float | None = None
+    three_point_pct: float | None = None
+    free_throw_pct: float | None = None
+    effective_fg_pct: float | None = None
+    true_shooting_pct: float | None = None
+    offensive_rebound_pct: float | None = None
+    defensive_rebound_pct: float | None = None
+    turnover_pct: float | None = None
+    opponent_turnover_pct: float | None = None
+    average_age: float | None = None
+
+
+# Alias for clarity
+Standings = TeamSeasonStats
 
 
 # Supporting models

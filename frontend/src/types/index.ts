@@ -113,6 +113,22 @@ export interface Game {
   away_team_id?: string;
   home_team_score?: number;
   away_team_score?: number;
+  home_q1?: number;
+  home_q2?: number;
+  home_q3?: number;
+  home_q4?: number;
+  home_ot1?: number;
+  home_ot2?: number;
+  home_ot3?: number;
+  home_ot4?: number;
+  away_q1?: number;
+  away_q2?: number;
+  away_q3?: number;
+  away_q4?: number;
+  away_ot1?: number;
+  away_ot2?: number;
+  away_ot3?: number;
+  away_ot4?: number;
   arena?: string;
   attendance?: number;
   game_duration_minutes?: number;
@@ -120,3 +136,6 @@ export interface Game {
   series_game_number?: number;
   winner_team_id?: string;
 }
+
+export * from './season';
+export * from './boxscore';

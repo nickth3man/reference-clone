@@ -80,6 +80,13 @@ const Navbar = () => {
               >
                 Games
               </Link>
+              <Link
+                href="/leagues"
+                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-current={isActiveRoute("/leagues") ? "page" : undefined}
+              >
+                Seasons
+              </Link>
             </div>
           </div>
 
@@ -143,6 +150,13 @@ const Navbar = () => {
               aria-current={isActiveRoute("/games") ? "page" : undefined}
             >
               Games
+            </Link>
+            <Link
+              href="/leagues"
+              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
+              aria-current={isActiveRoute("/leagues") ? "page" : undefined}
+            >
+              Seasons
             </Link>
           </div>
           <form onSubmit={handleSearch} className="mt-4 relative" role="search">

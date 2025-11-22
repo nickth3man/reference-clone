@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { API_URL } from "@/lib/api";
 
 interface Game {
@@ -243,17 +244,21 @@ export default function GamePage() {
         </div>
       )}
 
-      {/* Note about Box Scores */}
+      {/* Box Scores Link */}
       <div className="bg-blue-50 rounded-xl p-6 border border-blue-100">
         <div className="flex items-start gap-4">
-          <div className="text-2xl">ℹ️</div>
+          <div className="text-2xl">📊</div>
           <div>
-            <h4 className="font-bold text-blue-900">About Box Scores</h4>
+            <h4 className="font-bold text-blue-900">Player Box Scores</h4>
             <p className="text-blue-700 mt-1 text-sm">
-              Individual player box scores (points, rebounds, assists per player) are currently
-              unavailable in the historical database for this season. We are working on expanding
-              our data coverage.
+              View detailed player statistics for this game.
             </p>
+            <Link 
+                href={`/boxscores/${game.game_id}`} 
+                className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+                View Box Score
+            </Link>
           </div>
         </div>
       </div>
