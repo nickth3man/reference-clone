@@ -31,19 +31,21 @@ This project uses modern, industry-standard linting tools:
 - **Backend (Python)**: [Ruff](https://docs.astral.sh/ruff/) - An extremely fast Python linter and formatter
 - **Frontend (TypeScript/React)**: [ESLint](https://eslint.org/) for linting + [Prettier](https://prettier.io/) for formatting
 
-See [LINTING.md](./LINTING.md) for detailed commands and configuration.
-
+### Commands
 
 **Backend:**
 ```bash
 # Lint
 ruff check backend/
 
-# Lint covering auto-fixable errors
+# Lint and fix
 ruff check backend/ --fix
 
 # Format
 ruff format backend/
+
+# Check formatting (without modifying files)
+ruff format backend/ --check
 ```
 
 **Frontend:**
@@ -57,6 +59,33 @@ npm run lint
 npm run lint:fix
 
 # Format
+npm run format
+
+# Check formatting (without modifying files)
+npm run format:check
+```
+
+### Quick Reference
+
+| Task | Backend Command | Frontend Command |
+|------|----------------|------------------|
+| Lint | `ruff check backend/` | `cd frontend && npm run lint` |
+| Lint + Fix | `ruff check backend/ --fix` | `cd frontend && npm run lint:fix` |
+| Format | `ruff format backend/` | `cd frontend && npm run format` |
+| Format Check | `ruff format backend/ --check` | `cd frontend && npm run format:check` |
+
+### Pre-commit Recommendations
+
+Before committing, run:
+
+```bash
+# Backend
+ruff check backend/ --fix
+ruff format backend/
+
+# Frontend
+cd frontend
+npm run lint:fix
 npm run format
 ```
 
