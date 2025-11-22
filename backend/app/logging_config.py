@@ -5,7 +5,7 @@ Structured logging configuration for the application.
 import logging
 import sys
 
-from pythonjsonlogger import jsonlogger
+from pythonjsonlogger.json import JsonFormatter
 
 
 # Configure root logger
@@ -19,7 +19,7 @@ def configure_logging(level: str = "INFO") -> None:
     log_level = getattr(logging, level.upper(), logging.INFO)
 
     # Create JSON formatter
-    formatter = jsonlogger.JsonFormatter(
+    formatter = JsonFormatter(
         "%(asctime)s %(name)s %(levelname)s %(message)s %(pathname)s %(lineno)d",
         timestamp=True,
     )

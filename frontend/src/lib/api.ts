@@ -10,10 +10,7 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001
  * @param options - Fetch options
  * @returns Promise with the response data
  */
-export async function fetchAPI<T = any>(
-  endpoint: string,
-  options?: RequestInit,
-): Promise<T> {
+export async function fetchAPI<T = any>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_URL}${endpoint}`;
   const response = await fetch(url, options);
 

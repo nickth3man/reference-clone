@@ -4,6 +4,7 @@ GraphQL schema and resolvers using Strawberry.
 
 import numpy as np
 import strawberry
+from typing import Any, cast
 
 from app.database import execute_query_df
 from app.logging_config import get_logger
@@ -58,7 +59,8 @@ class Query:
         query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details"
         df = execute_query_df(query)
         df = df.replace({np.nan: None})
-        return [Team(**row) for row in df.to_dict(orient="records")]
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [Team(**row) for row in records]
 
     @strawberry.field
     def team(self, team_id: str) -> Team | None:
@@ -69,7 +71,8 @@ class Query:
         if df.empty:
             return None
         df = df.replace({np.nan: None})
-        return Team(**df.to_dict(orient="records")[0])
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return Team(**records[0])
 
     @strawberry.field
     def players(self, limit: int = 50, offset: int = 0) -> list[Player]:
@@ -83,7 +86,8 @@ class Query:
         """
         df = execute_query_df(query, [limit, offset])
         df = df.replace({np.nan: None})
-        return [Player(**row) for row in df.to_dict(orient="records")]
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [Player(**row) for row in records]
 
     @strawberry.field
     def player(self, player_id: str) -> Player | None:
@@ -99,7 +103,8 @@ class Query:
         if df.empty:
             return None
         df = df.replace({np.nan: None})
-        return Player(**df.to_dict(orient="records")[0])
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return Player(**records[0])
 
     @strawberry.field
     def games(self, limit: int = 20) -> list[Game]:
@@ -114,7 +119,8 @@ class Query:
         """
         df = execute_query_df(query, [limit])
         df = df.replace({np.nan: None})
-        return [Game(**row) for row in df.to_dict(orient="records")]
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [Game(**row) for row in records]
 
 
 # Create schema

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Layout from "../../components/Layout";
 import Link from "next/link";
 import { API_URL } from "@/lib/api";
@@ -70,23 +71,36 @@ export default function PlayerPage() {
       <div className="bg-white shadow">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-            <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-               {player.headshot_url ? (
-                  <img src={player.headshot_url} alt={player.full_name} className="w-full h-full object-cover" />
-               ) : (
-                  <span className="text-4xl font-bold text-gray-500">{(player.full_name || "").charAt(0)}</span>
-               )}
+            <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden relative">
+              {player.headshot_url ? (
+                <Image
+                  src={player.headshot_url}
+                  alt={player.full_name || "Player Name"}
+                  width={128}
+                  height={128}
+                  className="object-cover"
+                />
+              ) : (
+                <span className="text-4xl font-bold text-gray-500">
+                  {(player.full_name || "").charAt(0)}
+                </span>
+              )}
             </div>
             <div>
               <h1 className="text-4xl font-bold text-gray-900">{player.full_name}</h1>
               <div className="mt-2 flex flex-wrap gap-4 text-gray-600">
-               {/* Note: Currently active team not always available on player object unless joined. 
+                {/* Note: Currently active team not always available on player object unless joined. 
                    If needed, we can fetch current team or check stats.
                */}
                 {player.position && <span>Position: {player.position}</span>}
               </div>
               <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
-                {player.height_inches && <span>Height: {Math.floor(player.height_inches / 12)}'{player.height_inches % 12}"</span>}
+                {player.height_inches && (
+                  <span>
+                    Height: {Math.floor(player.height_inches / 12)}&apos;{player.height_inches % 12}
+                    &quot;
+                  </span>
+                )}
                 {player.weight_lbs && <span>Weight: {player.weight_lbs}lbs</span>}
                 {player.birth_date && (
                   <span>Born: {new Date(player.birth_date).toLocaleDateString()}</span>
@@ -153,10 +167,15 @@ export default function PlayerPage() {
                     {stat.season_id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {stat.team_id === 'TOT' ? 'TOT' : (
-                        <Link href={`/teams/${stat.team_id}`} className="text-blue-600 hover:underline">
-                        {stat.team_id} 
-                        </Link>
+                    {stat.team_id === "TOT" ? (
+                      "TOT"
+                    ) : (
+                      <Link
+                        href={`/teams/${stat.team_id}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {stat.team_id}
+                      </Link>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

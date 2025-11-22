@@ -1,28 +1,8 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
+import type { Team, Player } from "../../types";
 // import { Calendar, MapPin, Users } from 'lucide-react';
-
-interface Team {
-  team_id: string;
-  nickname: string;
-  abbreviation: string;
-  city: string;
-  full_name: string;
-  state: string;
-  year_founded: number;
-}
-
-interface Player {
-  person_id: string;
-  display_first_last: string;
-  position: string;
-  height: string;
-  weight: string;
-  jersey: string;
-  birthdate: string;
-  country: string;
-}
 
 interface TeamPageProps {
   team: Team | null;
@@ -35,7 +15,7 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (cont
   try {
     const [team, roster] = await Promise.all([
       fetchAPI<Team>(`/teams/${team_id}`).catch(() => null),
-      fetchAPI<Player[]>(`/teams/${team_id}/players`).catch(() => []),
+      fetchAPI<Player[]>(`/teams/${team_id}/roster`).catch(() => []),
     ]);
 
     return {
@@ -97,7 +77,7 @@ export default function TeamPage({ team, roster }: TeamPageProps) {
                 </div>
                 <div className="flex items-center gap-1">
                   {/* <Calendar className="h-4 w-4" /> */}
-                  <span>Est. {team.year_founded}</span>
+                  <span>Est. {team.founded_year}</span>
                 </div>
               </div>
             </div>
@@ -120,7 +100,6 @@ export default function TeamPage({ team, roster }: TeamPageProps) {
             <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-3 font-medium">Player</th>
-                <th className="px-6 py-3 font-medium">Jersey</th>
                 <th className="px-6 py-3 font-medium">Pos</th>
                 <th className="px-6 py-3 font-medium">Height</th>
                 <th className="px-6 py-3 font-medium">Weight</th>
@@ -130,23 +109,26 @@ export default function TeamPage({ team, roster }: TeamPageProps) {
             <tbody className="divide-y divide-slate-100">
               {roster.map((player) => (
                 <tr
-                  key={player.person_id}
-                  onClick={() => router.push(`/players/${player.person_id}`)}
+                  key={player.player_id}
+                  onClick={() => router.push(`/players/${player.player_id}`)}
                   className="hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <td className="px-6 py-4 font-medium text-slate-900">
-                    {player.display_first_last}
-                  </td>
-                  <td className="px-6 py-4 text-slate-500 font-mono">{player.jersey || "-"}</td>
+                  <td className="px-6 py-4 font-medium text-slate-900">{player.full_name}</td>
                   <td className="px-6 py-4 text-slate-500">{player.position}</td>
-                  <td className="px-6 py-4 text-slate-500">{player.height}</td>
-                  <td className="px-6 py-4 text-slate-500">{player.weight} lbs</td>
-                  <td className="px-6 py-4 text-slate-500">{player.country}</td>
+                  <td className="px-6 py-4 text-slate-500">
+                    {player.height_inches
+                      ? `${Math.floor(player.height_inches / 12)}'${player.height_inches % 12}"`
+                      : "-"}
+                  </td>
+                  <td className="px-6 py-4 text-slate-500">
+                    {player.weight_lbs ? `${player.weight_lbs} lbs` : "-"}
+                  </td>
+                  <td className="px-6 py-4 text-slate-500">{player.birth_country}</td>
                 </tr>
               ))}
               {roster.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-400">
+                  <td colSpan={5} className="px-6 py-8 text-center text-slate-400">
                     No roster data available.
                   </td>
                 </tr>

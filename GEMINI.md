@@ -39,7 +39,6 @@ Always take **Baby Steps**. Always remember **the process is the product**.
 ## Application Architecture
 
 **Type:** Full-Stack Web Application (Monorepo)
-
 - RESTful API Backend Service (FastAPI)
 - Server-Side Rendered Frontend Application (Next.js)
 - Containerized Microservices Architecture (Docker Compose)
@@ -47,7 +46,6 @@ Always take **Baby Steps**. Always remember **the process is the product**.
 ## Technology Stack
 
 ### Backend
-
 - **Language:** Python 3.10+
 - **Framework:** FastAPI (async web framework)
 - **Server:** Uvicorn (ASGI server)
@@ -59,7 +57,6 @@ Always take **Baby Steps**. Always remember **the process is the product**.
 - **Testing:** Pytest
 
 ### Frontend
-
 - **Framework:** Next.js 14.2.16 (Pages Router)
 - **UI Library:** React 18.3.1
 - **Language:** TypeScript 5.x
@@ -69,7 +66,6 @@ Always take **Baby Steps**. Always remember **the process is the product**.
 - **Formatting:** Prettier 3.6.2
 
 ### Infrastructure
-
 - **Containerization:** Docker
 - **Orchestration:** Docker Compose
 - **Development Ports:**
@@ -151,7 +147,6 @@ reference-clone/
 ## Backend Entry Points
 
 ### Main Application (`backend/app/main.py`)
-
 - FastAPI application initialization
 - CORS middleware (allows localhost:3000, 3002, 8000, 8001)
 - Router registration (teams, players, games)
@@ -159,7 +154,6 @@ reference-clone/
 - Root endpoint: `GET /`
 
 ### Database Module (`backend/app/database.py`)
-
 - `get_db_connection()` - DuckDB connection factory
 - `execute_query()` - Execute SQL and return raw results
 - `execute_query_df()` - Execute SQL and return Pandas DataFrame
@@ -168,19 +162,16 @@ reference-clone/
 ### API Routers
 
 **Teams Router** (`/teams`):
-
 - `GET /teams` - List all teams
 - `GET /teams/{team_id}` - Get team details
 - `GET /teams/{team_id}/players` - Get team roster
 
 **Players Router** (`/players`):
-
 - `GET /players` - List/search players (pagination support)
 - `GET /players/{player_id}` - Get player details
 - `GET /players/{player_id}/stats` - Get player season stats
 
 **Games Router** (`/games`):
-
 - `GET /games` - List games (filter by date/team)
 - `GET /games/{game_id}` - Get game details
 - `GET /games/{game_id}/stats` - Get advanced game stats
@@ -188,12 +179,10 @@ reference-clone/
 ## Frontend Entry Points
 
 ### App Entry (`frontend/src/pages/_app.tsx`)
-
 - Global layout wrapper using Layout component
 - All pages wrapped with consistent navigation and footer
 
 ### Main Pages (File-based Routing)
-
 - `/` - Home page with featured teams
 - `/teams` - All teams listing with search
 - `/teams/[team_id]` - Team detail page
@@ -203,7 +192,6 @@ reference-clone/
 - `/games/[game_id]` - Game box score
 
 ### Components
-
 - `Layout.tsx` - Main layout with Navbar and footer
 - `Navbar.tsx` - Navigation with search functionality
 - `Hero.tsx` - Homepage hero section
@@ -239,7 +227,6 @@ All models use Pydantic for runtime validation and JSON serialization.
 **Location:** `/data/nba.duckdb` (in container), `./data/nba.duckdb` (on host)
 
 **Tables:**
-
 - `team_details` - Team information
 - `common_player_info` - Detailed player information
 - `player` - Basic player records (id, full_name, first_name, last_name)
@@ -248,7 +235,6 @@ All models use Pydantic for runtime validation and JSON serialization.
 - `other_stats` - Advanced game statistics
 
 **Important:** All API endpoints replace NaN values with None for JSON compatibility using:
-
 ```python
 df = df.replace({np.nan: None})
 ```
@@ -260,37 +246,29 @@ df = df.replace({np.nan: None})
 ## Local Development Setup
 
 ### Backend Setup
-
 1. Ensure Python 3.10+ is installed
 2. Install dependencies (if using virtual environment)
 3. Ruff is already installed globally
 4. Run backend:
-
    ```bash
    cd backend
    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
    ```
 
 ### Frontend Setup
-
 1. Ensure Node.js 20+ is installed
 2. Install dependencies:
-
    ```bash
    cd frontend
    npm install
    ```
-
 3. Run frontend:
-
    ```bash
    npm run dev
    ```
 
 ### Docker Development
-
 **Recommended approach for consistent environments:**
-
 ```bash
 # Start all services
 docker-compose up
@@ -308,21 +286,18 @@ docker-compose down
 ## API Documentation
 
 When the backend is running, access:
-
-- **Swagger UI:** <http://localhost:8001/docs>
-- **ReDoc:** <http://localhost:8001/redoc>
+- **Swagger UI:** http://localhost:8001/docs
+- **ReDoc:** http://localhost:8001/redoc
 
 ## Testing
 
 ### Integration Tests
-
 ```bash
 # Backend must be running
 pytest tests/integration/test_endpoints.py
 ```
 
 ### Unit Tests
-
 Unit test directory exists but tests need to be implemented.
 
 ---
@@ -332,7 +307,6 @@ Unit test directory exists but tests need to be implemented.
 ## Python Code Conventions
 
 ### Style Guidelines
-
 - **Line Length:** 100 characters maximum
 - **Quotes:** Double quotes for strings
 - **Indentation:** 4 spaces
@@ -340,7 +314,6 @@ Unit test directory exists but tests need to be implemented.
 - **Imports:** Sorted using isort (part of Ruff)
 
 ### Linting Commands
-
 ```bash
 # Lint backend code
 ruff check backend/
@@ -359,7 +332,6 @@ mypy backend/
 ```
 
 ### Ruff Configuration (`pyproject.toml`)
-
 - **Enabled Rules:** pycodestyle (E/W), pyflakes (F), isort (I), pep8-naming (N), pyupgrade (UP), flake8-bugbear (B), flake8-comprehensions (C4), flake8-simplify (SIM), Ruff-specific (RUF)
 - **Ignored Rules:** E501 (line too long - handled by formatter), B008 (function calls in defaults - FastAPI pattern)
 - **Target Version:** Python 3.10+
@@ -367,7 +339,6 @@ mypy backend/
 ### Backend Code Patterns
 
 **Error Handling:**
-
 ```python
 from fastapi import HTTPException
 
@@ -387,7 +358,6 @@ except Exception as e:
 ```
 
 **Router Pattern:**
-
 ```python
 from fastapi import APIRouter
 
@@ -400,7 +370,6 @@ def get_resources() -> list[dict[str, Any]]:
 ```
 
 **Type Hints:**
-
 ```python
 # Always use modern Python 3.10+ type hints
 def function_name(param: str) -> dict[str, Any]:
@@ -412,7 +381,6 @@ def function_name(param: str) -> dict[str, Any]:
 ## TypeScript/React Code Conventions
 
 ### Style Guidelines
-
 - **Line Length:** 100 characters maximum
 - **Quotes:** Double quotes preferred (enforced by Prettier)
 - **Indentation:** 2 spaces
@@ -420,7 +388,6 @@ def function_name(param: str) -> dict[str, Any]:
 - **Type Safety:** Strict TypeScript mode enabled
 
 ### Linting Commands
-
 ```bash
 cd frontend
 
@@ -440,7 +407,6 @@ npm run format:check
 ### Frontend Code Patterns
 
 **Component Structure:**
-
 ```typescript
 interface ComponentProps {
   children: React.ReactNode;
@@ -459,18 +425,15 @@ export default Component;
 ```
 
 **Path Aliases:**
-
 - Use `@/` for src directory: `import Layout from "@/components/Layout"`
 - Configured in `tsconfig.json`
 
 **Styling:**
-
 - Use Tailwind CSS utility classes
 - Follow mobile-first responsive design
 - Use semantic color names (slate-50, slate-900, etc.)
 
 **Page Structure (Pages Router):**
-
 ```typescript
 // pages/resource/[id].tsx
 import type { GetServerSideProps } from "next";
@@ -495,7 +458,6 @@ export default function ResourcePage({ data }: PageProps) {
 Before committing code, always run:
 
 **Backend:**
-
 ```bash
 ruff check backend/ --fix
 ruff format backend/
@@ -503,7 +465,6 @@ mypy backend/
 ```
 
 **Frontend:**
-
 ```bash
 cd frontend
 npm run lint:fix
@@ -511,7 +472,6 @@ npm run format
 ```
 
 **Root Level (convenience scripts):**
-
 ```bash
 npm run lint:frontend:fix
 npm run format:frontend
@@ -522,7 +482,6 @@ npm run format:frontend
 # Git Workflow & Branching
 
 ## Current Branch
-
 - **Development Branch:** `claude/claude-md-mi9wzz3zq370n9ok-01LNToMuKzGNEhX1yia34M9g`
 - All development work should be done on this branch
 - Follow Baby Steps methodology for all commits
@@ -530,7 +489,6 @@ npm run format:frontend
 ## Commit Message Guidelines
 
 Follow conventional commit format:
-
 ```
 type(scope): brief description
 
@@ -538,7 +496,6 @@ Longer description if needed (explain WHY, not WHAT)
 ```
 
 **Types:**
-
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `refactor:` - Code restructuring without behavior change
@@ -548,7 +505,6 @@ Longer description if needed (explain WHY, not WHAT)
 - `chore:` - Maintenance tasks
 
 **Examples:**
-
 ```
 feat(api): add player season stats endpoint
 
@@ -564,7 +520,6 @@ correctly for missing player data.
 ## Recent Development Activity
 
 Based on recent commits:
-
 1. Codebase reorganization for better modularity
 2. Import path updates to new app module structure
 3. Removal of Makefile in favor of direct commands
@@ -577,70 +532,60 @@ Based on recent commits:
 ## When Working on This Codebase
 
 ### 1. Always Follow Baby Steps Methodology
-
 - Break tasks into smallest possible meaningful changes
 - Validate after each step
 - Document every change
 - Never skip steps or batch unrelated changes
 
 ### 2. Understand Before Modifying
-
 - **CRITICAL:** Always read files before modifying them
 - Understand existing patterns and conventions
 - Maintain consistency with existing code style
 - Don't introduce new patterns without discussion
 
 ### 3. Type Safety is Mandatory
-
 - Backend: Add type hints to all functions
 - Frontend: Use TypeScript types for all props and state
 - Run type checkers before committing
 - Never use `any` type unless absolutely necessary
 
 ### 4. Code Quality Standards
-
 - **Backend:** All code must pass Ruff linting and MyPy type checking
 - **Frontend:** All code must pass ESLint and Prettier checks
 - Fix linting issues immediately, don't accumulate technical debt
 - Follow the project's existing code style
 
 ### 5. Error Handling Patterns
-
 - **Backend:** Use HTTPException for API errors
 - Always include meaningful error messages
 - Handle edge cases (empty results, NaN values, etc.)
 - Re-raise HTTPExceptions, don't catch and swallow them
 
 ### 6. Testing Requirements
-
 - Integration tests are in `tests/integration/`
 - Test all new API endpoints
 - Validate response structure and status codes
 - Test edge cases and error conditions
 
 ### 7. Documentation Requirements
-
 - Update relevant README files when changing structure
 - Document new API endpoints
 - Add comments for complex logic (not obvious code)
 - Keep CLAUDE.md updated with new conventions
 
 ### 8. Database Interactions
-
 - Always use `execute_query_df()` for queries returning data
 - Replace NaN with None for JSON serialization
 - Use parameterized queries to prevent SQL injection
 - Handle empty results gracefully
 
 ### 9. API Development
-
 - Follow REST conventions
 - Use appropriate HTTP status codes
 - Include response models in route decorators
 - Group related endpoints in routers
 
 ### 10. Frontend Development
-
 - Use Next.js Pages Router patterns
 - Implement server-side rendering where appropriate
 - Follow component composition patterns
@@ -661,7 +606,6 @@ Based on recent commits:
 7. **Step 7:** Document in README or API docs
 
 **Example:**
-
 ```python
 # Step 1: Model (models.py)
 class ResourceResponse(BaseModel):
@@ -709,7 +653,6 @@ app.include_router(resource.router, tags=["Resources"])
 7. **Step 7:** Add navigation link if needed
 
 **Example:**
-
 ```typescript
 // pages/resources/[id].tsx
 
@@ -756,7 +699,6 @@ export default function ResourcePage({ resource }: ResourcePageProps) {
 ### Backend Scripts
 
 **Database Inspection:**
-
 ```bash
 # List all tables
 python backend/scripts/db_inspection/list_tables.py
@@ -771,7 +713,6 @@ python backend/scripts/db_inspection/check_games.py
 ```
 
 **Debugging:**
-
 ```bash
 # Test database connection
 python backend/scripts/debug/test_db.py
@@ -785,14 +726,12 @@ python backend/scripts/debug/reproduce_error.py
 # Security Considerations
 
 ## Current Security Measures
-
 1. **Non-root Users:** Both Docker containers run as non-root users
 2. **CORS:** Configured for local development only
 3. **Dependency Security:** glob package overridden to patch vulnerabilities
 4. **Health Checks:** Both services have health monitoring
 
 ## Security Best Practices
-
 1. **Never commit secrets:** Use environment variables for sensitive data
 2. **Parameterized Queries:** Always use placeholders for SQL parameters
 3. **Input Validation:** Pydantic models validate all API inputs
@@ -807,19 +746,16 @@ python backend/scripts/debug/reproduce_error.py
 ### Backend Issues
 
 **Issue: Database not found**
-
 - Check that `data/nba.duckdb` exists
 - Verify DB_PATH environment variable in docker-compose.yml
 - Ensure volume mount is correct
 
 **Issue: Import errors**
-
 - Verify you're using absolute imports: `from app.module import ...`
 - Check that `__init__.py` files exist in all package directories
 - Run from project root, not backend directory
 
 **Issue: CORS errors**
-
 - Verify frontend is running on port 3002
 - Check CORS origins in `backend/app/main.py`
 - Ensure both services are running
@@ -827,19 +763,16 @@ python backend/scripts/debug/reproduce_error.py
 ### Frontend Issues
 
 **Issue: API calls failing**
-
 - Verify backend is running on port 8001
 - Check API URL in fetch calls
 - Inspect browser network tab for errors
 
 **Issue: Type errors**
-
 - Run `npm run build` to see all type errors
 - Check TypeScript version compatibility
 - Verify type definitions are installed
 
 **Issue: Styling not applied**
-
 - Check Tailwind CSS is installed
 - Verify PostCSS config is correct
 - Rebuild to regenerate CSS
@@ -847,13 +780,11 @@ python backend/scripts/debug/reproduce_error.py
 ## Docker Issues
 
 **Issue: Container won't start**
-
 - Check Docker logs: `docker-compose logs backend` or `docker-compose logs frontend`
 - Verify Dockerfile syntax
 - Ensure ports aren't already in use
 
 **Issue: Changes not reflected**
-
 - Verify volume mounts in docker-compose.yml
 - Restart containers: `docker-compose restart`
 - Check file permissions
@@ -863,7 +794,6 @@ python backend/scripts/debug/reproduce_error.py
 # Implementation Roadmap
 
 See `implementation_plan.md` for current priorities:
-
 1. Frontend Security Upgrade (Next.js)
 2. Frontend Linting & Configuration
 3. Backend Linting
@@ -875,7 +805,6 @@ See `implementation_plan.md` for current priorities:
 # Additional Resources
 
 ## Documentation Files
-
 - `README.md` - Project overview and quick start
 - `LINTING.md` - Comprehensive linting guide
 - `backend/README.md` - Backend-specific documentation
@@ -884,7 +813,6 @@ See `implementation_plan.md` for current priorities:
 - `plan/basketball-reference-clone-spec.md` - Detailed specification (1,581 lines)
 
 ## External Documentation
-
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
@@ -913,5 +841,3 @@ When working on this codebase:
 
 ---
 
-_Last Updated: 2025-11-22_
-_Codebase Version: Development Branch `claude/claude-md-mi9wzz3zq370n9ok-01LNToMuKzGNEhX1yia34M9g`_

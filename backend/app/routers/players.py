@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
@@ -9,10 +9,10 @@ from app.models import Player, PlayerSeasonStats
 router = APIRouter()
 
 
-@router.get("/players", response_model=List[Player])
+@router.get("/players", response_model=list[Player])
 def get_players(
     search: str | None = None, limit: int = 50, offset: int = 0
-) -> List[dict[str, Any]]:
+) -> list[dict[str, Any]]:
     params: list[Any]
 
     if search:
@@ -26,9 +26,7 @@ def get_players(
         search_term = f"%{search.lower()}%"
         params = [search_term, search_term, limit, offset]
     else:
-        query = (
-            "SELECT * FROM players LIMIT ? OFFSET ?"
-        )
+        query = "SELECT * FROM players LIMIT ? OFFSET ?"
         params = [limit, offset]
 
     try:
@@ -45,7 +43,7 @@ def get_player(player_id: str) -> dict[str, Any]:
     query = "SELECT * FROM players WHERE player_id = ?"
     try:
         df = execute_query_df(query, [player_id])
-        
+
         if df.empty:
             raise HTTPException(status_code=404, detail="Player not found")
 
@@ -58,15 +56,15 @@ def get_player(player_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
-@router.get("/players/{player_id}/stats", response_model=List[PlayerSeasonStats])
-def get_player_stats(player_id: str) -> List[dict[str, Any]]:
+@router.get("/players/{player_id}/stats", response_model=list[PlayerSeasonStats])
+def get_player_stats(player_id: str) -> list[dict[str, Any]]:
     # Query player_season_stats
     # We might want to join with teams to get team abbrev?
     # The model has team_id.
     # We should probably verify if we need to map team_id back to abbreviation for frontend?
     # Or frontend uses team_id?
     # The model follows schema where team_id is defined.
-    
+
     query = """
         SELECT *
         FROM player_season_stats

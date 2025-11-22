@@ -33,7 +33,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 };
 
 export default function Home({ teams }: HomeProps) {
-
   return (
     <div>
       <Hero />

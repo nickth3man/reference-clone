@@ -12,6 +12,10 @@ dependencies = [
   "python-multipart",
   "pandas",
   "numpy",
+  "slowapi",
+  "python-json-logger",
+  "redis",
+  "strawberry-graphql[fastapi]",
 ]
 
 [dependency-groups]

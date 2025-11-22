@@ -4,7 +4,7 @@ Redis caching utilities.
 
 import json
 import os
-from typing import Any
+from typing import Any, cast
 
 import redis
 
@@ -27,7 +27,9 @@ def get_redis_client() -> redis.Redis:
     global redis_client
     if redis_client is None:
         try:
-            redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+            # Cast to Redis to satisfy Pylance if types are missing/incomplete
+            client = redis.from_url(REDIS_URL, decode_responses=True)
+            redis_client = cast(redis.Redis, client)
             redis_client.ping()  # Test connection
             logger.info("Connected to Redis", extra={"url": REDIS_URL})
         except Exception as e:
@@ -54,7 +56,7 @@ def cache_get(key: str) -> Any | None:
         if client is None:
             return None
 
-        value = client.get(key)
+        value = cast(str | None, client.get(key))
         if value:
             logger.debug("Cache hit", extra={"key": key})
             return json.loads(value)

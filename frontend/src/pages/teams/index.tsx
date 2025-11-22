@@ -2,14 +2,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
+import type { Team } from "../../types";
 // import { Search } from 'lucide-react';
-
-interface Team {
-  team_id: string;
-  nickname: string;
-  abbreviation: string;
-  city: string;
-}
 
 interface TeamsPageProps {
   teams: Team[];
@@ -38,9 +32,9 @@ export default function TeamsIndex({ teams }: TeamsPageProps) {
 
   const filteredTeams = teams.filter(
     (team) =>
-      team.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      team.nickname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      team.abbreviation.toLowerCase().includes(searchQuery.toLowerCase()),
+      (team.city || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (team.nickname || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (team.abbreviation || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -69,7 +63,7 @@ export default function TeamsIndex({ teams }: TeamsPageProps) {
             <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-6 border border-slate-100 group-hover:border-orange-200 h-full flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-bold group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors">
-                  {team.abbreviation.substring(0, 2)}
+                  {(team.abbreviation || "").substring(0, 2)}
                 </div>
                 <span className="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-1 rounded">
                   {team.abbreviation}
