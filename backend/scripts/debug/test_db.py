@@ -1,7 +1,7 @@
 # pylint: disable=duplicate-code
 import duckdb
 
-from database import DB_PATH
+from app.database import DB_PATH
 
 
 def test_connection() -> None:

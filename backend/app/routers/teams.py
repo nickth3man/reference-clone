@@ -3,8 +3,8 @@ from typing import Any
 import numpy as np
 from fastapi import APIRouter, HTTPException
 
-from database import execute_query_df
-from models import Team
+from app.database import execute_query_df
+from app.models import Team
 
 router = APIRouter()
 
