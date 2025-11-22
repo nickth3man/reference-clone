@@ -31,7 +31,7 @@ export default function TeamsIndex() {
     (team) =>
       team.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
       team.nickname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      team.abbreviation.toLowerCase().includes(searchQuery.toLowerCase()),
+      team.abbreviation.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -39,9 +39,7 @@ export default function TeamsIndex() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">All Teams</h1>
-          <p className="text-slate-500 mt-1">
-            Browse all {teams.length} NBA franchises
-          </p>
+          <p className="text-slate-500 mt-1">Browse all {teams.length} NBA franchises</p>
         </div>
 
         <div className="relative w-full md:w-64">
@@ -63,11 +61,7 @@ export default function TeamsIndex() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredTeams.map((team) => (
-            <Link
-              key={team.team_id}
-              href={`/teams/${team.team_id}`}
-              className="group"
-            >
+            <Link key={team.team_id} href={`/teams/${team.team_id}`} className="group">
               <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-6 border border-slate-100 group-hover:border-orange-200 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                   <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-bold group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors">

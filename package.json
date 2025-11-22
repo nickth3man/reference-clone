@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:frontend:fix": "cd frontend && npm run lint:fix",
+    "format:frontend": "cd frontend && npm run format",
+    "format:check:frontend": "cd frontend && npm run format:check"
   },
   "keywords": [],
   "author": "",

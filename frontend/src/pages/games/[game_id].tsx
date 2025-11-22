@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface Game {
   game_id: string;
@@ -53,20 +52,20 @@ export default function GamePage() {
       try {
         const [gameRes, statsRes] = await Promise.all([
           fetch(`http://localhost:8001/games/${game_id}`),
-          fetch(`http://localhost:8001/games/${game_id}/stats`)
+          fetch(`http://localhost:8001/games/${game_id}/stats`),
         ]);
 
         if (gameRes.ok) {
           const gameData = await gameRes.json();
           setGame(gameData);
         }
-        
+
         if (statsRes.ok) {
           const statsData = await statsRes.json();
           setStats(statsData);
         }
       } catch (error) {
-        console.error('Failed to fetch game data:', error);
+        console.error("Failed to fetch game data:", error);
       } finally {
         setLoading(false);
       }
@@ -87,7 +86,7 @@ export default function GamePage() {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold text-slate-700">Game not found</h2>
-        <button 
+        <button
           onClick={() => router.back()}
           className="mt-4 text-orange-600 hover:text-orange-700 font-medium"
         >
@@ -98,11 +97,11 @@ export default function GamePage() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -114,16 +113,14 @@ export default function GamePage() {
           <div className="text-slate-400 text-sm font-medium uppercase tracking-wider">
             {formatDate(game.game_date)}
           </div>
-          <div className="text-slate-500 text-xs mt-1">
-            {game.season_type} Season
-          </div>
+          <div className="text-slate-500 text-xs mt-1">{game.season_type} Season</div>
         </div>
-        
+
         <div className="p-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto">
             {/* Away Team */}
             <div className="flex flex-col items-center text-center flex-1">
-              <div 
+              <div
                 className="h-24 w-24 bg-slate-100 rounded-full flex items-center justify-center text-2xl font-bold text-slate-700 mb-4 cursor-pointer hover:bg-slate-200 transition-colors"
                 onClick={() => router.push(`/teams/${game.team_id_away}`)}
               >
@@ -145,7 +142,7 @@ export default function GamePage() {
 
             {/* Home Team */}
             <div className="flex flex-col items-center text-center flex-1">
-              <div 
+              <div
                 className="h-24 w-24 bg-slate-100 rounded-full flex items-center justify-center text-2xl font-bold text-slate-700 mb-4 cursor-pointer hover:bg-slate-200 transition-colors"
                 onClick={() => router.push(`/teams/${game.team_id_home}`)}
               >
@@ -168,7 +165,7 @@ export default function GamePage() {
               Team Stats Comparison
             </h3>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -180,22 +177,48 @@ export default function GamePage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {[
-                  { label: 'Points in Paint', home: stats.pts_paint_home, away: stats.pts_paint_away },
-                  { label: '2nd Chance Points', home: stats.pts_2nd_chance_home, away: stats.pts_2nd_chance_away },
-                  { label: 'Fast Break Points', home: stats.pts_fb_home, away: stats.pts_fb_away },
-                  { label: 'Points Off Turnovers', home: stats.pts_off_to_home, away: stats.pts_off_to_away },
-                  { label: 'Largest Lead', home: stats.largest_lead_home, away: stats.largest_lead_away },
-                  { label: 'Team Rebounds', home: stats.team_rebounds_home, away: stats.team_rebounds_away },
-                  { label: 'Total Turnovers', home: stats.total_turnovers_home, away: stats.total_turnovers_away },
+                  {
+                    label: "Points in Paint",
+                    home: stats.pts_paint_home,
+                    away: stats.pts_paint_away,
+                  },
+                  {
+                    label: "2nd Chance Points",
+                    home: stats.pts_2nd_chance_home,
+                    away: stats.pts_2nd_chance_away,
+                  },
+                  { label: "Fast Break Points", home: stats.pts_fb_home, away: stats.pts_fb_away },
+                  {
+                    label: "Points Off Turnovers",
+                    home: stats.pts_off_to_home,
+                    away: stats.pts_off_to_away,
+                  },
+                  {
+                    label: "Largest Lead",
+                    home: stats.largest_lead_home,
+                    away: stats.largest_lead_away,
+                  },
+                  {
+                    label: "Team Rebounds",
+                    home: stats.team_rebounds_home,
+                    away: stats.team_rebounds_away,
+                  },
+                  {
+                    label: "Total Turnovers",
+                    home: stats.total_turnovers_home,
+                    away: stats.total_turnovers_away,
+                  },
                 ].map((row, idx) => (
                   <tr key={idx} className="hover:bg-slate-50">
-                    <td className={`px-6 py-4 text-right font-medium ${row.away > row.home ? 'text-green-600' : 'text-slate-600'}`}>
+                    <td
+                      className={`px-6 py-4 text-right font-medium ${row.away > row.home ? "text-green-600" : "text-slate-600"}`}
+                    >
                       {row.away}
                     </td>
-                    <td className="px-6 py-4 text-center text-slate-500 text-sm">
-                      {row.label}
-                    </td>
-                    <td className={`px-6 py-4 text-left font-medium ${row.home > row.away ? 'text-green-600' : 'text-slate-600'}`}>
+                    <td className="px-6 py-4 text-center text-slate-500 text-sm">{row.label}</td>
+                    <td
+                      className={`px-6 py-4 text-left font-medium ${row.home > row.away ? "text-green-600" : "text-slate-600"}`}
+                    >
                       {row.home}
                     </td>
                   </tr>
@@ -226,8 +249,9 @@ export default function GamePage() {
           <div>
             <h4 className="font-bold text-blue-900">About Box Scores</h4>
             <p className="text-blue-700 mt-1 text-sm">
-              Individual player box scores (points, rebounds, assists per player) are currently unavailable in the historical database for this season. 
-              We are working on expanding our data coverage.
+              Individual player box scores (points, rebounds, assists per player) are currently
+              unavailable in the historical database for this season. We are working on expanding
+              our data coverage.
             </p>
           </div>
         </div>

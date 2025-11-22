@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
-import Link from 'next/link';
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import Layout from "../../components/Layout";
+import Link from "next/link";
 
 // Define types based on backend models
 interface Player {
@@ -42,7 +42,7 @@ export default function PlayerPage() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [stats, setStats] = useState<PlayerStats[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!player_id) return;
@@ -51,7 +51,7 @@ export default function PlayerPage() {
       try {
         // Fetch player details
         const playerRes = await fetch(`http://localhost:8001/players/${player_id}`);
-        if (!playerRes.ok) throw new Error('Failed to fetch player details');
+        if (!playerRes.ok) throw new Error("Failed to fetch player details");
         const playerData = await playerRes.json();
         setPlayer(playerData);
 
@@ -63,7 +63,7 @@ export default function PlayerPage() {
         }
       } catch (err) {
         console.error(err);
-        setError('Failed to load player data');
+        setError("Failed to load player data");
       } finally {
         setLoading(false);
       }
@@ -87,7 +87,7 @@ export default function PlayerPage() {
       <Layout>
         <div className="container mx-auto px-4 py-8 text-center">
           <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="mt-2">{error || 'Player not found'}</p>
+          <p className="mt-2">{error || "Player not found"}</p>
           <Link href="/players" className="text-blue-600 hover:underline mt-4 inline-block">
             Back to Players
           </Link>
@@ -109,7 +109,13 @@ export default function PlayerPage() {
               <div className="mt-2 flex flex-wrap gap-4 text-gray-600">
                 {player.team_name && (
                   <span className="flex items-center">
-                    Team: <Link href={`/teams/${player.team_id}`} className="text-blue-600 hover:underline ml-1">{player.team_name}</Link>
+                    Team:{" "}
+                    <Link
+                      href={`/teams/${player.team_id}`}
+                      className="text-blue-600 hover:underline ml-1"
+                    >
+                      {player.team_name}
+                    </Link>
                   </span>
                 )}
                 {player.position && <span>Position: {player.position}</span>}
@@ -118,7 +124,9 @@ export default function PlayerPage() {
               <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
                 {player.height && <span>Height: {player.height}</span>}
                 {player.weight && <span>Weight: {player.weight}lbs</span>}
-                {player.birthdate && <span>Born: {new Date(player.birthdate).toLocaleDateString()}</span>}
+                {player.birthdate && (
+                  <span>Born: {new Date(player.birthdate).toLocaleDateString()}</span>
+                )}
                 {player.school && <span>College: {player.school}</span>}
                 {player.country && <span>Country: {player.country}</span>}
               </div>
@@ -133,41 +141,91 @@ export default function PlayerPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Season</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GP</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GS</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MPG</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PTS</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TRB</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AST</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STL</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">BLK</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FG%</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">3P%</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FT%</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Season
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Team
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  GP
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  GS
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  MPG
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  PTS
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  TRB
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  AST
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  STL
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  BLK
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  FG%
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  3P%
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  FT%
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {stats.map((stat, index) => (
                 <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stat.season_id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {stat.season_id}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <Link href={`/teams/${stat.team_id}`} className="text-blue-600 hover:underline">
                       {stat.team_id}
                     </Link>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.games_played}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.games_started}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.minutes_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{stat.pts_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.trb_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.ast_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.stl_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.blk_per_game}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.fg_percent}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.x3p_percent}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stat.ft_percent}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.games_played}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.games_started}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.minutes_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                    {stat.pts_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.trb_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.ast_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.stl_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.blk_per_game}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.fg_percent}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.x3p_percent}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {stat.ft_percent}
+                  </td>
                 </tr>
               ))}
             </tbody>

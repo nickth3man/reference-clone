@@ -1,8 +1,9 @@
 from typing import List, Optional
 
 import numpy as np
-from database import execute_query_df
 from fastapi import APIRouter, HTTPException
+
+from database import execute_query_df
 from models import Player
 
 router = APIRouter()

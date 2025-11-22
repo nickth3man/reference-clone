@@ -4,9 +4,9 @@ from database import execute_query_df
 def check_games():
     try:
         # Check total count vs unique game_ids
-        count = execute_query_df(
-            "SELECT COUNT(*) as total FROM game", read_only=True
-        ).iloc[0]["total"]
+        count = execute_query_df("SELECT COUNT(*) as total FROM game", read_only=True).iloc[0][
+            "total"
+        ]
         unique = execute_query_df(
             "SELECT COUNT(DISTINCT game_id) as unique_ids FROM game", read_only=True
         ).iloc[0]["unique_ids"]

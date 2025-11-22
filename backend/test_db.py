@@ -1,5 +1,6 @@
 # pylint: disable=duplicate-code
 import duckdb
+
 from database import DB_PATH
 
 

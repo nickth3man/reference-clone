@@ -17,23 +17,18 @@ const Hero = () => {
     <div className="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl mb-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <svg
-          className="h-full w-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
+        <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
         </svg>
       </div>
 
       <div className="relative z-10 px-6 py-16 sm:px-12 sm:py-24 lg:py-32 text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
-          The Ultimate <span className="text-orange-500">Basketball</span>{" "}
-          Database
+          The Ultimate <span className="text-orange-500">Basketball</span> Database
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300 mb-10">
-          Explore comprehensive stats, team histories, and player records. Dive
-          deep into the game you love.
+          Explore comprehensive stats, team histories, and player records. Dive deep into the game
+          you love.
         </p>
 
         <div className="max-w-xl mx-auto">
@@ -46,9 +41,7 @@ const Hero = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {/* <Search className="absolute left-4 top-4.5 h-6 w-6 text-slate-400 group-focus-within:text-orange-500 transition-colors" /> */}
-            <span className="absolute left-4 top-4.5 text-slate-400 text-xl">
-              🔍
-            </span>
+            <span className="absolute left-4 top-4.5 text-slate-400 text-xl">🔍</span>
             <button
               type="submit"
               className="absolute right-2 top-2 bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-full transition-colors"

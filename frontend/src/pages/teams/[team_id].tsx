@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface Team {
@@ -37,20 +37,20 @@ export default function TeamPage() {
       try {
         const [teamRes, rosterRes] = await Promise.all([
           fetch(`http://localhost:8001/teams/${team_id}`),
-          fetch(`http://localhost:8001/teams/${team_id}/players`)
+          fetch(`http://localhost:8001/teams/${team_id}/players`),
         ]);
 
         if (teamRes.ok) {
           const teamData = await teamRes.json();
           setTeam(teamData);
         }
-        
+
         if (rosterRes.ok) {
           const rosterData = await rosterRes.json();
           setRoster(rosterData);
         }
       } catch (error) {
-        console.error('Failed to fetch team data:', error);
+        console.error("Failed to fetch team data:", error);
       } finally {
         setLoading(false);
       }
@@ -71,8 +71,8 @@ export default function TeamPage() {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold text-slate-700">Team not found</h2>
-        <button 
-          onClick={() => router.push('/teams')}
+        <button
+          onClick={() => router.push("/teams")}
           className="mt-4 text-orange-600 hover:text-orange-700 font-medium"
         >
           &larr; Back to Teams
@@ -94,11 +94,15 @@ export default function TeamPage() {
               {team.abbreviation}
             </div>
             <div className="text-center sm:text-left flex-1">
-              <h1 className="text-4xl font-bold text-slate-900">{team.city} {team.nickname}</h1>
+              <h1 className="text-4xl font-bold text-slate-900">
+                {team.city} {team.nickname}
+              </h1>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-2 text-slate-500">
                 <div className="flex items-center gap-1">
                   {/* <MapPin className="h-4 w-4" /> */}
-                  <span>{team.city}, {team.state}</span>
+                  <span>
+                    {team.city}, {team.state}
+                  </span>
                 </div>
                 <div className="flex items-center gap-1">
                   {/* <Calendar className="h-4 w-4" /> */}
@@ -119,7 +123,7 @@ export default function TeamPage() {
           </h2>
           <span className="text-sm text-slate-500">{roster.length} Players</span>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
@@ -134,13 +138,15 @@ export default function TeamPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {roster.map((player) => (
-                <tr 
-                  key={player.person_id} 
+                <tr
+                  key={player.person_id}
                   onClick={() => router.push(`/players/${player.person_id}`)}
                   className="hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <td className="px-6 py-4 font-medium text-slate-900">{player.display_first_last}</td>
-                  <td className="px-6 py-4 text-slate-500 font-mono">{player.jersey || '-'}</td>
+                  <td className="px-6 py-4 font-medium text-slate-900">
+                    {player.display_first_last}
+                  </td>
+                  <td className="px-6 py-4 text-slate-500 font-mono">{player.jersey || "-"}</td>
                   <td className="px-6 py-4 text-slate-500">{player.position}</td>
                   <td className="px-6 py-4 text-slate-500">{player.height}</td>
                   <td className="px-6 py-4 text-slate-500">{player.weight} lbs</td>
