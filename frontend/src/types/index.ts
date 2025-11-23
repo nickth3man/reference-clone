@@ -1,4 +1,4 @@
-import { BoxScore } from './boxscore';
+import { BoxScore } from "./boxscore";
 
 export interface Team {
   team_id: string;
@@ -206,5 +206,5 @@ export interface Game {
   winner_team_id?: string;
 }
 
-export * from './season';
-export * from './boxscore';
+export * from "./season";
+export * from "./boxscore";

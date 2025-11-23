@@ -1,11 +1,14 @@
-import sys
 import os
+import sys
+
 print(f"CWD: {os.getcwd()}")
 print(f"Path: {sys.path}")
 try:
-    import app
+    import app  # noqa: F401
+
     print("Imported app successfully")
-    from app import database
+    from app import database  # noqa: F401
+
     print("Imported app.database successfully")
 except ImportError as e:
     print(f"Import failed: {e}")

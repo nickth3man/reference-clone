@@ -115,9 +115,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             className={combinedClassName}
             aria-invalid={error}
-            aria-describedby={
-              error ? errorId : helperText ? helperId : undefined
-            }
+            aria-describedby={error ? errorId : helperText ? helperId : undefined}
             {...props}
           />
 
@@ -129,11 +127,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {error && errorMessage && (
-          <p
-            id={errorId}
-            className="mt-1.5 text-body-sm text-status-error"
-            role="alert"
-          >
+          <p id={errorId} className="mt-1.5 text-body-sm text-status-error" role="alert">
             {errorMessage}
           </p>
         )}

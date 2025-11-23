@@ -234,7 +234,7 @@ class PlayerGameLog(BoxScore):
     opponent_team_id: str | None = None
     is_home: bool | None = None
     is_win: bool | None = None
-    game_result: str | None = None # e.g. "W (+10)"
+    game_result: str | None = None  # e.g. "W (+10)"
 
 
 class TeamGameStats(BaseModel):

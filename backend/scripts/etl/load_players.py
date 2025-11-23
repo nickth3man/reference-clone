@@ -1,7 +1,7 @@
 import os
-from typing import Any
 from contextlib import suppress
 from datetime import datetime
+from typing import Any
 
 import duckdb
 

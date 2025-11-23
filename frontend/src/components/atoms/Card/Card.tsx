@@ -83,9 +83,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       xl: "rounded-3xl",
     };
 
-    const hoverStyles = hover
-      ? "hover:shadow-card-md hover:border-brand-light"
-      : "";
+    const hoverStyles = hover ? "hover:shadow-card-md hover:border-brand-light" : "";
 
     const interactiveStyles =
       interactive || onClick

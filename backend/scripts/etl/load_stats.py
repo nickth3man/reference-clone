@@ -62,7 +62,7 @@ def load_stats():
         player_map[name].append(pid)
 
     print(f"Mapped {len(player_map)} unique player names.")
-    
+
     # 3. Load Basic Season Stats (Existing Logic)
     print("Extracting basic stats data...")
 
@@ -129,7 +129,7 @@ def load_stats():
 
     # Clear existing data to avoid duplicates during reload
     con.execute("DELETE FROM player_season_stats")
-    con.execute("DELETE FROM player_advanced_stats") # Clear advanced stats too
+    # player_advanced_stats deletion moved to try/except block below to prevent data loss on error
 
     for row in all_stats:
         (
@@ -258,15 +258,15 @@ def load_stats():
         processed += len(batch_data)
 
     print(f"Basic Stats load completed. Processed {processed} rows.")
-    
+
     # 4. Load Advanced Stats
     print("Extracting advanced stats data...")
-    
+
     # We'll use player_stats_advanced table from DuckDB which typically matches basketball-reference advanced table
     # Columns in DuckDB player_stats_advanced:
     # player_id, season, tm, player, age, g, mp, per, ts_percent, x3p_ar, ftr, orb_percent, drb_percent, trb_percent,
     # ast_percent, stl_percent, blk_percent, tov_percent, usg_percent, ows, dws, ws, ws_48, obpm, dbpm, bpm, vorp
-    
+
     # Corrected ftr column name based on schema (f_tr)
     adv_query = """
         SELECT
@@ -295,12 +295,15 @@ def load_stats():
             vorp
         FROM player_stats_advanced
     """
-    
+
     try:
         print("Executing advanced stats query...")
         all_adv_stats = con.execute(adv_query).fetchall()
         print(f"Extracted {len(all_adv_stats)} advanced stats rows.")
-        
+
+        # Clear existing data now that we have successfully extracted new data
+        con.execute("DELETE FROM player_advanced_stats")
+
         insert_adv_sql = """
             INSERT INTO player_advanced_stats (
                 player_id, season_id, team_id, season_type,
@@ -311,10 +314,10 @@ def load_stats():
                 offensive_box_plus_minus, defensive_box_plus_minus, box_plus_minus, value_over_replacement
             ) VALUES (?, ?, ?, 'Regular', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
-        
+
         adv_batch_data: list[Any] = []
         adv_processed = 0
-        
+
         for row in all_adv_stats:
             (
                 pname,
@@ -339,33 +342,39 @@ def load_stats():
                 obpm,
                 dbpm,
                 bpm,
-                vorp
+                vorp,
             ) = row
-            
-            if not pname: continue
-            
+
+            if not pname:
+                continue
+
             pname_clean = pname.replace("*", "")
             candidates = player_map.get(pname_clean)
-            if not candidates: continue
-            pid = candidates[0] # Use first match for now
-            
+            if not candidates:
+                continue
+            pid = candidates[0]  # Use first match for now
+
             season_id = str(season)
             team_id = team_map.get(abbr)
-            if not team_id: continue
+            if not team_id:
+                continue
 
             # Handle potential -100000.0 values for DECIMAL(5,2) columns (percentages)
             # PER, USG%, AST%, etc. fit in (5,2) which is -999.99 to 999.99
             # Outliers or errors like -100000.0 cause overflow
             # Clean data before inserting
-            
+
             def clean_decimal(val, max_val=999.99, min_val=-999.99):
-                if val is None: return None
+                if val is None:
+                    return None
                 try:
                     f_val = float(val)
-                    if f_val > max_val: return max_val
-                    if f_val < min_val: return min_val
+                    if f_val > max_val:
+                        return max_val
+                    if f_val < min_val:
+                        return min_val
                     return f_val
-                except:
+                except Exception:
                     return None
 
             per = clean_decimal(per)
@@ -377,43 +386,62 @@ def load_stats():
             blk_pct = clean_decimal(blk_pct)
             tov_pct = clean_decimal(tov_pct)
             usg_pct = clean_decimal(usg_pct)
-            
+
             # DECIMAL(5,3) fields: max 99.999
             ts_pct = clean_decimal(ts_pct, 99.999, -99.999)
             x3p_ar = clean_decimal(x3p_ar, 99.999, -99.999)
             ftr = clean_decimal(ftr, 99.999, -99.999)
             ws48 = clean_decimal(ws48, 99.999, -99.999)
-            
+
             # DECIMAL(6,2) fields: max 9999.99
             ows = clean_decimal(ows, 9999.99, -9999.99)
             dws = clean_decimal(dws, 9999.99, -9999.99)
             ws = clean_decimal(ws, 9999.99, -9999.99)
             vorp = clean_decimal(vorp, 9999.99, -9999.99)
-            
+
             # BPM is DECIMAL(5,2)
             obpm = clean_decimal(obpm)
             dbpm = clean_decimal(dbpm)
             bpm = clean_decimal(bpm)
-            
-            adv_batch_data.append((
-                pid, season_id, team_id,
-                per, ts_pct, x3p_ar, ftr,
-                orb_pct, drb_pct, trb_pct,
-                ast_pct, stl_pct, blk_pct, tov_pct, usg_pct,
-                ows, dws, ws, ws48,
-                obpm, dbpm, bpm, vorp
-            ))
-            
+
+            adv_batch_data.append(
+                (
+                    pid,
+                    season_id,
+                    team_id,
+                    per,
+                    ts_pct,
+                    x3p_ar,
+                    ftr,
+                    orb_pct,
+                    drb_pct,
+                    trb_pct,
+                    ast_pct,
+                    stl_pct,
+                    blk_pct,
+                    tov_pct,
+                    usg_pct,
+                    ows,
+                    dws,
+                    ws,
+                    ws48,
+                    obpm,
+                    dbpm,
+                    bpm,
+                    vorp,
+                )
+            )
+
             if len(adv_batch_data) >= batch_size:
                 con.executemany(insert_adv_sql, adv_batch_data)
                 adv_processed += len(adv_batch_data)
                 adv_batch_data = []
                 print(f"Loaded {adv_processed} advanced stats rows...")
-                
+
         if adv_batch_data:
             con.executemany(insert_adv_sql, adv_batch_data)
             adv_processed += len(adv_batch_data)
-            
+
         print(f"Advanced Stats load completed. Processed {adv_processed} rows.")
 
     except Exception as e:

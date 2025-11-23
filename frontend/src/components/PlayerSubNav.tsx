@@ -1,17 +1,17 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 interface PlayerSubNavProps {
   playerId: string;
-  activeTab: 'overview' | 'gamelog' | 'splits' | 'advanced';
+  activeTab: "overview" | "gamelog" | "splits" | "advanced";
 }
 
 export const PlayerSubNav = ({ playerId, activeTab }: PlayerSubNavProps) => {
   const tabs = [
-    { id: 'overview', label: 'Overview', href: `/players/${playerId}` },
-    { id: 'gamelog', label: 'Game Log', href: `/players/${playerId}/gamelog` },
-    { id: 'splits', label: 'Splits', href: `/players/${playerId}/splits` },
+    { id: "overview", label: "Overview", href: `/players/${playerId}` },
+    { id: "gamelog", label: "Game Log", href: `/players/${playerId}/gamelog` },
+    { id: "splits", label: "Splits", href: `/players/${playerId}/splits` },
     // Advanced can be a separate page or anchor, let's make it a page for now to follow structure
-    { id: 'advanced', label: 'Advanced', href: `/players/${playerId}/advanced` },
+    { id: "advanced", label: "Advanced", href: `/players/${playerId}/advanced` },
   ];
 
   return (
@@ -23,9 +23,11 @@ export const PlayerSubNav = ({ playerId, activeTab }: PlayerSubNavProps) => {
             href={tab.href}
             className={`
               whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm
-              ${activeTab === tab.id
-                ? 'border-indigo-500 text-indigo-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}
+              ${
+                activeTab === tab.id
+                  ? "border-indigo-500 text-indigo-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }
             `}
           >
             {tab.label}
@@ -35,4 +37,3 @@ export const PlayerSubNav = ({ playerId, activeTab }: PlayerSubNavProps) => {
     </div>
   );
 };
-

@@ -83,12 +83,10 @@ def get_player_stats(player_id: str) -> list[dict[str, Any]]:
 
 
 @router.get("/players/{player_id}/gamelog", response_model=list[PlayerGameLog])
-def get_player_gamelog(
-    player_id: str, season_id: str | None = None
-) -> list[dict[str, Any]]:
+def get_player_gamelog(player_id: str, season_id: str | None = None) -> list[dict[str, Any]]:
     params = [player_id]
     query = """
-        SELECT 
+        SELECT
             b.*,
             g.game_date,
             CASE WHEN b.team_id = g.home_team_id THEN g.away_team_id ELSE g.home_team_id END as opponent_team_id,
@@ -116,9 +114,7 @@ def get_player_gamelog(
 
 
 @router.get("/players/{player_id}/splits", response_model=list[PlayerSplits])
-def get_player_splits(
-    player_id: str, season_id: str | None = None
-) -> list[dict[str, Any]]:
+def get_player_splits(player_id: str, season_id: str | None = None) -> list[dict[str, Any]]:
     params = [player_id]
     query = """
         SELECT *
@@ -143,9 +139,7 @@ def get_player_splits(
 
 
 @router.get("/players/{player_id}/advanced", response_model=list[PlayerAdvancedStats])
-def get_player_advanced_stats(
-    player_id: str, season_id: str | None = None
-) -> list[dict[str, Any]]:
+def get_player_advanced_stats(player_id: str, season_id: str | None = None) -> list[dict[str, Any]]:
     params = [player_id]
     query = """
         SELECT *

@@ -38,11 +38,7 @@ export interface TeamCardProps {
  * />
  * ```
  */
-export const TeamCard: React.FC<TeamCardProps> = ({
-  team,
-  detailed = false,
-  className = "",
-}) => {
+export const TeamCard: React.FC<TeamCardProps> = ({ team, detailed = false, className = "" }) => {
   return (
     <Link href={`/teams/${team.team_id}`} className={`group block ${className}`}>
       <Card variant="bordered" padding="md" hover rounded="xl">

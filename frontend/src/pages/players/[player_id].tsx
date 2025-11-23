@@ -70,7 +70,7 @@ export default function PlayerPage() {
   return (
     <Layout>
       <PlayerHeader player={player} />
-      
+
       <div className="container mx-auto px-4 py-8">
         <PlayerSubNav playerId={player.player_id} activeTab="overview" />
 

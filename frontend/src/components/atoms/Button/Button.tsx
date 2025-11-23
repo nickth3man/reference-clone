@@ -82,12 +82,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${className}`;
 
     return (
-      <button
-        ref={ref}
-        className={combinedClassName}
-        disabled={disabled || isLoading}
-        {...props}
-      >
+      <button ref={ref} className={combinedClassName} disabled={disabled || isLoading} {...props}>
         {isLoading ? (
           <>
             <svg

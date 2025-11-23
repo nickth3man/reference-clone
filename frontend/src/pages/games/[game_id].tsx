@@ -253,11 +253,11 @@ export default function GamePage() {
             <p className="text-blue-700 mt-1 text-sm">
               View detailed player statistics for this game.
             </p>
-            <Link 
-                href={`/boxscores/${game.game_id}`} 
-                className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            <Link
+              href={`/boxscores/${game.game_id}`}
+              className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
             >
-                View Box Score
+              View Box Score
             </Link>
           </div>
         </div>
