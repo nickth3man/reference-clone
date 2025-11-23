@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Core Operational Directive: The Baby Steps Methodology
 
 **Preamble:** You are to operate under a single, overriding principle: the **Baby Steps

@@ -16,7 +16,7 @@ def get_games(
     limit: int = 50,
     offset: int = 0,
 ) -> list[dict[str, Any]]:
-    query = "SELECT * FROM game"
+    query = "SELECT * FROM games"
     conditions: list[str] = []
     params: list[Any] = []
 
@@ -25,7 +25,7 @@ def get_games(
         params.append(date)
 
     if team_id:
-        conditions.append("(team_id_home = ? OR team_id_away = ?)")
+        conditions.append("(home_team_id = ? OR away_team_id = ?)")
         params.extend([team_id, team_id])
 
     if conditions:
@@ -44,7 +44,7 @@ def get_games(
 
 @router.get("/games/{game_id}", response_model=Game)
 def get_game(game_id: str) -> dict[str, Any]:
-    query = "SELECT * FROM game WHERE game_id = ?"
+    query = "SELECT * FROM games WHERE game_id = ?"
     try:
         df = execute_query_df(query, [game_id])
         if df.empty:
@@ -60,7 +60,7 @@ def get_game(game_id: str) -> dict[str, Any]:
 
 @router.get("/games/{game_id}/stats", response_model=GameStats | None)
 def get_game_stats(game_id: str) -> dict[str, Any] | None:
-    query = "SELECT * FROM other_stats WHERE game_id = ?"
+    query = "SELECT * FROM team_game_stats WHERE game_id = ?"
     try:
         df = execute_query_df(query, [game_id])
         if df.empty:
