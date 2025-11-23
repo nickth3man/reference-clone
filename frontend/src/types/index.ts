@@ -206,5 +206,51 @@ export interface Game {
   winner_team_id?: string;
 }
 
+export interface Franchise {
+  franchise_id: string;
+  current_team_id?: string;
+  original_name?: string;
+  founded_year?: number;
+  total_championships?: number;
+  total_seasons?: number;
+  total_wins?: number;
+  total_losses?: number;
+}
+
+export interface DraftPick {
+  pick_id: number;
+  draft_year?: number;
+  round?: number;
+  pick_number?: number;
+  overall_pick?: number;
+  player_id?: string;
+  team_id?: string;
+  player_name?: string;
+  college?: string;
+  nationality?: string;
+  career_games?: number;
+  career_points?: number;
+  career_win_shares?: number;
+  career_vorp?: number;
+}
+
+export interface Contract {
+  contract_id: number;
+  player_id?: string;
+  team_id?: string;
+  contract_type?: string;
+  signing_date?: string;
+  total_value?: number;
+  years?: number;
+  year_1_salary?: number;
+  year_2_salary?: number;
+  year_3_salary?: number;
+  year_4_salary?: number;
+  year_5_salary?: number;
+  year_6_salary?: number;
+  guaranteed_money?: number;
+  is_active?: boolean;
+}
+
 export * from "./season";
 export * from "./boxscore";

@@ -87,6 +87,27 @@ const Navbar = () => {
               >
                 Seasons
               </Link>
+              <Link
+                href="/franchises"
+                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-current={isActiveRoute("/franchises") ? "page" : undefined}
+              >
+                Franchises
+              </Link>
+              <Link
+                href="/draft"
+                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-current={isActiveRoute("/draft") ? "page" : undefined}
+              >
+                Draft
+              </Link>
+              <Link
+                href="/contracts"
+                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-current={isActiveRoute("/contracts") ? "page" : undefined}
+              >
+                Contracts
+              </Link>
             </div>
           </div>
 
@@ -157,6 +178,27 @@ const Navbar = () => {
               aria-current={isActiveRoute("/leagues") ? "page" : undefined}
             >
               Seasons
+            </Link>
+            <Link
+              href="/franchises"
+              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
+              aria-current={isActiveRoute("/franchises") ? "page" : undefined}
+            >
+              Franchises
+            </Link>
+            <Link
+              href="/draft"
+              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
+              aria-current={isActiveRoute("/draft") ? "page" : undefined}
+            >
+              Draft
+            </Link>
+            <Link
+              href="/contracts"
+              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
+              aria-current={isActiveRoute("/contracts") ? "page" : undefined}
+            >
+              Contracts
             </Link>
           </div>
           <form onSubmit={handleSearch} className="mt-4 relative" role="search">

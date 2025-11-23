@@ -4,7 +4,7 @@ from typing import Any, cast
 import duckdb
 import pandas as pd
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "../../data/nba.duckdb")
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "nba.duckdb")
 
 
 def get_db_connection(read_only: bool = False) -> Any:

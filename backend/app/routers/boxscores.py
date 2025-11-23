@@ -24,7 +24,7 @@ def get_box_score(game_id: str) -> list[dict[str, Any]]:
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

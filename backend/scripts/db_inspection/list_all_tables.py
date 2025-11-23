@@ -1,10 +1,11 @@
-import sys
 import os
+import sys
 
 # Add backend to path to import app
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 from app.database import execute_query
+
 
 def list_tables():
     print("Listing all tables in DB...")

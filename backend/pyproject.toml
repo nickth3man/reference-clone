@@ -16,6 +16,8 @@ dependencies = [
   "python-json-logger",
   "redis",
   "strawberry-graphql[fastapi]",
+  "nba-api>=1.11.3",
+  "basketball-reference-web-scraper>=4.15.4",
 ]
 
 [dependency-groups]
@@ -26,6 +28,7 @@ dev = [
   "types-python-dateutil",
   "pandas-stubs",
   "make>=0.1.6.post2",
+  "httpx>=0.28.1",
 ]
 
 [tool.ruff]
@@ -97,6 +100,22 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 plugins = ["pydantic.mypy"]
+exclude = ["scripts/research", "scripts/db_inspection"]
+follow_imports = "silent"
+
+[[tool.mypy.overrides]]
+module = [
+    "slowapi.*",
+    "pythonjsonlogger.*",
+    "nba_api.*",
+    "redis.*"
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "transformers.*"
+follow_imports = "skip"
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"

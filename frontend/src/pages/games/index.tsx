@@ -1,95 +1,124 @@
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
-import { fetchAPI } from "../../lib/api";
+import { fetchAPI } from "@/lib/api";
 import { Game } from "../../types";
 
 interface GamesIndexProps {
   games: Game[];
+  date: string;
 }
 
-export const getServerSideProps: GetServerSideProps<GamesIndexProps> = async () => {
+export const getServerSideProps: GetServerSideProps<GamesIndexProps> = async (context) => {
+  // Default to today if no date provided (in a real app), 
+  // or a specific date where we know there is data for demo purposes (e.g., start of 2023 season).
+  // For now, let's just default to empty if no date, or use the query param.
+  const date = (context.query.date as string) || ""; 
+  
+  let endpoint = "/games?limit=50";
+  if (date) {
+    endpoint += `&date=${date}`;
+  }
+
   try {
-    const games = await fetchAPI<Game[]>("/games?limit=50").catch(() => []);
+    const games = await fetchAPI<Game[]>(endpoint).catch(() => []);
     return {
-      props: { games },
+      props: { games, date },
     };
   } catch (err) {
     console.error("Error fetching games:", err);
-    return { props: { games: [] } };
+    return { props: { games: [], date } };
   }
 };
 
-export default function GamesIndex({ games }: GamesIndexProps) {
+export default function GamesIndex({ games, date }: GamesIndexProps) {
+  const router = useRouter();
+  const [selectedDate, setSelectedDate] = useState(date);
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value;
+    setSelectedDate(newDate);
+    router.push(`/games?date=${newDate}`);
+  };
+
   return (
     <Layout>
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-900">Recent Games</h1>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">NBA Games</h1>
+          <p className="text-slate-500 mt-1">Scores & Schedule</p>
+        </div>
 
-        <div className="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead className="bg-gray-50">
+        <div className="flex items-center gap-2">
+          <label htmlFor="game-date" className="text-sm font-medium text-slate-700">
+            Select Date:
+          </label>
+          <input
+            type="date"
+            id="game-date"
+            className="bg-white border border-slate-200 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            value={selectedDate}
+            onChange={handleDateChange}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
               <tr>
-                <th
-                  scope="col"
-                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                >
-                  Date
-                </th>
-                <th
-                  scope="col"
-                  className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                >
-                  Matchup
-                </th>
-                <th
-                  scope="col"
-                  className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                >
-                  Score
-                </th>
-                <th
-                  scope="col"
-                  className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                >
-                  Stats
-                </th>
+                <th className="px-6 py-3">Date</th>
+                <th className="px-6 py-3">Away Team</th>
+                <th className="px-6 py-3">Home Team</th>
+                <th className="px-6 py-3 text-center">Score</th>
+                <th className="px-6 py-3 text-right">Links</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-slate-100">
               {games.map((game) => (
-                <tr key={game.game_id} className="hover:bg-gray-50">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                    {game.game_date}
+                <tr key={game.game_id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-4 text-slate-600">
+                    {game.game_date ? new Date(game.game_date).toLocaleDateString() : "-"}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <Link href={`/teams/${game.away_team_id}`} className="hover:underline">
+                  <td className="px-6 py-4 font-medium text-slate-900">
+                    <Link href={`/teams/${game.away_team_id}`} className="hover:text-orange-600">
                       {game.away_team_id}
-                    </Link>{" "}
-                    @{" "}
-                    <Link href={`/teams/${game.home_team_id}`} className="hover:underline">
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 font-medium text-slate-900">
+                    <Link href={`/teams/${game.home_team_id}`} className="hover:text-orange-600">
                       {game.home_team_id}
                     </Link>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-center font-mono text-slate-700">
                     {game.away_team_score} - {game.home_team_score}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-blue-600">
+                  <td className="px-6 py-4 text-right space-x-4">
                     <Link
                       href={`/boxscores/${game.game_id}`}
-                      className="hover:underline hover:text-blue-800 font-semibold mr-4"
+                      className="text-orange-600 hover:text-orange-700 font-medium"
                     >
                       Box Score
                     </Link>
                     <Link
                       href={`/games/${game.game_id}`}
-                      className="hover:underline hover:text-blue-800"
+                      className="text-slate-500 hover:text-slate-700"
                     >
                       Summary
                     </Link>
                   </td>
                 </tr>
               ))}
+              {games.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                    {date ? `No games found for ${new Date(date).toLocaleDateString()}` : "Select a date to view games"}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

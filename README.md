@@ -35,17 +35,19 @@ This project uses modern, industry-standard linting tools:
 
 **Backend:**
 ```bash
+cd backend
+
 # Lint
-ruff check backend/
+uv run ruff check .
 
 # Lint and fix
-ruff check backend/ --fix
+uv run ruff check . --fix
 
 # Format
-ruff format backend/
+uv run ruff format .
 
 # Check formatting (without modifying files)
-ruff format backend/ --check
+uv run ruff format . --check
 ```
 
 **Frontend:**
@@ -69,10 +71,10 @@ npm run format:check
 
 | Task | Backend Command | Frontend Command |
 |------|----------------|------------------|
-| Lint | `ruff check backend/` | `cd frontend && npm run lint` |
-| Lint + Fix | `ruff check backend/ --fix` | `cd frontend && npm run lint:fix` |
-| Format | `ruff format backend/` | `cd frontend && npm run format` |
-| Format Check | `ruff format backend/ --check` | `cd frontend && npm run format:check` |
+| Lint | `cd backend && uv run ruff check .` | `cd frontend && npm run lint` |
+| Lint + Fix | `cd backend && uv run ruff check . --fix` | `cd frontend && npm run lint:fix` |
+| Format | `cd backend && uv run ruff format .` | `cd frontend && npm run format` |
+| Format Check | `cd backend && uv run ruff format . --check` | `cd frontend && npm run format:check` |
 
 ### Pre-commit Recommendations
 
@@ -93,8 +95,16 @@ npm run format
 
 ### Backend Setup
 
-1. Install Python dependencies (if using a virtual environment)
-2. Ruff is already installed globally
+1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+2. Sync dependencies:
+   ```bash
+   cd backend
+   uv sync
+   ```
+3. Run the server:
+   ```bash
+   uv run uvicorn app.main:app --reload
+   ```
 
 ### Frontend Setup
 

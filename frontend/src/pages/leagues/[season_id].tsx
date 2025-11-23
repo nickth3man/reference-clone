@@ -144,6 +144,7 @@ export default function LeaguePage({ season, standings }: LeaguePageProps) {
                         className="text-blue-600 hover:underline flex items-center"
                       >
                         {team.logo_url && (
+                          // eslint-disable-next-line @next/next/no-img-element
                           <img src={team.logo_url} alt="" className="h-5 w-5 mr-2 object-contain" />
                         )}
                         {team.full_name || team.team_id}

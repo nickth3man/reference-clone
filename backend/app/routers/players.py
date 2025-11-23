@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
@@ -17,28 +17,31 @@ router = APIRouter()
 
 @router.get("/players", response_model=list[Player])
 def get_players(
-    search: str | None = None, limit: int = 50, offset: int = 0
+    search: str | None = None, letter: str | None = None, limit: int = 50, offset: int = 0
 ) -> list[dict[str, Any]]:
-    params: list[Any]
+    params: list[Any] = []
+    query = "SELECT * FROM players"
+    conditions: list[str] = []
 
     if search:
-        query = """
-            SELECT *
-            FROM players
-            WHERE LOWER(full_name) LIKE ?
-            OR LOWER(last_name) LIKE ?
-            LIMIT ? OFFSET ?
-        """
+        conditions.append("(LOWER(full_name) LIKE ? OR LOWER(last_name) LIKE ?)")
         search_term = f"%{search.lower()}%"
-        params = [search_term, search_term, limit, offset]
-    else:
-        query = "SELECT * FROM players LIMIT ? OFFSET ?"
-        params = [limit, offset]
+        params.extend([search_term, search_term])
+
+    if letter:
+        conditions.append("last_name ILIKE ?")
+        params.append(f"{letter}%")
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    query += " LIMIT ? OFFSET ?"
+    params.extend([limit, offset])
 
     try:
         df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -53,8 +56,8 @@ def get_player(player_id: str) -> dict[str, Any]:
         if df.empty:
             raise HTTPException(status_code=404, detail="Player not found")
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")[0]  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
 
     except HTTPException:
         raise
@@ -76,8 +79,8 @@ def get_player_stats(player_id: str) -> list[dict[str, Any]]:
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -107,8 +110,8 @@ def get_player_gamelog(player_id: str, season_id: str | None = None) -> list[dic
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -132,8 +135,8 @@ def get_player_splits(player_id: str, season_id: str | None = None) -> list[dict
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -157,7 +160,7 @@ def get_player_advanced_stats(player_id: str, season_id: str | None = None) -> l
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

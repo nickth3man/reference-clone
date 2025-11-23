@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi.errors import RateLimitExceeded
@@ -7,7 +9,7 @@ from strawberry.fastapi import GraphQLRouter
 from app.graphql_schema import schema
 from app.logging_config import configure_logging, get_logger
 from app.rate_limit import limiter
-from app.routers import boxscores, games, players, seasons, teams
+from app.routers import boxscores, contracts, draft, franchises, games, players, seasons, teams
 
 # Configure structured logging
 configure_logging("INFO")
@@ -35,9 +37,13 @@ logger.info("Application started", extra={"app_name": "Basketball Reference Clon
 # CORS Setup
 origins = [
     "http://localhost:3000",
+    "http://localhost:3001",
     "http://localhost:3002",
+    "http://localhost:3003",
     "http://localhost:8000",
     "http://localhost:8001",
+    "http://localhost:8002",
+    "http://localhost:8003",
 ]
 
 app.add_middleware(
@@ -49,13 +55,16 @@ app.add_middleware(
 )
 
 app.include_router(teams.router, tags=["Teams"])
+app.include_router(franchises.router, tags=["Franchises"])
 app.include_router(players.router, tags=["Players"])
 app.include_router(games.router, tags=["Games"])
 app.include_router(seasons.router, tags=["Seasons"])
 app.include_router(boxscores.router, tags=["Box Scores"])
+app.include_router(draft.router, tags=["Draft"])
+app.include_router(contracts.router, tags=["Contracts"])
 
 # Add GraphQL endpoint
-graphql_app = GraphQLRouter(schema)
+graphql_app: GraphQLRouter[Any, Any] = GraphQLRouter(schema)
 app.include_router(graphql_app, prefix="/graphql")
 
 

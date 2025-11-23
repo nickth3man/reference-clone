@@ -14,8 +14,8 @@ def get_seasons() -> list[dict[str, Any]]:
     query = "SELECT * FROM seasons ORDER BY end_year DESC"
     try:
         df = execute_query_df(query)
-        df = df.replace({np.nan: None})  # type: ignore
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -28,8 +28,8 @@ def get_season(season_id: str) -> dict[str, Any]:
         if df.empty:
             raise HTTPException(status_code=404, detail="Season not found")
 
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return records[0]
     except HTTPException:
         raise
@@ -52,7 +52,7 @@ def get_season_standings(season_id: str) -> list[dict[str, Any]]:
         if df.empty:
             return []
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

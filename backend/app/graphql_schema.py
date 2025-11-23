@@ -59,8 +59,8 @@ class Query:
         logger.info("GraphQL: Fetching all teams")
         query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details"
         df = execute_query_df(query)
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return [Team(**row) for row in records]
 
     @strawberry.field
@@ -71,8 +71,8 @@ class Query:
         df = execute_query_df(query, [team_id])
         if df.empty:
             return None
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return Team(**records[0])
 
     @strawberry.field
@@ -86,8 +86,8 @@ class Query:
             LIMIT ? OFFSET ?
         """
         df = execute_query_df(query, [limit, offset])
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return [Player(**row) for row in records]
 
     @strawberry.field
@@ -103,8 +103,8 @@ class Query:
         df = execute_query_df(query, [player_id])
         if df.empty:
             return None
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return Player(**records[0])
 
     @strawberry.field
@@ -119,8 +119,8 @@ class Query:
             LIMIT ?
         """
         df = execute_query_df(query, [limit])
-        df = df.replace({np.nan: None})  # type: ignore
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
+        df = df.replace({np.nan: None})
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return [Game(**row) for row in records]
 
 

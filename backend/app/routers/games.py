@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
@@ -36,8 +36,8 @@ def get_games(
 
     try:
         df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
@@ -50,8 +50,8 @@ def get_game(game_id: str) -> dict[str, Any]:
         if df.empty:
             raise HTTPException(status_code=404, detail="Game not found")
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")[0]  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
     except HTTPException:
         raise
     except Exception as e:
@@ -66,7 +66,7 @@ def get_game_stats(game_id: str) -> dict[str, Any] | None:
         if df.empty:
             return None
 
-        df = df.replace({np.nan: None})  # type: ignore
-        return df.to_dict(orient="records")[0]  # type: ignore[return-value]
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
