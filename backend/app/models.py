@@ -108,6 +108,65 @@ class PlayerSeasonStats(BaseModel):
     assists_per_100_poss: float | None = None
 
 
+class PlayerAdvancedStats(BaseModel):
+    stat_id: int
+    player_id: str | None = None
+    season_id: str | None = None
+    team_id: str | None = None
+    season_type: str | None = None
+    player_efficiency_rating: float | None = None
+    true_shooting_pct: float | None = None
+    three_point_attempt_rate: float | None = None
+    free_throw_rate: float | None = None
+    offensive_rebound_pct: float | None = None
+    defensive_rebound_pct: float | None = None
+    total_rebound_pct: float | None = None
+    assist_pct: float | None = None
+    steal_pct: float | None = None
+    block_pct: float | None = None
+    turnover_pct: float | None = None
+    usage_pct: float | None = None
+    offensive_win_shares: float | None = None
+    defensive_win_shares: float | None = None
+    win_shares: float | None = None
+    win_shares_per_48: float | None = None
+    offensive_box_plus_minus: float | None = None
+    defensive_box_plus_minus: float | None = None
+    box_plus_minus: float | None = None
+    value_over_replacement: float | None = None
+    offensive_rating: float | None = None
+    defensive_rating: float | None = None
+    net_rating: float | None = None
+
+
+class PlayerSplits(BaseModel):
+    split_id: int
+    player_id: str
+    season_id: str
+    split_type: str
+    split_value: str
+    games: int | None = None
+    minutes: int | None = None
+    field_goals_made: int | None = None
+    field_goals_attempted: int | None = None
+    field_goal_pct: float | None = None
+    three_pointers_made: int | None = None
+    three_pointers_attempted: int | None = None
+    three_point_pct: float | None = None
+    free_throws_made: int | None = None
+    free_throws_attempted: int | None = None
+    free_throw_pct: float | None = None
+    rebounds: int | None = None
+    assists: int | None = None
+    steals: int | None = None
+    blocks: int | None = None
+    turnovers: int | None = None
+    points: int | None = None
+    points_per_game: float | None = None
+    true_shooting_pct: float | None = None
+    effective_fg_pct: float | None = None
+
+
 class Game(BaseModel):
     game_id: str
     season_id: str | None = None
@@ -168,6 +227,14 @@ class BoxScore(BaseModel):
     points: int | None = None
     plus_minus: int | None = None
     game_score: float | None = None
+
+
+class PlayerGameLog(BoxScore):
+    game_date: datetime | None = None
+    opponent_team_id: str | None = None
+    is_home: bool | None = None
+    is_win: bool | None = None
+    game_result: str | None = None # e.g. "W (+10)"
 
 
 class TeamGameStats(BaseModel):

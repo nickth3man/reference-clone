@@ -1,3 +1,5 @@
+import { BoxScore } from './boxscore';
+
 export interface Team {
   team_id: string;
   franchise_id?: string;
@@ -101,6 +103,73 @@ export interface PlayerSeasonStats {
   points_per_100_poss?: number;
   rebounds_per_100_poss?: number;
   assists_per_100_poss?: number;
+}
+
+export interface PlayerAdvancedStats {
+  stat_id: number;
+  player_id?: string;
+  season_id?: string;
+  team_id?: string;
+  season_type?: string;
+  player_efficiency_rating?: number;
+  true_shooting_pct?: number;
+  three_point_attempt_rate?: number;
+  free_throw_rate?: number;
+  offensive_rebound_pct?: number;
+  defensive_rebound_pct?: number;
+  total_rebound_pct?: number;
+  assist_pct?: number;
+  steal_pct?: number;
+  block_pct?: number;
+  turnover_pct?: number;
+  usage_pct?: number;
+  offensive_win_shares?: number;
+  defensive_win_shares?: number;
+  win_shares?: number;
+  win_shares_per_48?: number;
+  offensive_box_plus_minus?: number;
+  defensive_box_plus_minus?: number;
+  box_plus_minus?: number;
+  value_over_replacement?: number;
+  offensive_rating?: number;
+  defensive_rating?: number;
+  net_rating?: number;
+}
+
+export interface PlayerSplits {
+  split_id: number;
+  player_id: string;
+  season_id: string;
+  split_type: string;
+  split_value: string;
+  games?: number;
+  minutes?: number;
+  field_goals_made?: number;
+  field_goals_attempted?: number;
+  field_goal_pct?: number;
+  three_pointers_made?: number;
+  three_pointers_attempted?: number;
+  three_point_pct?: number;
+  free_throws_made?: number;
+  free_throws_attempted?: number;
+  free_throw_pct?: number;
+  rebounds?: number;
+  assists?: number;
+  steals?: number;
+  blocks?: number;
+  turnovers?: number;
+  points?: number;
+  points_per_game?: number;
+  true_shooting_pct?: number;
+  effective_fg_pct?: number;
+}
+
+export interface PlayerGameLog extends BoxScore {
+  game_date?: string;
+  opponent_team_id?: string;
+  is_home?: boolean;
+  is_win?: boolean;
+  game_result?: string;
 }
 
 export interface Game {

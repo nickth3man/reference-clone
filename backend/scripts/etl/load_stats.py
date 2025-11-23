@@ -9,11 +9,6 @@ BASE_DIR = os.path.dirname(
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 # Manual Mapping for Stats Abbreviations to Team IDs
-# We need to map abbreviations found in stats (e.g. BRK) to the abbreviations in our 'teams' table (e.g. BKN) -> then to ID
-# OR map directly to IDs if we know them.
-# Since we don't know IDs easily without querying, we will query the DB for the 'teams' table first.
-
-# Common Stats Abbr -> Standard/Teams Table Abbr
 ABBR_MAP = {
     "BRK": "BKN",
     "PHO": "PHX",
@@ -27,7 +22,6 @@ ABBR_MAP = {
     "WSB": "WAS",  # Washington Bullets
     "KCK": "SAC",  # Kansas City Kings
     "SDC": "LAC",  # San Diego Clippers
-    # Add more as discovered
 }
 
 
@@ -68,8 +62,9 @@ def load_stats():
         player_map[name].append(pid)
 
     print(f"Mapped {len(player_map)} unique player names.")
-    # 3. Load Stats
-    print("Extracting stats data...")
+    
+    # 3. Load Basic Season Stats (Existing Logic)
+    print("Extracting basic stats data...")
 
     query = """
         SELECT
@@ -77,7 +72,7 @@ def load_stats():
             t.season,
             t.tm,
             t.age,
-            t.g, t.gs, t.mp
+            t.g, t.gs, t.mp,
             pg.mp_per_game,
             t.fg, t.fga, t.fg_percent,
             t.x3p, t.x3pa, t.x3p_percent,
@@ -101,7 +96,7 @@ def load_stats():
 
     print("Executing extraction query...")
     all_stats = con.execute(query).fetchall()
-    print(f"Extracted {len(all_stats)} stats rows.")
+    print(f"Extracted {len(all_stats)} basic stats rows.")
 
     insert_sql = """
         INSERT INTO player_season_stats (
@@ -131,6 +126,10 @@ def load_stats():
 
     batch_data: list[Any] = []
     batch_size = 5000
+
+    # Clear existing data to avoid duplicates during reload
+    con.execute("DELETE FROM player_season_stats")
+    con.execute("DELETE FROM player_advanced_stats") # Clear advanced stats too
 
     for row in all_stats:
         (
@@ -179,13 +178,10 @@ def load_stats():
             ast100,
         ) = row
 
-        # Resolve Player ID
         if not pname:
             continue
 
-        # Basic name cleaning if needed (e.g. remove *)
         pname_clean = pname.replace("*", "")
-
         candidates = player_map.get(pname_clean)
         if not candidates:
             skipped_names += 1
@@ -198,12 +194,8 @@ def load_stats():
             pid = candidates[0]
 
         season_id = str(season)
-
-        # Map Team
         team_id = team_map.get(abbr)
         if not team_id:
-            # Check if it's an unknown historical team we missed
-            # For now, skip
             skipped_teams += 1
             continue
 
@@ -259,16 +251,174 @@ def load_stats():
             con.executemany(insert_sql, batch_data)
             processed += len(batch_data)
             batch_data = []
-            print(f"Loaded {processed} rows...")
+            print(f"Loaded {processed} basic stats rows...")
 
     if batch_data:
         con.executemany(insert_sql, batch_data)
         processed += len(batch_data)
 
-    print(f"Stats load completed. Processed {processed} rows.")
-    print(
-        f"Skipped Names: {skipped_names}, Ambiguous: {ambiguous_names}, Skipped Teams: {skipped_teams}"
-    )
+    print(f"Basic Stats load completed. Processed {processed} rows.")
+    
+    # 4. Load Advanced Stats
+    print("Extracting advanced stats data...")
+    
+    # We'll use player_stats_advanced table from DuckDB which typically matches basketball-reference advanced table
+    # Columns in DuckDB player_stats_advanced:
+    # player_id, season, tm, player, age, g, mp, per, ts_percent, x3p_ar, ftr, orb_percent, drb_percent, trb_percent,
+    # ast_percent, stl_percent, blk_percent, tov_percent, usg_percent, ows, dws, ws, ws_48, obpm, dbpm, bpm, vorp
+    
+    # Corrected ftr column name based on schema (f_tr)
+    adv_query = """
+        SELECT
+            player,
+            season,
+            tm,
+            per,
+            ts_percent,
+            x3p_ar,
+            f_tr,
+            orb_percent,
+            drb_percent,
+            trb_percent,
+            ast_percent,
+            stl_percent,
+            blk_percent,
+            tov_percent,
+            usg_percent,
+            ows,
+            dws,
+            ws,
+            ws_48,
+            obpm,
+            dbpm,
+            bpm,
+            vorp
+        FROM player_stats_advanced
+    """
+    
+    try:
+        print("Executing advanced stats query...")
+        all_adv_stats = con.execute(adv_query).fetchall()
+        print(f"Extracted {len(all_adv_stats)} advanced stats rows.")
+        
+        insert_adv_sql = """
+            INSERT INTO player_advanced_stats (
+                player_id, season_id, team_id, season_type,
+                player_efficiency_rating, true_shooting_pct, three_point_attempt_rate, free_throw_rate,
+                offensive_rebound_pct, defensive_rebound_pct, total_rebound_pct,
+                assist_pct, steal_pct, block_pct, turnover_pct, usage_pct,
+                offensive_win_shares, defensive_win_shares, win_shares, win_shares_per_48,
+                offensive_box_plus_minus, defensive_box_plus_minus, box_plus_minus, value_over_replacement
+            ) VALUES (?, ?, ?, 'Regular', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        
+        adv_batch_data: list[Any] = []
+        adv_processed = 0
+        
+        for row in all_adv_stats:
+            (
+                pname,
+                season,
+                abbr,
+                per,
+                ts_pct,
+                x3p_ar,
+                ftr,
+                orb_pct,
+                drb_pct,
+                trb_pct,
+                ast_pct,
+                stl_pct,
+                blk_pct,
+                tov_pct,
+                usg_pct,
+                ows,
+                dws,
+                ws,
+                ws48,
+                obpm,
+                dbpm,
+                bpm,
+                vorp
+            ) = row
+            
+            if not pname: continue
+            
+            pname_clean = pname.replace("*", "")
+            candidates = player_map.get(pname_clean)
+            if not candidates: continue
+            pid = candidates[0] # Use first match for now
+            
+            season_id = str(season)
+            team_id = team_map.get(abbr)
+            if not team_id: continue
+
+            # Handle potential -100000.0 values for DECIMAL(5,2) columns (percentages)
+            # PER, USG%, AST%, etc. fit in (5,2) which is -999.99 to 999.99
+            # Outliers or errors like -100000.0 cause overflow
+            # Clean data before inserting
+            
+            def clean_decimal(val, max_val=999.99, min_val=-999.99):
+                if val is None: return None
+                try:
+                    f_val = float(val)
+                    if f_val > max_val: return max_val
+                    if f_val < min_val: return min_val
+                    return f_val
+                except:
+                    return None
+
+            per = clean_decimal(per)
+            orb_pct = clean_decimal(orb_pct)
+            drb_pct = clean_decimal(drb_pct)
+            trb_pct = clean_decimal(trb_pct)
+            ast_pct = clean_decimal(ast_pct)
+            stl_pct = clean_decimal(stl_pct)
+            blk_pct = clean_decimal(blk_pct)
+            tov_pct = clean_decimal(tov_pct)
+            usg_pct = clean_decimal(usg_pct)
+            
+            # DECIMAL(5,3) fields: max 99.999
+            ts_pct = clean_decimal(ts_pct, 99.999, -99.999)
+            x3p_ar = clean_decimal(x3p_ar, 99.999, -99.999)
+            ftr = clean_decimal(ftr, 99.999, -99.999)
+            ws48 = clean_decimal(ws48, 99.999, -99.999)
+            
+            # DECIMAL(6,2) fields: max 9999.99
+            ows = clean_decimal(ows, 9999.99, -9999.99)
+            dws = clean_decimal(dws, 9999.99, -9999.99)
+            ws = clean_decimal(ws, 9999.99, -9999.99)
+            vorp = clean_decimal(vorp, 9999.99, -9999.99)
+            
+            # BPM is DECIMAL(5,2)
+            obpm = clean_decimal(obpm)
+            dbpm = clean_decimal(dbpm)
+            bpm = clean_decimal(bpm)
+            
+            adv_batch_data.append((
+                pid, season_id, team_id,
+                per, ts_pct, x3p_ar, ftr,
+                orb_pct, drb_pct, trb_pct,
+                ast_pct, stl_pct, blk_pct, tov_pct, usg_pct,
+                ows, dws, ws, ws48,
+                obpm, dbpm, bpm, vorp
+            ))
+            
+            if len(adv_batch_data) >= batch_size:
+                con.executemany(insert_adv_sql, adv_batch_data)
+                adv_processed += len(adv_batch_data)
+                adv_batch_data = []
+                print(f"Loaded {adv_processed} advanced stats rows...")
+                
+        if adv_batch_data:
+            con.executemany(insert_adv_sql, adv_batch_data)
+            adv_processed += len(adv_batch_data)
+            
+        print(f"Advanced Stats load completed. Processed {adv_processed} rows.")
+
+    except Exception as e:
+        print(f"Error loading advanced stats: {e}")
+        print("Skipping advanced stats load.")
 
     con.close()
 
