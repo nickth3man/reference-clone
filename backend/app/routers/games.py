@@ -25,8 +25,19 @@ def get_games(
         params.append(date)
 
     if team_id:
-        conditions.append("(home_team_id = ? OR away_team_id = ?)")
-        params.extend([team_id, team_id])
+        # Resolve abbreviation to ID if needed
+        team_lookup = execute_query_df(
+            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", 
+            [team_id, team_id]
+        )
+        
+        if not team_lookup.empty:
+            resolved_team_id = team_lookup.iloc[0]["team_id"]
+            conditions.append("(home_team_id = ? OR away_team_id = ?)")
+            params.extend([resolved_team_id, resolved_team_id])
+        else:
+            conditions.append("(home_team_id = ? OR away_team_id = ?)")
+            params.extend([team_id, team_id])
 
     if conditions:
         query += " WHERE " + " AND ".join(conditions)

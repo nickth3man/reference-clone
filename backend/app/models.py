@@ -167,6 +167,65 @@ class PlayerSplits(BaseModel):
     effective_fg_pct: float | None = None
 
 
+class PlayerShootingStats(BaseModel):
+    stat_id: int
+    player_id: str | None = None
+    season_id: str | None = None
+    team_id: str | None = None
+    fg_pct_at_rim: float | None = None
+    fga_at_rim: int | None = None
+    fg_pct_3_10: float | None = None
+    fga_3_10: int | None = None
+    fg_pct_10_16: float | None = None
+    fga_10_16: int | None = None
+    fg_pct_16_3pt: float | None = None
+    fga_16_3pt: int | None = None
+    fg_pct_3pt: float | None = None
+    fga_3pt: int | None = None
+    pct_fga_2pt: float | None = None
+    pct_fga_3pt: float | None = None
+    pct_fg_assisted_2pt: float | None = None
+    pct_fg_assisted_3pt: float | None = None
+    dunks: int | None = None
+    pct_fga_dunks: float | None = None
+    corner_3_pct: float | None = None
+    corner_3_attempts: int | None = None
+    heaves_attempted: int | None = None
+    heaves_made: int | None = None
+
+
+class PlayerPlayByPlayStats(BaseModel):
+    stat_id: int
+    player_id: str | None = None
+    season_id: str | None = None
+    team_id: str | None = None
+    pct_pg: float | None = None
+    pct_sg: float | None = None
+    pct_sf: float | None = None
+    pct_pf: float | None = None
+    pct_c: float | None = None
+    plus_minus_on: float | None = None
+    plus_minus_off: float | None = None
+    net_rating_on: float | None = None
+    net_rating_off: float | None = None
+    shooting_fouls_drawn: int | None = None
+    shooting_fouls_committed: int | None = None
+    and_one_attempts: int | None = None
+    blocked_field_goal_attempts: int | None = None
+
+
+class Award(BaseModel):
+    award_id: int
+    season_id: str | None = None
+    award_type: str | None = None
+    player_id: str | None = None
+    team_id: str | None = None
+    first_place_votes: int | None = None
+    total_points: int | None = None
+    vote_share: float | None = None
+    rank: int | None = None
+
+
 class Game(BaseModel):
     game_id: str
     season_id: str | None = None
@@ -314,3 +373,21 @@ class TeamRoster(BaseModel):
     team_id: str
     season_id: str
     players: list[Player]
+
+
+class Contract(BaseModel):
+    contract_id: int
+    player_id: str | None = None
+    team_id: str | None = None
+    contract_type: str | None = None
+    signing_date: datetime | None = None
+    total_value: float | None = None
+    years: int | None = None
+    year_1_salary: float | None = None
+    year_2_salary: float | None = None
+    year_3_salary: float | None = None
+    year_4_salary: float | None = None
+    year_5_salary: float | None = None
+    year_6_salary: float | None = None
+    guaranteed_money: float | None = None
+    is_active: bool | None = None

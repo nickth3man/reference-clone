@@ -1,23 +1,25 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
-import type { Team, Player, Game } from "../../types";
+import type { Team, Player, Game, TeamSeasonStats } from "../../types";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface TeamPageProps {
   team: Team | null;
   roster: Player[];
   games: Game[];
+  stats: TeamSeasonStats[];
 }
 
 export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (context) => {
   const { team_id } = context.params!;
 
   try {
-    const [team, roster, games] = await Promise.all([
+    const [team, roster, games, stats] = await Promise.all([
       fetchAPI<Team>(`/teams/${team_id}`).catch(() => null),
       fetchAPI<Player[]>(`/teams/${team_id}/roster`).catch(() => []),
       fetchAPI<Game[]>(`/games?team_id=${team_id}`).catch(() => []),
+      fetchAPI<TeamSeasonStats[]>(`/teams/${team_id}/stats`).catch(() => []),
     ]);
 
     return {
@@ -25,6 +27,7 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (cont
         team,
         roster,
         games,
+        stats,
       },
     };
   } catch (error) {
@@ -34,12 +37,13 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async (cont
         team: null,
         roster: [],
         games: [],
+        stats: [],
       },
     };
   }
 };
 
-export default function TeamPage({ team, roster, games }: TeamPageProps) {
+export default function TeamPage({ team, roster, games, stats }: TeamPageProps) {
   const router = useRouter();
 
   if (!team) {
@@ -55,6 +59,9 @@ export default function TeamPage({ team, roster, games }: TeamPageProps) {
       </div>
     );
   }
+
+  // Get latest season stats
+  const currentStats = stats.length > 0 ? stats[0] : null;
 
   return (
     <div className="space-y-8">
@@ -88,6 +95,53 @@ export default function TeamPage({ team, roster, games }: TeamPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Team Stats Summary */}
+      {currentStats && (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100">
+            <h2 className="text-xl font-bold text-slate-900">Team Stats ({currentStats.season_id})</h2>
+          </div>
+          <div className="p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Record</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.wins}-{currentStats.losses}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Win %</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.win_pct?.toFixed(3)}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">PPG</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.points_per_game}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Opp PPG</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.opponent_points_per_game}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">SRS</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.simple_rating_system}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Pace</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.pace}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Off Rtg</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.offensive_rating}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Def Rtg</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.defensive_rating}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Net Rtg</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.net_rating}</p>
+             </div>
+          </div>
+        </div>
+      )}
 
       {/* Roster */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
@@ -170,6 +224,18 @@ export default function TeamPage({ team, roster, games }: TeamPageProps) {
                 // We don't have opponent name here easily, so show ID for now or just At/Vs
                 const label = isHome ? "vs " + opponentId : "@ " + opponentId;
 
+                // Line Score Logic (simplified)
+                // Assuming line scores (q1-q4) are available in game object
+                const teamQ1 = isHome ? game.home_q1 : game.away_q1;
+                const teamQ2 = isHome ? game.home_q2 : game.away_q2;
+                const teamQ3 = isHome ? game.home_q3 : game.away_q3;
+                const teamQ4 = isHome ? game.home_q4 : game.away_q4;
+                
+                const oppQ1 = isHome ? game.away_q1 : game.home_q1;
+                const oppQ2 = isHome ? game.away_q2 : game.home_q2;
+                const oppQ3 = isHome ? game.away_q3 : game.home_q3;
+                const oppQ4 = isHome ? game.away_q4 : game.home_q4;
+
                 return (
                   <tr
                     key={game.game_id}
@@ -186,7 +252,15 @@ export default function TeamPage({ team, roster, games }: TeamPageProps) {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-slate-500">
-                      {game.home_team_score} - {game.away_team_score}
+                      <div className="flex flex-col">
+                        <span className="font-medium text-slate-900">{game.home_team_score} - {game.away_team_score}</span>
+                        {/* Line Score Display if available */}
+                        {(teamQ1 !== undefined && oppQ1 !== undefined) && (
+                           <span className="text-xs text-gray-400 mt-1">
+                             ({teamQ1}-{teamQ2}-{teamQ3}-{teamQ4}) vs ({oppQ1}-{oppQ2}-{oppQ3}-{oppQ4})
+                           </span>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );

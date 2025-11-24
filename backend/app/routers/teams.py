@@ -4,7 +4,7 @@ import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
-from app.models import Team
+from app.models import Team, TeamSeasonStats
 
 router = APIRouter()
 
@@ -47,6 +47,33 @@ def get_team(team_id: str) -> dict[str, Any]:
         return records[0]
     except HTTPException:
         raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
+
+
+@router.get("/teams/{team_id}/stats", response_model=list[TeamSeasonStats])
+def get_team_stats(team_id: str) -> list[dict[str, Any]]:
+    query = """
+        SELECT * 
+        FROM team_season_stats 
+        WHERE team_id = ?
+        ORDER BY season_id DESC
+    """
+    try:
+        # First resolve team_id if it's an abbreviation
+        team_df = execute_query_df(
+            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+        )
+        resolved_team_id = (
+            team_df.iloc[0]["team_id"] if not team_df.empty else team_id
+        )
+
+        df = execute_query_df(query, [resolved_team_id])
+        if df.empty:
+            return []
+            
+        df = df.replace({np.nan: None})
+        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
 
