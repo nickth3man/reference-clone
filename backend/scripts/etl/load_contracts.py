@@ -1,7 +1,3 @@
-from typing import Any, cast
-
-import pandas as pd
-
 from app.database import execute_query, execute_query_df
 
 
@@ -50,15 +46,37 @@ def load_sample_contracts() -> None:
     # Sample Data (Trae Young, etc.)
     contracts_data = [
         (
-            "youngtr01", "ATL", "Extension", "2021-08-06", 215159700, 5,
-            37096500, 40064220, 43031940, 45999660, 48967380, None,
-            215159700, True
+            "youngtr01",
+            "ATL",
+            "Extension",
+            "2021-08-06",
+            215159700,
+            5,
+            37096500,
+            40064220,
+            43031940,
+            45999660,
+            48967380,
+            None,
+            215159700,
+            True,
         ),
         (
-            "curryst01", "GSW", "Extension", "2021-08-03", 215353664, 4,
-            48070014, 51915615, 55761216, 59606817, None, None,
-            215353664, True
-        )
+            "curryst01",
+            "GSW",
+            "Extension",
+            "2021-08-03",
+            215353664,
+            4,
+            48070014,
+            51915615,
+            55761216,
+            59606817,
+            None,
+            None,
+            215353664,
+            True,
+        ),
     ]
 
     insert_sql = """
@@ -71,11 +89,10 @@ def load_sample_contracts() -> None:
 
     for contract in contracts_data:
         execute_query(insert_sql, list(contract), read_only=False)
-    
+
     print(f"Loaded {len(contracts_data)} sample contracts.")
 
 
 if __name__ == "__main__":
     create_contracts_table()
     load_sample_contracts()
-

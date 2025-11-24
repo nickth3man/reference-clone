@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -29,7 +28,7 @@ def check_data():
         "coach_seasons",
         "player_shooting_stats",
         "player_play_by_play_stats",
-        "other_stats"
+        "other_stats",
     ]
 
     print("Checking data counts...")
@@ -40,6 +39,7 @@ def check_data():
             print(f"{table}: {count} rows")
         except Exception as e:
             print(f"{table}: ERROR - {e}")
+
 
 if __name__ == "__main__":
     check_data()

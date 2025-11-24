@@ -32,6 +32,24 @@ export const getServerSideProps: GetServerSideProps<BoxScorePageProps> = async (
   }
 };
 
+const calculateTS = (pts: number | undefined, fga: number | undefined, fta: number | undefined) => {
+  const p = pts || 0;
+  const a = fga || 0;
+  const ft = fta || 0;
+  if (a === 0 && ft === 0) return "-";
+  const val = p / (2 * (a + 0.44 * ft));
+  return val.toFixed(3);
+};
+
+const calculateEFG = (fgm: number | undefined, fga: number | undefined, tpm: number | undefined) => {
+  const m = fgm || 0;
+  const a = fga || 0;
+  const t = tpm || 0;
+  if (a === 0) return "-";
+  const val = (m + 0.5 * t) / a;
+  return val.toFixed(3);
+};
+
 const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
   <div className="mt-8">
     <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
@@ -100,6 +118,12 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
               +/-
             </th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
+              TS%
+            </th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
+              eFG%
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
@@ -114,7 +138,7 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
                 </Link>
               </td>
               {player.did_not_play ? (
-                <td colSpan={17} className="px-3 py-4 text-sm text-gray-500 text-center italic">
+                <td colSpan={20} className="px-3 py-4 text-sm text-gray-500 text-center italic">
                   Did Not Play {player.dnp_reason ? `(${player.dnp_reason})` : ""}
                 </td>
               ) : (
@@ -169,6 +193,12 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.plus_minus}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                    {calculateTS(player.points, player.field_goals_attempted, player.free_throws_attempted)}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                    {calculateEFG(player.field_goals_made, player.field_goals_attempted, player.three_pointers_made)}
                   </td>
                 </>
               )}

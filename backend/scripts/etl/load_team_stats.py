@@ -1,8 +1,10 @@
 import os
-from typing import Any
+
 import duckdb
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 ABBR_MAP = {
@@ -20,7 +22,8 @@ ABBR_MAP = {
     "SDC": "LAC",
 }
 
-def load_team_stats():
+
+def load_team_stats() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 
@@ -34,7 +37,7 @@ def load_team_stats():
 
     print("Extracting team stats...")
     # Join summaries, per_game, and opp_per_game
-    # We filter for non-playoff (Regular season) entries in team_summaries if needed, 
+    # We filter for non-playoff (Regular season) entries in team_summaries if needed,
     # usually team_summaries has playoffs=FALSE for regular season totals.
     query = """
         SELECT
@@ -54,10 +57,10 @@ def load_team_stats():
         LEFT JOIN opp_team_stats_per_game opp ON s.season = opp.season AND s.abbreviation = opp.abbreviation
         WHERE s.playoffs = FALSE
     """
-    
+
     rows = con.execute(query).fetchall()
     print(f"Extracted {len(rows)} team stats rows.")
-    
+
     insert_sql = """
         INSERT INTO team_season_stats (
             team_id, season_id, season_type,
@@ -68,16 +71,16 @@ def load_team_stats():
             games_behind, conference_rank, division_rank, playoff_seed
         ) VALUES (?, ?, 'Regular', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0)
     """
-    
+
     batch_data = []
-    
+
     # Clear existing data
     print("Clearing existing team_season_stats...")
     con.execute("DELETE FROM team_season_stats")
-    
+
     for row in rows:
-        (season, abbr, w, l, srs, pace, ortg, drtg, nrtg, ppg, opp_ppg) = row
-        
+        (season, abbr, w, losses, srs, pace, ortg, drtg, nrtg, ppg, opp_ppg) = row
+
         if not abbr:
             continue
 
@@ -86,27 +89,24 @@ def load_team_stats():
             # Try cleaning abbreviation or mapping
             # Some abbreviations might mismatch (e.g. NOP vs NOK)
             continue
-            
-        season_id = str(season)
-        win_pct = w / (w + l) if (w is not None and l is not None and (w + l) > 0) else 0.0
-        
+
         # Handle None values
         w = w or 0
-        l = l or 0
-        
-        batch_data.append((
-            team_id, season_id,
-            w, l, win_pct,
-            srs, pace, ortg, drtg, nrtg,
-            ppg, opp_ppg
-        ))
-        
+        losses = losses or 0
+
+        season_id = str(season)
+        win_pct = w / (w + losses) if (w + losses) > 0 else 0.0
+
+        batch_data.append(
+            (team_id, season_id, w, losses, win_pct, srs, pace, ortg, drtg, nrtg, ppg, opp_ppg)
+        )
+
     if batch_data:
         con.executemany(insert_sql, batch_data)
-        
+
     print(f"Loaded {len(batch_data)} team stats.")
     con.close()
 
+
 if __name__ == "__main__":
     load_team_stats()
-

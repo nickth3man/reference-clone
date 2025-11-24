@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Layout from "../../components/Layout";
 import { API_URL } from "@/lib/api";
 import type { 
   Player, 
@@ -126,7 +127,7 @@ export default function PlayerPage() {
   const displayedPbp = filterStats(pbpStats);
 
   return (
-    <>
+    <Layout>
       <PlayerHeader player={player} />
 
       <div className="container mx-auto px-4 py-8 space-y-8">
@@ -146,44 +147,96 @@ export default function PlayerPage() {
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Per Game</h2>
             <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+              <table className="min-w-full divide-y divide-gray-200 text-xs">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">GP</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">GS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">MP</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PTS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TRB</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">AST</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">STL</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">BLK</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">FG%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">3P%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">FT%</th>
+                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Season</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">Age</th>
+                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Team</th>
+                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Lg</th>
+                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Pos</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">G</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">GS</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">MP</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FG</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FGA</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FG%</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3P</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3PA</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3P%</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2P</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2PA</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2P%</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">eFG%</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FT</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FTA</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FT%</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">ORB</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">DRB</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">TRB</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">AST</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">STL</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">BLK</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">TOV</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">PF</th>
+                    <th className="px-2 py-2 text-right font-semibold text-gray-600">PTS</th>
+                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Awards</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedStats.map((stat, index) => (
+                  {displayedStats.map((stat, index) => {
+                    const g = stat.games_played || 1;
+                    const formatVal = (val: number | undefined) => (val ? (val / g).toFixed(1) : "0.0");
+                    const formatPct = (val: number | undefined) => (val !== undefined ? val.toFixed(3).replace(/^0/, "") : "");
+                    
+                    // Match awards for this season
+                    const seasonAwards = awards.filter(a => a.season_id === stat.season_id);
+                    const awardsStr = seasonAwards.map(a => {
+                        let str = a.award_type || "";
+                        if (a.rank && a.rank > 0) str += `-${a.rank}`; // Simple representation
+                        return str;
+                    }).filter(s => s).join(", ");
+
+                    return (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
+                      <td className="px-2 py-2 whitespace-nowrap font-medium text-gray-900">
+                        <Link href={`/leagues/${stat.season_id}`} className="text-blue-600 hover:underline">{stat.season_id}</Link>
+                      </td>
+                      <td className="px-2 py-2 text-right">{stat.age}</td>
+                      <td className="px-2 py-2 whitespace-nowrap text-blue-600 hover:underline">
                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
                       </td>
-                      <td className="px-3 py-2 text-right">{stat.games_played}</td>
-                      <td className="px-3 py-2 text-right">{stat.games_started}</td>
-                      <td className="px-3 py-2 text-right">{stat.minutes_per_game}</td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.points_per_game}</td>
-                      <td className="px-3 py-2 text-right">{stat.rebounds_per_game}</td>
-                      <td className="px-3 py-2 text-right">{stat.assists_per_game}</td>
-                      <td className="px-3 py-2 text-right">{stat.steals_per_game}</td>
-                      <td className="px-3 py-2 text-right">{stat.blocks_per_game}</td>
-                      <td className="px-3 py-2 text-right">{stat.field_goal_pct}</td>
-                      <td className="px-3 py-2 text-right">{stat.three_point_pct}</td>
-                      <td className="px-3 py-2 text-right">{stat.free_throw_pct}</td>
+                      <td className="px-2 py-2 text-left">{stat.league}</td>
+                      <td className="px-2 py-2 text-left">{player.position}</td>
+                      <td className="px-2 py-2 text-right">{stat.games_played}</td>
+                      <td className="px-2 py-2 text-right">{stat.games_started}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.minutes_played)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.field_goals_made)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.field_goals_attempted)}</td>
+                      <td className="px-2 py-2 text-right">{formatPct(stat.field_goal_pct)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.three_pointers_made)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.three_pointers_attempted)}</td>
+                      <td className="px-2 py-2 text-right">{formatPct(stat.three_point_pct)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.two_pointers_made)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.two_pointers_attempted)}</td>
+                      <td className="px-2 py-2 text-right">{formatPct(stat.two_point_pct)}</td>
+                      <td className="px-2 py-2 text-right">{formatPct(stat.effective_fg_pct)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.free_throws_made)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.free_throws_attempted)}</td>
+                      <td className="px-2 py-2 text-right">{formatPct(stat.free_throw_pct)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.offensive_rebounds)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.defensive_rebounds)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.total_rebounds)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.assists)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.steals)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.blocks)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.turnovers)}</td>
+                      <td className="px-2 py-2 text-right">{formatVal(stat.personal_fouls)}</td>
+                      <td className="px-2 py-2 text-right font-bold">{formatVal(stat.points)}</td>
+                      <td className="px-2 py-2 text-left text-xs text-gray-500">{awardsStr}</td>
                     </tr>
-                  ))}
+                  );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -500,6 +553,6 @@ export default function PlayerPage() {
           </section>
         )}
       </div>
-    </>
+    </Layout>
   );
 }

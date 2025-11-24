@@ -42,7 +42,7 @@ TEAM_CONF_DIV = {
 }
 
 
-def load_teams():
+def load_teams() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 

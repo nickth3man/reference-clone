@@ -24,6 +24,7 @@ def get_players(
     search: str | None = None, letter: str | None = None, limit: int = 50, offset: int = 0
 ) -> list[dict[str, Any]]:
     params: list[Any] = []
+    # [REVIEW] Severity: Medium. Performance. Avoid 'SELECT *'. Specify needed columns to reduce payload size.
     query = "SELECT * FROM players"
     conditions: list[str] = []
 
@@ -47,6 +48,7 @@ def get_players(
         df = df.replace({np.nan: None})
         return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
+        # [REVIEW] Severity: Medium. Security. Avoid exposing raw exception details (str(e)) to the client. Log the error and return a generic message.
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
@@ -66,12 +68,14 @@ def get_player(player_id: str) -> dict[str, Any]:
     except HTTPException:
         raise
     except Exception as e:
+        # [REVIEW] Severity: Medium. Security. Avoid exposing raw exception details.
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @router.get("/players/{player_id}/stats", response_model=list[PlayerSeasonStats])
 def get_player_stats(player_id: str) -> list[dict[str, Any]]:
     # Query player_season_stats
+    # [REVIEW] Severity: Low. Performance. Select specific columns instead of '*'.
     query = """
         SELECT *
         FROM player_season_stats
@@ -242,5 +246,22 @@ def get_player_awards(player_id: str) -> list[dict[str, Any]]:
 
         df = df.replace({np.nan: None})
         return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
+
+
+@router.get("/players/{player_id}/seasons", response_model=list[str])
+def get_player_seasons(player_id: str) -> list[str]:
+    query = """
+        SELECT DISTINCT season_id
+        FROM player_season_stats
+        WHERE player_id = ?
+        ORDER BY season_id DESC
+    """
+    try:
+        df = execute_query_df(query, [player_id])
+        if df.empty:
+            return []
+        return cast(list[str], df["season_id"].tolist())
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e

@@ -21,4 +21,3 @@ def test_contracts_endpoint():
     response = client.get("/contracts")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-

@@ -56,3 +56,35 @@ def get_season_standings(season_id: str) -> list[dict[str, Any]]:
         return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
+
+
+@router.get("/seasons/{season_id}/leaders", response_model=dict[str, list[dict[str, Any]]])
+def get_season_leaders(season_id: str) -> dict[str, list[dict[str, Any]]]:
+    categories = {
+        "pts": ("player_season_stats", "points_per_game"),
+        "trb": ("player_season_stats", "rebounds_per_game"),
+        "ast": ("player_season_stats", "assists_per_game"),
+        "ws": ("player_advanced_stats", "win_shares"),
+        "per": ("player_advanced_stats", "player_efficiency_rating"),
+    }
+
+    results = {}
+
+    for key, (table, col) in categories.items():
+        query = f"""
+            SELECT p.player_id, p.full_name, p.headshot_url, s.{col} as value, s.team_id
+            FROM {table} s
+            JOIN players p ON s.player_id = p.player_id
+            WHERE s.season_id = ?
+            ORDER BY s.{col} DESC
+            LIMIT 5
+        """
+        try:
+            df = execute_query_df(query, [season_id])
+            df = df.replace({np.nan: None})
+            results[key] = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        except Exception as e:
+            print(f"Error fetching leaders for {key}: {e}")
+            results[key] = []
+
+    return results

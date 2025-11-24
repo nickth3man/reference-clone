@@ -54,8 +54,8 @@ def get_team(team_id: str) -> dict[str, Any]:
 @router.get("/teams/{team_id}/stats", response_model=list[TeamSeasonStats])
 def get_team_stats(team_id: str) -> list[dict[str, Any]]:
     query = """
-        SELECT * 
-        FROM team_season_stats 
+        SELECT *
+        FROM team_season_stats
         WHERE team_id = ?
         ORDER BY season_id DESC
     """
@@ -64,14 +64,12 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
         team_df = execute_query_df(
             "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
         )
-        resolved_team_id = (
-            team_df.iloc[0]["team_id"] if not team_df.empty else team_id
-        )
+        resolved_team_id = team_df.iloc[0]["team_id"] if not team_df.empty else team_id
 
         df = execute_query_df(query, [resolved_team_id])
         if df.empty:
             return []
-            
+
         df = df.replace({np.nan: None})
         return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:

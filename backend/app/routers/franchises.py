@@ -44,4 +44,3 @@ def get_franchise(franchise_id: str) -> dict[str, Any]:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
-

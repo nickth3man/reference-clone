@@ -37,9 +37,7 @@ class TestGetTeams:
     @patch("app.routers.teams.execute_query_df")
     def test_get_teams_handles_nan(self, mock_execute: Mock) -> None:
         """Test that NaN values are converted to None."""
-        mock_df = pd.DataFrame(
-            {"team_id": ["1"], "abbreviation": [np.nan], "nickname": ["Lakers"]}
-        )
+        mock_df = pd.DataFrame({"team_id": ["1"], "abbreviation": [np.nan], "nickname": ["Lakers"]})
         mock_execute.return_value = mock_df
 
         result = get_teams()

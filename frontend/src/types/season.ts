@@ -58,3 +58,27 @@ export interface Standings {
   conference?: string;
   division?: string;
 }
+
+export interface TeamSeasonStats {
+  team_id?: string;
+  season_id?: string;
+  season_type?: string;
+  wins?: number;
+  losses?: number;
+  win_pct?: number;
+  simple_rating_system?: number;
+  pace?: number;
+  offensive_rating?: number;
+  defensive_rating?: number;
+  net_rating?: number;
+  points_per_game?: number;
+  opponent_points_per_game?: number;
+  games_behind?: number;
+  conference_rank?: number;
+  division_rank?: number;
+  playoff_seed?: number;
+  effective_fg_pct?: number;
+  turnover_pct?: number;
+  offensive_rebound_pct?: number;
+  free_throw_pct?: number;
+}

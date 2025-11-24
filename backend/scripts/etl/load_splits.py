@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 
-def load_splits():
+def load_splits() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 
@@ -169,7 +169,8 @@ def load_splits():
         GROUP BY b.player_id, g.season_id, CASE WHEN b.team_id = g.winner_team_id THEN 'Win' ELSE 'Loss' END
     """)
 
-    count = con.execute("SELECT COUNT(*) FROM player_splits").fetchone()[0]
+    result = con.execute("SELECT COUNT(*) FROM player_splits").fetchone()
+    count = result[0] if result else 0
     print(f"Successfully loaded {count} split records.")
     con.close()
 

@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 
-def load_seasons():
+def load_seasons() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 

@@ -4,10 +4,15 @@ from typing import Any, cast
 import duckdb
 import pandas as pd
 
-DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "nba.duckdb")
+DB_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "data",
+    "nba.duckdb",
+)
 
 
 def get_db_connection(read_only: bool = False) -> Any:
+    # [REVIEW] Severity: Low. Efficiency. Consider reusing a global read-only connection for read operations.
     conn = duckdb.connect(DB_PATH, read_only=read_only)
     return conn
 

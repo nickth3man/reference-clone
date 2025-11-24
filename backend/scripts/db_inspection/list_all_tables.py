@@ -17,5 +17,6 @@ def list_tables():
     except Exception as e:
         print(f"ERROR: {e}")
 
+
 if __name__ == "__main__":
     list_tables()

@@ -57,4 +57,3 @@ def get_draft_picks(
         return cast(list[dict[str, Any]], df.to_dict(orient="records"))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
-

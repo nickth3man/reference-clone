@@ -17,6 +17,7 @@ def get_games(
     offset: int = 0,
 ) -> list[dict[str, Any]]:
     query = "SELECT * FROM games"
+    # [REVIEW] Severity: Medium. Performance. Avoid 'SELECT *'.
     conditions: list[str] = []
     params: list[Any] = []
 
@@ -25,12 +26,12 @@ def get_games(
         params.append(date)
 
     if team_id:
+        # [REVIEW] Severity: Low. Performance. Consider caching team lookups to reduce DB load.
         # Resolve abbreviation to ID if needed
         team_lookup = execute_query_df(
-            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", 
-            [team_id, team_id]
+            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
         )
-        
+
         if not team_lookup.empty:
             resolved_team_id = team_lookup.iloc[0]["team_id"]
             conditions.append("(home_team_id = ? OR away_team_id = ?)")

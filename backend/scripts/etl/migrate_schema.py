@@ -10,7 +10,7 @@ DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 SCHEMA_PATH = os.path.join(BASE_DIR, "backend", "db", "schema.sql")
 
 
-def migrate():
+def migrate() -> None:
     print(f"Connecting to database at {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 

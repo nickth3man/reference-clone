@@ -2,9 +2,10 @@
 Unit tests for database utilities.
 """
 
-import pytest
+from unittest.mock import MagicMock, Mock, patch
+
 import pandas as pd
-from unittest.mock import Mock, patch, MagicMock
+import pytest
 
 from app.database import execute_query, execute_query_df, get_db_connection
 

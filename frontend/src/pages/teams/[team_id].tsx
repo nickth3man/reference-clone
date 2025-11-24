@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
-import type { Team, Player, Game, TeamSeasonStats } from "../../types";
+import type { Team, Player, Game, TeamSeasonStats } from "@/types";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface TeamPageProps {
@@ -138,6 +138,22 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
              <div className="text-center">
                 <p className="text-sm text-gray-500">Net Rtg</p>
                 <p className="text-lg font-bold text-gray-900">{currentStats.net_rating}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">eFG%</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.effective_fg_pct}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">TOV%</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.turnover_pct}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">ORB%</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.offensive_rebound_pct}</p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">FT%</p>
+                <p className="text-lg font-bold text-gray-900">{currentStats.free_throw_pct}</p>
              </div>
           </div>
         </div>

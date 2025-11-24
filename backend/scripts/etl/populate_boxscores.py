@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 
-def populate_boxscores():
+def populate_boxscores() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 
@@ -87,7 +87,8 @@ def populate_boxscores():
         GROUP BY game_id
     """
     con.execute(games_insert_query)
-    games_count = con.execute("SELECT COUNT(*) FROM games").fetchone()[0]
+    result = con.execute("SELECT COUNT(*) FROM games").fetchone()
+    games_count = result[0] if result else 0
     print(f"Populated games table with {games_count} rows.")
 
     # 5. Populate Box Scores
@@ -236,7 +237,8 @@ def populate_boxscores():
     try:
         con.execute(query)
         print("Box scores populated successfully.")
-        count = con.execute("SELECT COUNT(*) FROM box_scores").fetchone()[0]
+        result = con.execute("SELECT COUNT(*) FROM box_scores").fetchone()
+        count = result[0] if result else 0
         print(f"Inserted {count} rows into box_scores.")
     except Exception as e:
         print(f"Error populating box scores: {e}")
