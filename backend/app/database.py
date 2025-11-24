@@ -4,15 +4,20 @@ from typing import Any, cast
 import duckdb
 import pandas as pd
 
-DB_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-    "data",
-    "nba.duckdb",
-)
+from app.config import settings
+
+DB_PATH = settings.DB_PATH
+
+_SHARED_CONNECTION = None
 
 
 def get_db_connection(read_only: bool = False) -> Any:
-    # [REVIEW] Severity: Low. Efficiency. Consider reusing a global read-only connection for read operations.
+    global _SHARED_CONNECTION
+    if read_only:
+        if _SHARED_CONNECTION is None:
+            _SHARED_CONNECTION = duckdb.connect(DB_PATH, read_only=True)
+        return _SHARED_CONNECTION
+    # For write operations, create a new connection
     conn = duckdb.connect(DB_PATH, read_only=read_only)
     return conn
 
@@ -24,7 +29,8 @@ def execute_query(query: str, params: list[Any] | None = None, read_only: bool =
             return cast(list[Any], conn.execute(query, params).fetchall())
         return cast(list[Any], conn.execute(query).fetchall())
     finally:
-        conn.close()
+        if not read_only:
+            conn.close()
 
 
 def execute_query_df(
@@ -36,4 +42,5 @@ def execute_query_df(
             return cast(pd.DataFrame, conn.execute(query, params).df())
         return cast(pd.DataFrame, conn.execute(query).df())
     finally:
-        conn.close()
+        if not read_only:
+            conn.close()

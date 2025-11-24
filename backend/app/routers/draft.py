@@ -51,9 +51,6 @@ def get_draft_picks(
     query += " ORDER BY draft_year DESC, overall_pick ASC LIMIT ? OFFSET ?"
     params.extend([limit, offset])
 
-    try:
-        df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query, params)
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))

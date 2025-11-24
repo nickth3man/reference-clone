@@ -3,6 +3,8 @@ import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
 import type { Team } from "../../types";
+import { TeamCard } from "@/components/molecules";
+import { Input } from "@/components/atoms";
 
 interface TeamsPageProps {
   teams: Team[];
@@ -52,21 +54,7 @@ export default function TeamsIndex({ teams }: TeamsPageProps) {
   );
 
   const renderTeamCard = (team: Team) => (
-    <Link key={team.team_id} href={`/teams/${team.team_id}`} className="group block h-full">
-      <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all p-4 border border-slate-100 group-hover:border-orange-200 h-full flex items-center gap-4">
-        <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-bold group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors shrink-0">
-          {(team.abbreviation || "").substring(0, 2)}
-        </div>
-        <div>
-          <h3 className="font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
-            {team.city} {team.nickname}
-          </h3>
-          <span className="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-0.5 rounded">
-            {team.abbreviation}
-          </span>
-        </div>
-      </div>
-    </Link>
+    <TeamCard key={team.team_id} team={team} className="h-full" />
   );
 
   const renderConference = (conferenceName: string, divisions: string[]) => (
@@ -103,13 +91,14 @@ export default function TeamsIndex({ teams }: TeamsPageProps) {
           <p className="text-slate-500 mt-1">Active Franchises</p>
         </div>
 
-        <div className="relative w-full md:w-64">
-          <input
-            type="text"
+        <div className="relative w-full md:w-72">
+          <Input
+            variant="search"
             placeholder="Search teams..."
-            className="w-full bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            startIcon={<span>🔍</span>}
+            fullWidth
           />
         </div>
       </div>

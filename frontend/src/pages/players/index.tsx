@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { fetchAPI } from "@/lib/api";
 import type { Player } from "../../types";
+import { Button, Input, Card } from "@/components/atoms";
 
 interface PlayersPageProps {
   players: Player[];
@@ -68,42 +69,41 @@ export default function PlayersIndex({ players, letter, search, page }: PlayersP
         <h1 className="text-3xl font-bold text-slate-900 mb-4">NBA Player Index</h1>
         
         {/* Alphabet Navigation */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {ALPHABET.map((char) => (
-            <Link
-              key={char}
-              href={`/players?letter=${char}`}
-              className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                !search && letter === char
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-slate-600 hover:bg-orange-100 hover:text-orange-600 border border-slate-200"
-              }`}
-            >
-              {char}
-            </Link>
-          ))}
+        <div className="flex flex-wrap gap-1.5 mb-6">
+          {ALPHABET.map((char) => {
+             const isActive = !search && letter === char;
+             return (
+              <Link
+                key={char}
+                href={`/players?letter=${char}`}
+              >
+                <Button
+                  variant={isActive ? "primary" : "ghost"}
+                  size="sm"
+                  className={`min-w-[36px] ${!isActive && "hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200"}`}
+                >
+                  {char}
+                </Button>
+              </Link>
+             );
+          })}
         </div>
 
         {/* Search Bar */}
-        <form onSubmit={handleSearch} className="relative max-w-md">
-          <input
-            type="text"
-            placeholder="Find a player..."
-            className="w-full bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+        <form onSubmit={handleSearch} className="relative max-w-md mb-8">
+          <Input
+             variant="search"
+             placeholder="Find a player..."
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
+             startIcon={<span>🔍</span>}
+             fullWidth
           />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-orange-500"
-          >
-            🔍
-          </button>
         </form>
       </div>
 
       {/* Players Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <Card variant="bordered" padding="none" className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
@@ -139,7 +139,7 @@ export default function PlayersIndex({ players, letter, search, page }: PlayersP
               ))}
               {players.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     No players found.
                   </td>
                 </tr>
@@ -147,36 +147,32 @@ export default function PlayersIndex({ players, letter, search, page }: PlayersP
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
 
       {/* Pagination */}
-      <div className="mt-6 flex justify-center gap-4">
+      <div className="mt-6 flex items-center justify-center gap-4">
         <Link
           href={{
             pathname: "/players",
             query: { ...router.query, page: page > 1 ? page - 1 : 1 },
           }}
-          className={`px-4 py-2 rounded border ${
-            page > 1
-              ? "bg-white text-slate-600 hover:bg-slate-50 border-slate-200"
-              : "bg-slate-50 text-slate-300 border-slate-100 pointer-events-none"
-          }`}
+          className={page <= 1 ? "pointer-events-none" : ""}
         >
-          Previous
+          <Button variant="secondary" disabled={page <= 1}>
+            Previous
+          </Button>
         </Link>
-        <span className="px-4 py-2 text-slate-600">Page {page}</span>
+        <span className="text-slate-600 font-medium">Page {page}</span>
         <Link
           href={{
             pathname: "/players",
             query: { ...router.query, page: page + 1 },
           }}
-          className={`px-4 py-2 rounded border ${
-            players.length === 50
-              ? "bg-white text-slate-600 hover:bg-slate-50 border-slate-200"
-              : "bg-slate-50 text-slate-300 border-slate-100 pointer-events-none"
-          }`}
+          className={players.length < 50 ? "pointer-events-none" : ""}
         >
-          Next
+           <Button variant="secondary" disabled={players.length < 50}>
+            Next
+          </Button>
         </Link>
       </div>
     </div>

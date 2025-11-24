@@ -23,24 +23,16 @@ class Franchise(BaseModel):
 @router.get("/franchises", response_model=list[Franchise])
 def get_franchises() -> list[dict[str, Any]]:
     query = "SELECT * FROM franchises"
-    try:
-        df = execute_query_df(query)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query)
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 @router.get("/franchises/{franchise_id}", response_model=Franchise)
 def get_franchise(franchise_id: str) -> dict[str, Any]:
     query = "SELECT * FROM franchises WHERE franchise_id = ?"
-    try:
-        df = execute_query_df(query, [franchise_id])
-        if df.empty:
-            raise HTTPException(status_code=404, detail="Franchise not found")
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query, [franchise_id])
+    if df.empty:
+        raise HTTPException(status_code=404, detail="Franchise not found")
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
 import type { Franchise } from "../../types";
+import { Input, Card } from "@/components/atoms";
 
 interface FranchisesPageProps {
   franchises: Franchise[];
@@ -45,18 +46,19 @@ export default function FranchisesIndex({ franchises }: FranchisesPageProps) {
           </p>
         </div>
 
-        <div className="relative w-full md:w-64">
-          <input
-            type="text"
+        <div className="relative w-full md:w-72">
+          <Input
+            variant="search"
             placeholder="Search franchises..."
-            className="w-full bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            startIcon={<span>🔍</span>}
+            fullWidth
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <Card variant="bordered" padding="none" className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
@@ -103,7 +105,7 @@ export default function FranchisesIndex({ franchises }: FranchisesPageProps) {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

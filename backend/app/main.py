@@ -2,6 +2,7 @@ from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from strawberry.fastapi import GraphQLRouter
@@ -10,12 +11,13 @@ from app.graphql_schema import schema
 from app.logging_config import configure_logging, get_logger
 from app.rate_limit import limiter
 from app.routers import boxscores, contracts, draft, franchises, games, players, seasons, teams
+from app.config import settings
 
 # Configure structured logging
-configure_logging("INFO")
+configure_logging(settings.LOG_LEVEL)
 logger = get_logger(__name__)
 
-app = FastAPI(title="Basketball Reference Clone API")
+app = FastAPI(title=settings.APP_NAME)
 
 # Add rate limiting
 app.state.limiter = limiter
@@ -32,19 +34,23 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded) -> dict[s
     return {"error": "Rate limit exceeded. Please try again later."}
 
 
-logger.info("Application started", extra={"app_name": "Basketball Reference Clone API"})
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    logger.error(
+        "Global exception handler caught error",
+        exc_info=True,
+        extra={"path": request.url.path},
+    )
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error"},
+    )
+
+
+logger.info("Application started", extra={"app_name": settings.APP_NAME})
 
 # CORS Setup
-origins = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3002",
-    "http://localhost:3003",
-    "http://localhost:8000",
-    "http://localhost:8001",
-    "http://localhost:8002",
-    "http://localhost:8003",
-]
+origins = settings.CORS_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,

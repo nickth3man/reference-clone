@@ -38,18 +38,18 @@ export const Badge: React.FC<BadgeProps> = ({
     "inline-flex items-center justify-center font-medium rounded-full whitespace-nowrap";
 
   const variantStyles = {
-    default: "bg-surface-elevated text-text-secondary border border-border-default",
-    primary: "bg-brand-primary text-text-inverse",
-    success: "bg-status-success-light text-green-700",
-    warning: "bg-status-warning-light text-yellow-700",
-    error: "bg-status-error-light text-red-700",
-    info: "bg-status-info-light text-blue-700",
+    default: "bg-slate-100 text-slate-600 border border-slate-200",
+    primary: "bg-orange-50 text-orange-700 border border-orange-100",
+    success: "bg-green-50 text-green-700 border border-green-100",
+    warning: "bg-amber-50 text-amber-700 border border-amber-100",
+    error: "bg-red-50 text-red-700 border border-red-100",
+    info: "bg-blue-50 text-blue-700 border border-blue-100",
   };
 
   const sizeStyles = {
-    sm: "px-2 py-0.5 text-caption",
-    md: "px-2.5 py-1 text-body-sm",
-    lg: "px-3 py-1.5 text-body",
+    sm: "px-2.5 py-0.5 text-[11px] uppercase tracking-wider font-bold",
+    md: "px-3 py-1 text-xs font-semibold",
+    lg: "px-4 py-1.5 text-sm font-semibold",
   };
 
   const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;

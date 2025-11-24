@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
 import type { DraftPick } from "../../types";
 import { useRouter } from "next/router";
+import { Input, Card } from "@/components/atoms";
 
 interface DraftPageProps {
   picks: DraftPick[];
@@ -53,9 +54,9 @@ export default function DraftIndex({ picks, year }: DraftPageProps) {
           <p className="text-slate-500 mt-1">{picks.length} picks loaded</p>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <select 
-            className="bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-8 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-8 h-[42px] focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer hover:border-orange-200 transition-colors"
             value={year}
             onChange={(e) => handleYearChange(e.target.value)}
           >
@@ -65,17 +66,20 @@ export default function DraftIndex({ picks, year }: DraftPageProps) {
             ))}
           </select>
 
-          <input
-            type="text"
-            placeholder="Search picks..."
-            className="w-full md:w-64 bg-white border border-slate-200 rounded-lg py-2 pl-4 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="w-full md:w-64">
+             <Input
+                variant="search"
+                placeholder="Search picks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                startIcon={<span>🔍</span>}
+                fullWidth
+             />
+          </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <Card variant="bordered" padding="none" className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
@@ -109,7 +113,7 @@ export default function DraftIndex({ picks, year }: DraftPageProps) {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

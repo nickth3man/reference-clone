@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { fetchAPI } from "@/lib/api";
 import type { Team, Player, Game, TeamSeasonStats } from "@/types";
+import { Card, Button, Badge } from "@/components/atoms";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface TeamPageProps {
@@ -50,12 +51,13 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold text-slate-700">Team not found</h2>
-        <button
+        <Button
+          variant="ghost"
           onClick={() => router.push("/teams")}
           className="mt-4 text-orange-600 hover:text-orange-700 font-medium"
         >
           &larr; Back to Teams
-        </button>
+        </Button>
       </div>
     );
   }
@@ -66,7 +68,7 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
   return (
     <div className="space-y-8">
       {/* Team Header */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
         <div className="bg-slate-900 h-32 relative">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
         </div>
@@ -94,11 +96,11 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
             </div>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Team Stats Summary */}
       {currentStats && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
           <div className="px-6 py-4 border-b border-slate-100">
             <h2 className="text-xl font-bold text-slate-900">Team Stats ({currentStats.season_id})</h2>
           </div>
@@ -156,17 +158,17 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
                 <p className="text-lg font-bold text-gray-900">{currentStats.free_throw_pct}</p>
              </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Roster */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             {/* <Users className="h-5 w-5 text-orange-500" /> */}
             Team Roster
           </h2>
-          <span className="text-sm text-slate-500">{roster.length} Players</span>
+          <Badge variant="default">{roster.length} Players</Badge>
         </div>
 
         <div className="overflow-x-auto">
@@ -210,15 +212,15 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
 
       {/* Schedule */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             Game Schedule
           </h2>
-          <span className="text-sm text-slate-500">{games.length} Games</span>
+          <Badge variant="default">{games.length} Games</Badge>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -261,11 +263,9 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
                     <td className="px-6 py-4 text-slate-900">{game.game_date}</td>
                     <td className="px-6 py-4 text-slate-900">{label}</td>
                     <td className="px-6 py-4">
-                      <span
-                        className={`px-2 py-1 rounded text-xs font-semibold ${win ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-                      >
+                      <Badge variant={win ? "success" : "error"}>
                         {win ? "W" : "L"}
-                      </span>
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-slate-500">
                       <div className="flex flex-col">
@@ -291,7 +291,7 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

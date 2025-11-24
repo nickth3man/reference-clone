@@ -16,8 +16,17 @@ def get_games(
     limit: int = 50,
     offset: int = 0,
 ) -> list[dict[str, Any]]:
-    query = "SELECT * FROM games"
     # [REVIEW] Severity: Medium. Performance. Avoid 'SELECT *'.
+    query = """
+        SELECT
+            game_id, season_id, game_date, game_time, game_type,
+            home_team_id, away_team_id, home_team_score, away_team_score,
+            home_q1, home_q2, home_q3, home_q4, home_ot1, home_ot2, home_ot3, home_ot4,
+            away_q1, away_q2, away_q3, away_q4, away_ot1, away_ot2, away_ot3, away_ot4,
+            arena, attendance, game_duration_minutes, playoff_round,
+            series_game_number, winner_team_id
+        FROM games
+    """
     conditions: list[str] = []
     params: list[Any] = []
 
@@ -46,39 +55,37 @@ def get_games(
     query += " LIMIT ? OFFSET ?"
     params.extend([limit, offset])
 
-    try:
-        df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query, params)
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 @router.get("/games/{game_id}", response_model=Game)
 def get_game(game_id: str) -> dict[str, Any]:
-    query = "SELECT * FROM games WHERE game_id = ?"
-    try:
-        df = execute_query_df(query, [game_id])
-        if df.empty:
-            raise HTTPException(status_code=404, detail="Game not found")
+    query = """
+        SELECT
+            game_id, season_id, game_date, game_time, game_type,
+            home_team_id, away_team_id, home_team_score, away_team_score,
+            home_q1, home_q2, home_q3, home_q4, home_ot1, home_ot2, home_ot3, home_ot4,
+            away_q1, away_q2, away_q3, away_q4, away_ot1, away_ot2, away_ot3, away_ot4,
+            arena, attendance, game_duration_minutes, playoff_round,
+            series_game_number, winner_team_id
+        FROM games WHERE game_id = ?
+    """
+    df = execute_query_df(query, [game_id])
+    if df.empty:
+        raise HTTPException(status_code=404, detail="Game not found")
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
 
 
 @router.get("/games/{game_id}/stats", response_model=GameStats | None)
 def get_game_stats(game_id: str) -> dict[str, Any] | None:
     query = "SELECT * FROM team_game_stats WHERE game_id = ?"
-    try:
-        df = execute_query_df(query, [game_id])
-        if df.empty:
-            return None
+    df = execute_query_df(query, [game_id])
+    if df.empty:
+        return None
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]

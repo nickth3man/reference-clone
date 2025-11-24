@@ -12,29 +12,21 @@ router = APIRouter()
 @router.get("/seasons", response_model=list[Season])
 def get_seasons() -> list[dict[str, Any]]:
     query = "SELECT * FROM seasons ORDER BY end_year DESC"
-    try:
-        df = execute_query_df(query)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query)
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 @router.get("/seasons/{season_id}", response_model=Season)
 def get_season(season_id: str) -> dict[str, Any]:
     query = "SELECT * FROM seasons WHERE season_id = ?"
-    try:
-        df = execute_query_df(query, [season_id])
-        if df.empty:
-            raise HTTPException(status_code=404, detail="Season not found")
+    df = execute_query_df(query, [season_id])
+    if df.empty:
+        raise HTTPException(status_code=404, detail="Season not found")
 
-        df = df.replace({np.nan: None})
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
-        return records[0]
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    return records[0]
 
 
 @router.get("/seasons/{season_id}/standings", response_model=list[dict[str, Any]])
@@ -47,15 +39,12 @@ def get_season_standings(season_id: str) -> list[dict[str, Any]]:
         WHERE tss.season_id = ?
         ORDER BY tss.win_pct DESC
     """
-    try:
-        df = execute_query_df(query, [season_id])
-        if df.empty:
-            return []
+    df = execute_query_df(query, [season_id])
+    if df.empty:
+        return []
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 @router.get("/seasons/{season_id}/leaders", response_model=dict[str, list[dict[str, Any]]])

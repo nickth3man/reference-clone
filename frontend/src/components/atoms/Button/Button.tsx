@@ -58,17 +58,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+      "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95";
 
     const variantStyles = {
       primary:
-        "bg-brand-primary hover:bg-brand-dark text-text-inverse focus:ring-brand-primary shadow-sm",
+        "bg-brand-primary hover:bg-brand-dark text-text-inverse focus:ring-brand-primary shadow-sm hover:shadow-md hover:-translate-y-0.5",
       secondary:
-        "bg-surface-darker hover:bg-surface-dark text-text-inverse focus:ring-surface-darker shadow-sm",
+        "bg-surface-darker hover:bg-surface-dark text-text-inverse focus:ring-surface-darker shadow-sm hover:shadow-md hover:-translate-y-0.5",
       ghost:
-        "bg-transparent hover:bg-surface-elevated text-text-primary focus:ring-border-strong border border-border-default",
+        "bg-transparent hover:bg-surface-elevated text-text-primary focus:ring-border-strong border border-border-default hover:border-border-strong",
       danger:
-        "bg-status-error hover:bg-red-700 text-text-inverse focus:ring-status-error shadow-sm",
+        "bg-status-error hover:bg-red-700 text-text-inverse focus:ring-status-error shadow-sm hover:shadow-md hover:-translate-y-0.5",
     };
 
     const sizeStyles = {

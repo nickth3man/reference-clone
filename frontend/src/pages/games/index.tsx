@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { fetchAPI } from "@/lib/api";
 import { Game } from "../../types";
+import { Input, Card, Button, Badge } from "@/components/atoms";
 
 interface GamesIndexProps {
   games: Game[];
@@ -55,17 +56,17 @@ export default function GamesIndex({ games, date }: GamesIndexProps) {
           <label htmlFor="game-date" className="text-sm font-medium text-slate-700">
             Select Date:
           </label>
-          <input
+          <Input
             type="date"
             id="game-date"
-            className="bg-white border border-slate-200 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-auto"
             value={selectedDate}
             onChange={handleDateChange}
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <Card variant="bordered" padding="none" className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
@@ -96,18 +97,16 @@ export default function GamesIndex({ games, date }: GamesIndexProps) {
                   <td className="px-6 py-4 text-center font-mono text-slate-700">
                     {game.away_team_score} - {game.home_team_score}
                   </td>
-                  <td className="px-6 py-4 text-right space-x-4">
-                    <Link
-                      href={`/boxscores/${game.game_id}`}
-                      className="text-orange-600 hover:text-orange-700 font-medium"
-                    >
-                      Box Score
+                  <td className="px-6 py-4 text-right space-x-2">
+                    <Link href={`/boxscores/${game.game_id}`}>
+                       <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-700">
+                         Box Score
+                       </Button>
                     </Link>
-                    <Link
-                      href={`/games/${game.game_id}`}
-                      className="text-slate-500 hover:text-slate-700"
-                    >
-                      Summary
+                    <Link href={`/games/${game.game_id}`}>
+                       <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700">
+                         Summary
+                       </Button>
                     </Link>
                   </td>
                 </tr>
@@ -122,7 +121,7 @@ export default function GamesIndex({ games, date }: GamesIndexProps) {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </Layout>
   );
 }

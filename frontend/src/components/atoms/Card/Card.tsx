@@ -61,33 +61,35 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const baseStyles = "bg-surface-base transition-all duration-base";
+    const baseStyles = "bg-surface-base transition-all duration-300 ease-out";
 
     const variantStyles = {
-      default: "shadow-card-sm",
-      bordered: "border border-border-light shadow-card-sm",
-      elevated: "shadow-card-md",
+      default: "shadow-sm border border-slate-100/50",
+      bordered: "border border-slate-200 shadow-sm",
+      elevated: "shadow-md border-transparent",
     };
 
     const paddingStyles = {
       none: "",
-      sm: "p-card-sm",
-      md: "p-card",
-      lg: "p-card-lg",
+      sm: "p-3",
+      md: "p-5",
+      lg: "p-8",
     };
 
     const roundedStyles = {
-      sm: "rounded-card",
-      md: "rounded-card-lg",
-      lg: "rounded-card-xl",
+      sm: "rounded-lg",
+      md: "rounded-xl",
+      lg: "rounded-2xl",
       xl: "rounded-3xl",
     };
 
-    const hoverStyles = hover ? "hover:shadow-card-md hover:border-brand-light" : "";
+    const hoverStyles = hover
+      ? "hover:shadow-xl hover:-translate-y-1 hover:border-orange-100/50"
+      : "";
 
     const interactiveStyles =
       interactive || onClick
-        ? "cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+        ? "cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 active:scale-[0.99]"
         : "";
 
     const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${paddingStyles[padding]} ${roundedStyles[rounded]} ${hoverStyles} ${interactiveStyles} ${className}`;

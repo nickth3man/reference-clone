@@ -40,23 +40,29 @@ export interface TeamCardProps {
  */
 export const TeamCard: React.FC<TeamCardProps> = ({ team, detailed = false, className = "" }) => {
   return (
-    <Link href={`/teams/${team.team_id}`} className={`group block ${className}`}>
-      <Card variant="bordered" padding="md" hover rounded="xl">
-        <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <h3 className="text-heading-4 text-text-primary group-hover:text-brand-primary transition-colors">
+    <Link href={`/teams/${team.team_id}`} className={`block h-full ${className}`}>
+      <Card
+        variant="bordered"
+        padding="lg"
+        hover
+        rounded="xl"
+        className="h-full transition-all duration-300 group"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-bold text-slate-900 truncate group-hover:text-orange-600 transition-colors">
               {team.city} {team.nickname}
             </h3>
             {detailed && team.full_name && (
-              <p className="text-body-sm text-text-tertiary mt-1">{team.full_name}</p>
+              <p className="text-sm text-slate-500 mt-1 truncate">{team.full_name}</p>
             )}
           </div>
 
-          <div className="flex items-center gap-3 ml-4">
-            <Badge variant="default" size="sm">
+          <div className="flex items-center gap-3 shrink-0">
+            <Badge variant="default" size="sm" className="group-hover:bg-white transition-colors">
               {team.abbreviation}
             </Badge>
-            <div className="h-12 w-12 bg-surface-elevated rounded-full flex items-center justify-center text-text-tertiary font-bold text-lg group-hover:bg-brand-light group-hover:text-brand-primary transition-colors">
+            <div className="h-10 w-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 font-bold text-xs border border-slate-100 group-hover:bg-orange-50 group-hover:text-orange-600 group-hover:border-orange-100 transition-all">
               {team.abbreviation.substring(0, 2)}
             </div>
           </div>

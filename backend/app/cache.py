@@ -29,8 +29,9 @@ def get_redis_client() -> redis.Redis | None:
         try:
             # Cast to Redis to satisfy Pylance if types are missing/incomplete
             client = redis.from_url(REDIS_URL, decode_responses=True)  # type: ignore
-            redis_client = cast(redis.Redis, client)
-            redis_client.ping()  # Test connection
+            r_client = cast(redis.Redis, client)
+            r_client.ping()  # Test connection
+            redis_client = r_client
             logger.info("Connected to Redis", extra={"url": REDIS_URL})
         except Exception as e:
             logger.warning(

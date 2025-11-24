@@ -14,6 +14,7 @@ import type {
 } from "../../types";
 import { PlayerHeader } from "../../components/PlayerHeader";
 import { PlayerSubNav } from "../../components/PlayerSubNav";
+import { Card, Button, Spinner } from "@/components/atoms";
 
 export default function PlayerPage() {
   const router = useRouter();
@@ -95,7 +96,7 @@ export default function PlayerPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <Spinner size="lg" />
       </div>
     );
   }
@@ -135,19 +136,21 @@ export default function PlayerPage() {
 
         {/* Controls */}
         <div className="flex justify-end">
-             <button 
+             <Button 
+               variant={showPlayoffs ? "primary" : "secondary"}
                onClick={() => setShowPlayoffs(!showPlayoffs)}
-               className={`px-4 py-2 text-sm font-medium rounded-md ${showPlayoffs ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+               size="sm"
              >
                {showPlayoffs ? "Show Regular Season" : "Show Playoffs"}
-             </button>
+             </Button>
         </div>
 
         {/* Per Game Stats */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Per Game</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-xs">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-xs">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-2 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -240,13 +243,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Totals Stats */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Totals</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -285,13 +290,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Per 36 Minutes */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Per 36 Minutes</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -318,13 +325,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Per 100 Possessions */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Per 100 Possessions</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -350,13 +359,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Advanced Stats */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Advanced</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -397,13 +408,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Shooting Stats */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Shooting</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -436,13 +449,15 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Play-by-Play Stats */}
         <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Play-by-Play</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
@@ -475,13 +490,14 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
         </section>
 
         {/* Awards */}
         {awards.length > 0 && (
             <section>
                 <h2 className="text-xl font-bold mb-2 text-gray-800">Awards</h2>
-                <div className="bg-white shadow overflow-hidden rounded-lg">
+                <Card padding="none" className="overflow-hidden">
                     <ul className="divide-y divide-gray-200">
                         {awards.map((award, index) => (
                             <li key={index} className="px-4 py-3">
@@ -490,7 +506,7 @@ export default function PlayerPage() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </Card>
             </section>
         )}
 
@@ -498,8 +514,9 @@ export default function PlayerPage() {
         {contracts.length > 0 && (
           <section>
             <h2 className="text-xl font-bold mb-2 text-gray-800">Contracts</h2>
-            <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
@@ -550,6 +567,7 @@ export default function PlayerPage() {
                 </tbody>
               </table>
             </div>
+            </Card>
           </section>
         )}
       </div>

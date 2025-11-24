@@ -21,34 +21,26 @@ def get_teams(active_only: bool = True) -> list[dict[str, Any]]:
 
     query += " ORDER BY full_name"
 
-    try:
-        df = execute_query_df(query, params)
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = execute_query_df(query, params)
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 @router.get("/teams/{team_id}", response_model=Team)
 def get_team(team_id: str) -> dict[str, Any]:
     query = "SELECT * FROM teams WHERE team_id = ?"
-    try:
+    df = execute_query_df(query, [team_id])
+
+    if df.empty:
+        # Try to match by abbreviation if ID fails?
+        query = "SELECT * FROM teams WHERE abbreviation = ?"
         df = execute_query_df(query, [team_id])
-
         if df.empty:
-            # Try to match by abbreviation if ID fails?
-            query = "SELECT * FROM teams WHERE abbreviation = ?"
-            df = execute_query_df(query, [team_id])
-            if df.empty:
-                raise HTTPException(status_code=404, detail="Team not found")
+            raise HTTPException(status_code=404, detail="Team not found")
 
-        df = df.replace({np.nan: None})
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
-        return records[0]
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    return records[0]
 
 
 @router.get("/teams/{team_id}/stats", response_model=list[TeamSeasonStats])
@@ -59,21 +51,18 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
         WHERE team_id = ?
         ORDER BY season_id DESC
     """
-    try:
-        # First resolve team_id if it's an abbreviation
-        team_df = execute_query_df(
-            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
-        )
-        resolved_team_id = team_df.iloc[0]["team_id"] if not team_df.empty else team_id
+    # First resolve team_id if it's an abbreviation
+    team_df = execute_query_df(
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+    )
+    resolved_team_id = team_df.iloc[0]["team_id"] if not team_df.empty else team_id
 
-        df = execute_query_df(query, [resolved_team_id])
-        if df.empty:
-            return []
+    df = execute_query_df(query, [resolved_team_id])
+    if df.empty:
+        return []
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
 # NOTE: Roster endpoint might need `player_season_stats` or `player_contracts`.
@@ -95,21 +84,18 @@ def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any
     # My `load_stats.py` mapped abbrevs to team_ids.
     # So we query by team_id.
 
-    try:
-        # First verify team exists (and resolve ID if abbr provided)
-        team_df = execute_query_df(
-            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
-        )
-        resolved_team_id = (
-            team_df.iloc[0]["team_id"] if not team_df.empty else team_id
-        )  # Try anyway or 404
+    # First verify team exists (and resolve ID if abbr provided)
+    team_df = execute_query_df(
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+    )
+    resolved_team_id = (
+        team_df.iloc[0]["team_id"] if not team_df.empty else team_id
+    )  # Try anyway or 404
 
-        df = execute_query_df(query, [resolved_team_id, season_id])
+    df = execute_query_df(query, [resolved_team_id, season_id])
 
-        if df.empty:
-            return []
+    if df.empty:
+        return []
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))

@@ -71,21 +71,21 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const helperId = `${inputId}-helper`;
 
     const baseStyles =
-      "w-full bg-surface-base border rounded-lg py-2 transition-colors duration-base focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-surface-elevated";
+      "w-full bg-slate-50/50 border rounded-lg py-2.5 transition-all duration-200 outline-none focus:bg-white focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary disabled:opacity-60 disabled:bg-slate-100 placeholder:text-slate-400";
 
     const variantStyles = {
-      default: "px-3",
-      search: "rounded-full px-4",
+      default: "px-4",
+      search: "rounded-full px-5 bg-white shadow-sm hover:shadow-md focus:shadow-lg",
     };
 
     const iconPadding = {
-      start: startIcon ? "pl-10" : "",
-      end: endIcon ? "pr-10" : "",
+      start: startIcon ? "pl-11" : "",
+      end: endIcon ? "pr-11" : "",
     };
 
     const stateStyles = error
-      ? "border-status-error focus:ring-status-error focus:border-status-error text-text-primary"
-      : "border-border-default focus:ring-brand-primary focus:border-brand-primary text-text-primary";
+      ? "border-status-error focus:ring-status-error/20 focus:border-status-error text-text-primary"
+      : "border-slate-200 hover:border-slate-300 text-text-primary";
 
     const widthStyles = fullWidth ? "w-full" : "";
 

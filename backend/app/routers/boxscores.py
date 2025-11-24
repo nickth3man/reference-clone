@@ -19,12 +19,9 @@ def get_box_score(game_id: str) -> list[dict[str, Any]]:
         WHERE bs.game_id = ?
         ORDER BY bs.team_id, bs.is_starter DESC, bs.minutes_played DESC
     """
-    try:
-        df = execute_query_df(query, [game_id])
-        if df.empty:
-            return []
+    df = execute_query_df(query, [game_id])
+    if df.empty:
+        return []
 
-        df = df.replace({np.nan: None})
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))

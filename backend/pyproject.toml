@@ -13,11 +13,12 @@ dependencies = [
   "pandas",
   "numpy",
   "slowapi",
-  "python-json-logger",
+  "python-json-logger>=3.0.0",
   "redis",
   "strawberry-graphql[fastapi]",
   "nba-api>=1.11.3",
   "basketball-reference-web-scraper>=4.15.4",
+  "pydantic-settings>=2.12.0",
 ]
 
 [dependency-groups]
