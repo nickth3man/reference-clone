@@ -1,4 +1,3 @@
-import os
 from typing import Any, cast
 
 import duckdb
@@ -8,15 +7,15 @@ from app.config import settings
 
 DB_PATH = settings.DB_PATH
 
-_SHARED_CONNECTION = None
+_shared_connection = None
 
 
 def get_db_connection(read_only: bool = False) -> Any:
-    global _SHARED_CONNECTION
+    global _shared_connection
     if read_only:
-        if _SHARED_CONNECTION is None:
-            _SHARED_CONNECTION = duckdb.connect(DB_PATH, read_only=True)
-        return _SHARED_CONNECTION
+        if _shared_connection is None:
+            _shared_connection = duckdb.connect(DB_PATH, read_only=True)
+        return _shared_connection
     # For write operations, create a new connection
     conn = duckdb.connect(DB_PATH, read_only=read_only)
     return conn
@@ -34,7 +33,7 @@ def execute_query(query: str, params: list[Any] | None = None, read_only: bool =
 
 
 def execute_query_df(
-    query: str, params: list[Any] | None = None, read_only: bool = True
+    query: str, params: list[Any] | None = None, read_only: bool = True,
 ) -> pd.DataFrame:
     conn = get_db_connection(read_only=read_only)
     try:

@@ -9,7 +9,9 @@ def reproduce() -> None:
     try:
         df = execute_query_df(query, read_only=True)
         df = df.where(df.notnull(), None)
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        records = cast(
+            list[dict[str, Any]], df.to_dict(orient="records"),  # type: ignore
+        )
 
         print(f"Found {len(records)} records.")
 

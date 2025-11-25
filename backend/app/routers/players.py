@@ -21,7 +21,7 @@ router = APIRouter()
 
 @router.get("/players", response_model=list[Player])
 def get_players(
-    search: str | None = None, letter: str | None = None, limit: int = 50, offset: int = 0
+    search: str | None = None, letter: str | None = None, limit: int = 50, offset: int = 0,
 ) -> list[dict[str, Any]]:
     params: list[Any] = []
     # [REVIEW] Severity: Medium. Performance. Avoid 'SELECT *'. Specify needed columns to reduce payload size.
@@ -50,8 +50,8 @@ def get_players(
     params.extend([limit, offset])
 
     df = execute_query_df(query, params)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}", response_model=Player)
@@ -69,8 +69,8 @@ def get_player(player_id: str) -> dict[str, Any]:
     if df.empty:
         raise HTTPException(status_code=404, detail="Player not found")
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]  # type: ignore
 
 
 @router.get("/players/{player_id}/stats", response_model=list[PlayerSeasonStats])
@@ -87,8 +87,8 @@ def get_player_stats(player_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/gamelog", response_model=list[PlayerGameLog])
@@ -115,8 +115,8 @@ def get_player_gamelog(player_id: str, season_id: str | None = None) -> list[dic
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/splits", response_model=list[PlayerSplits])
@@ -137,8 +137,8 @@ def get_player_splits(player_id: str, season_id: str | None = None) -> list[dict
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/advanced", response_model=list[PlayerAdvancedStats])
@@ -159,8 +159,8 @@ def get_player_advanced_stats(player_id: str, season_id: str | None = None) -> l
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/contracts", response_model=list[Contract])
@@ -175,8 +175,8 @@ def get_player_contracts(player_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/shooting", response_model=list[PlayerShootingStats])
@@ -191,8 +191,8 @@ def get_player_shooting_stats(player_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/playbyplay", response_model=list[PlayerPlayByPlayStats])
@@ -207,8 +207,8 @@ def get_player_play_by_play_stats(player_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/awards", response_model=list[Award])
@@ -223,8 +223,8 @@ def get_player_awards(player_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/players/{player_id}/seasons", response_model=list[str])

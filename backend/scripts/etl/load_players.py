@@ -6,7 +6,7 @@ from typing import Any
 import duckdb
 
 BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
 )
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
@@ -102,7 +102,7 @@ def load_players() -> None:
                 exp,
                 is_active,
                 headshot_url,
-            )
+            ),
         )
 
     print(f"Inserting {len(batch_data)} players...")

@@ -4,7 +4,7 @@ import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
-from app.models import Season, PlayoffSeries
+from app.models import Season
 
 router = APIRouter()
 
@@ -13,8 +13,8 @@ router = APIRouter()
 def get_seasons() -> list[dict[str, Any]]:
     query = "SELECT * FROM seasons ORDER BY end_year DESC"
     df = execute_query_df(query)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/seasons/{season_id}", response_model=Season)
@@ -24,8 +24,8 @@ def get_season(season_id: str) -> dict[str, Any]:
     if df.empty:
         raise HTTPException(status_code=404, detail="Season not found")
 
-    df = df.replace({np.nan: None})
-    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
     return records[0]
 
 
@@ -43,8 +43,8 @@ def get_season_standings(season_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/seasons/{season_id}/leaders", response_model=dict[str, list[dict[str, Any]]])
@@ -70,8 +70,8 @@ def get_season_leaders(season_id: str) -> dict[str, list[dict[str, Any]]]:
         """
         try:
             df = execute_query_df(query, [season_id])
-            df = df.replace({np.nan: None})
-            results[key] = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+            df = df.replace({np.nan: None})  # type: ignore
+            results[key] = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
         except Exception as e:
             print(f"Error fetching leaders for {key}: {e}")
             results[key] = []
@@ -88,5 +88,5 @@ def get_season_playoffs(season_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore

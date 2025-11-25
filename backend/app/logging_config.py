@@ -1,5 +1,4 @@
-"""
-Structured logging configuration for the application.
+"""Structured logging configuration for the application.
 """
 
 import logging
@@ -10,11 +9,11 @@ from pythonjsonlogger.json import JsonFormatter
 
 # Configure root logger
 def configure_logging(level: str = "INFO") -> None:
-    """
-    Configure structured JSON logging for the application.
+    """Configure structured JSON logging for the application.
 
     Args:
         level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+
     """
     log_level = getattr(logging, level.upper(), logging.INFO)
 
@@ -35,13 +34,13 @@ def configure_logging(level: str = "INFO") -> None:
 
 
 def get_logger(name: str) -> logging.Logger:
-    """
-    Get a logger instance for a module.
+    """Get a logger instance for a module.
 
     Args:
         name: Logger name (typically __name__)
 
     Returns:
         Logger instance
+
     """
     return logging.getLogger(name)

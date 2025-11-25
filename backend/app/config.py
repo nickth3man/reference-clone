@@ -1,5 +1,4 @@
 import os
-from typing import List
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -8,7 +7,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Basketball Reference Clone API"
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
-    
+
     # Database
     # Defaulting to the relative path we had before, but making it configurable
     DB_PATH: str = os.path.join(
@@ -16,9 +15,9 @@ class Settings(BaseSettings):
         "data",
         "nba.duckdb",
     )
-    
+
     # CORS
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS: list[str] = [
         "http://localhost:3000",
         "http://localhost:3001",
         "http://localhost:3002",

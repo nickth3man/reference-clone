@@ -24,8 +24,8 @@ class Franchise(BaseModel):
 def get_franchises() -> list[dict[str, Any]]:
     query = "SELECT * FROM franchises"
     df = execute_query_df(query)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/franchises/{franchise_id}", response_model=Franchise)
@@ -34,5 +34,5 @@ def get_franchise(franchise_id: str) -> dict[str, Any]:
     df = execute_query_df(query, [franchise_id])
     if df.empty:
         raise HTTPException(status_code=404, detail="Franchise not found")
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]  # type: ignore

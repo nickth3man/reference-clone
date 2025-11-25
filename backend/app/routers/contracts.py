@@ -2,7 +2,7 @@ from datetime import date
 from typing import Any, cast
 
 import numpy as np
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
 from app.database import execute_query_df
@@ -37,7 +37,7 @@ def get_contracts(
     offset: int = 0,
 ) -> list[dict[str, Any]]:
     query = "SELECT * FROM player_contracts"
-    conditions = []
+    conditions: list[str] = []
     params: list[Any] = []
 
     if player_id:
@@ -59,5 +59,5 @@ def get_contracts(
     params.extend([limit, offset])
 
     df = execute_query_df(query, params)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore

@@ -1,3 +1,10 @@
 {
+  "include": ["backend"],
+  "exclude": [
+    "backend/.venv"
+  ],
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "strict",
+  "reportMissingImports": true,
   "extraPaths": ["backend"]
 }

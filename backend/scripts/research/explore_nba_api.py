@@ -1,6 +1,8 @@
 import time
+from typing import Any
 
-from nba_api.stats.endpoints import (
+import pandas as pd
+from nba_api.stats.endpoints import (  # type: ignore
     commonplayerinfo,
     commonteamroster,
     drafthistory,
@@ -10,12 +12,12 @@ from nba_api.stats.endpoints import (
 )
 
 
-def check_endpoint(name, endpoint_class, **kwargs):
+def check_endpoint(name: str, endpoint_class: Any, **kwargs: Any):
     print(f"\n--- Checking {name} ---")
     try:
         endpoint = endpoint_class(**kwargs)
         # Try different methods to get data frames
-        dfs = endpoint.get_data_frames()
+        dfs: list[pd.DataFrame] = endpoint.get_data_frames()
         if dfs:
             for i, df in enumerate(dfs):
                 print(f"DataFrame {i} columns: {list(df.columns)}")
@@ -33,7 +35,7 @@ def check_endpoint(name, endpoint_class, **kwargs):
 def explore():
     # 1. Draft History
     check_endpoint(
-        "DraftHistory", drafthistory.DraftHistory, league_id="00", season_year_nullable="2023"
+        "DraftHistory", drafthistory.DraftHistory, league_id="00", season_year_nullable="2023",
     )
 
     # 2. Awards

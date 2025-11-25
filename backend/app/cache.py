@@ -1,5 +1,4 @@
-"""
-Redis caching utilities.
+"""Redis caching utilities.
 """
 
 import json
@@ -18,20 +17,19 @@ redis_client: redis.Redis | None = None
 
 
 def get_redis_client() -> redis.Redis | None:
-    """
-    Get or create Redis client connection.
+    """Get or create Redis client connection.
 
     Returns:
         Redis client instance
+
     """
     global redis_client
     if redis_client is None:
         try:
             # Cast to Redis to satisfy Pylance if types are missing/incomplete
             client = redis.from_url(REDIS_URL, decode_responses=True)  # type: ignore
-            r_client = cast(redis.Redis, client)
-            r_client.ping()  # Test connection
-            redis_client = r_client
+            client.ping()  # type: ignore
+            redis_client = client
             logger.info("Connected to Redis", extra={"url": REDIS_URL})
         except Exception as e:
             logger.warning(
@@ -43,14 +41,14 @@ def get_redis_client() -> redis.Redis | None:
 
 
 def cache_get(key: str) -> Any | None:
-    """
-    Get value from cache.
+    """Get value from cache.
 
     Args:
         key: Cache key
 
     Returns:
         Cached value or None if not found
+
     """
     try:
         client = get_redis_client()
@@ -70,8 +68,7 @@ def cache_get(key: str) -> Any | None:
 
 
 def cache_set(key: str, value: Any, ttl: int = 300) -> bool:
-    """
-    Set value in cache.
+    """Set value in cache.
 
     Args:
         key: Cache key
@@ -80,6 +77,7 @@ def cache_set(key: str, value: Any, ttl: int = 300) -> bool:
 
     Returns:
         True if successful, False otherwise
+
     """
     try:
         client = get_redis_client()
@@ -96,14 +94,14 @@ def cache_set(key: str, value: Any, ttl: int = 300) -> bool:
 
 
 def cache_delete(key: str) -> bool:
-    """
-    Delete value from cache.
+    """Delete value from cache.
 
     Args:
         key: Cache key
 
     Returns:
         True if successful, False otherwise
+
     """
     try:
         client = get_redis_client()

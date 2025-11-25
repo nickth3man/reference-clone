@@ -1,6 +1,7 @@
 from typing import Any, cast
 
 import numpy as np
+import pandas as pd
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
@@ -38,7 +39,7 @@ def get_games(
         # [REVIEW] Severity: Low. Performance. Consider caching team lookups to reduce DB load.
         # Resolve abbreviation to ID if needed
         team_lookup = execute_query_df(
-            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+            "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id],
         )
 
         if not team_lookup.empty:
@@ -57,7 +58,7 @@ def get_games(
     params.extend([limit, offset])
 
     df = execute_query_df(query, params)
-    df = df.replace({np.nan: None})
+    df = cast(pd.DataFrame, df.replace({np.nan: None}))
     return cast(list[dict[str, Any]], df.to_dict(orient="records"))
 
 
@@ -77,7 +78,7 @@ def get_game(game_id: str) -> dict[str, Any]:
     if df.empty:
         raise HTTPException(status_code=404, detail="Game not found")
 
-    df = df.replace({np.nan: None})
+    df = cast(pd.DataFrame, df.replace({np.nan: None}))
     return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
 
 
@@ -88,5 +89,5 @@ def get_game_stats(game_id: str) -> dict[str, Any] | None:
     if df.empty:
         return None
 
-    df = df.replace({np.nan: None})
+    df = cast(pd.DataFrame, df.replace({np.nan: None}))
     return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]

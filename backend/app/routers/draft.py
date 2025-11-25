@@ -1,7 +1,7 @@
 from typing import Any, cast
 
 import numpy as np
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
 from app.database import execute_query_df
@@ -34,7 +34,7 @@ def get_draft_picks(
     offset: int = 0,
 ) -> list[dict[str, Any]]:
     query = "SELECT * FROM draft_picks"
-    conditions = []
+    conditions: list[str] = []
     params: list[Any] = []
 
     if year:
@@ -52,5 +52,5 @@ def get_draft_picks(
     params.extend([limit, offset])
 
     df = execute_query_df(query, params)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore

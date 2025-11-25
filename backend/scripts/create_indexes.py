@@ -1,5 +1,4 @@
-"""
-Script to create database indexes for performance optimization.
+"""Script to create database indexes for performance optimization.
 
 This script creates indexes on frequently queried columns to improve query performance.
 """
@@ -18,8 +17,7 @@ logger = get_logger(__name__)
 
 
 def create_indexes() -> None:
-    """
-    Create database indexes for optimal query performance.
+    """Create database indexes for optimal query performance.
 
     Indexes are created based on analysis of common query patterns:
     - team_details: team_id (primary lookups)
@@ -44,19 +42,19 @@ def create_indexes() -> None:
 
         logger.info("Creating common_player_info indexes...")
         conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_common_player_person_id ON common_player_info(person_id)"
+            "CREATE INDEX IF NOT EXISTS idx_common_player_person_id ON common_player_info(person_id)",
         )
         conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_common_player_team_id ON common_player_info(team_id)"
+            "CREATE INDEX IF NOT EXISTS idx_common_player_team_id ON common_player_info(team_id)",
         )
 
         # Player stats indexes
         logger.info("Creating player_stats_per_game indexes...")
         conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_player_stats_player_id ON player_stats_per_game(player_id)"
+            "CREATE INDEX IF NOT EXISTS idx_player_stats_player_id ON player_stats_per_game(player_id)",
         )
         conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_player_stats_seas_id ON player_stats_per_game(seas_id)"
+            "CREATE INDEX IF NOT EXISTS idx_player_stats_seas_id ON player_stats_per_game(seas_id)",
         )
 
         # Game indexes

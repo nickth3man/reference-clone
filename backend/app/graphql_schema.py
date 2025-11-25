@@ -1,5 +1,4 @@
-"""
-GraphQL schema and resolvers using Strawberry.
+"""GraphQL schema and resolvers using Strawberry.
 """
 
 from typing import Any, cast

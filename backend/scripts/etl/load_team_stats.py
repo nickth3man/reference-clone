@@ -3,7 +3,7 @@ import os
 import duckdb
 
 BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
 )
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
@@ -98,7 +98,7 @@ def load_team_stats() -> None:
         win_pct = w / (w + losses) if (w + losses) > 0 else 0.0
 
         batch_data.append(
-            (team_id, season_id, w, losses, win_pct, srs, pace, ortg, drtg, nrtg, ppg, opp_ppg)
+            (team_id, season_id, w, losses, win_pct, srs, pace, ortg, drtg, nrtg, ppg, opp_ppg),
         )
 
     if batch_data:

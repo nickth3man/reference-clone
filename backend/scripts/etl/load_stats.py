@@ -4,7 +4,7 @@ from typing import Any
 import duckdb
 
 BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
 )
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
@@ -244,7 +244,7 @@ def load_stats() -> None:
                 pts100,
                 trb100,
                 ast100,
-            )
+            ),
         )
 
         if len(batch_data) >= batch_size:
@@ -429,7 +429,7 @@ def load_stats() -> None:
                     dbpm,
                     bpm,
                     vorp,
-                )
+                ),
             )
 
             if len(adv_batch_data) >= batch_size:

@@ -22,8 +22,8 @@ def get_teams(active_only: bool = True) -> list[dict[str, Any]]:
     query += " ORDER BY full_name"
 
     df = execute_query_df(query, params)
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/teams/{team_id}", response_model=Team)
@@ -38,8 +38,8 @@ def get_team(team_id: str) -> dict[str, Any]:
         if df.empty:
             raise HTTPException(status_code=404, detail="Team not found")
 
-    df = df.replace({np.nan: None})
-    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
     return records[0]
 
 
@@ -53,7 +53,7 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
     """
     # First resolve team_id if it's an abbreviation
     team_df = execute_query_df(
-        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id],
     )
     resolved_team_id = team_df.iloc[0]["team_id"] if not team_df.empty else team_id
 
@@ -61,8 +61,8 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 # NOTE: Roster endpoint might need `player_season_stats` or `player_contracts`.
@@ -86,7 +86,7 @@ def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any
 
     # First verify team exists (and resolve ID if abbr provided)
     team_df = execute_query_df(
-        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id]
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id],
     )
     resolved_team_id = (
         team_df.iloc[0]["team_id"] if not team_df.empty else team_id
@@ -97,5 +97,5 @@ def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any
     if df.empty:
         return []
 
-    df = df.replace({np.nan: None})
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore

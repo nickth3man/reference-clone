@@ -9,7 +9,7 @@ def check_players() -> None:
                 "SELECT person_id, display_first_last FROM common_player_info "
                 "WHERE display_first_last LIKE '%Curry%'",
                 read_only=True,
-            )
+            ),
         )
         print("\nJordan in common_player_info:")
         print(
@@ -17,7 +17,7 @@ def check_players() -> None:
                 "SELECT person_id, display_first_last FROM common_player_info "
                 "WHERE display_first_last LIKE '%Jordan%'",
                 read_only=True,
-            )
+            ),
         )
     except Exception as e:  # pylint: disable=broad-exception-caught
         print(f"Error: {e}")
