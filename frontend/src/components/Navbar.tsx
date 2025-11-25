@@ -1,19 +1,50 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import { Search, Menu, X } from 'lucide-react';
+import { fetchAPI } from "@/lib/api";
+import { Team } from "@/types";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [teams, setTeams] = useState<Team[]>([]);
   const router = useRouter();
+
+  // Fetch teams on mount for search logic
+  useEffect(() => {
+    const loadTeams = async () => {
+      try {
+        const data = await fetchAPI<Team[]>("/teams");
+        setTeams(data || []);
+      } catch (err) {
+        console.error("Failed to load teams for search", err);
+      }
+    };
+    loadTeams();
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
+    if (!searchQuery.trim()) return;
+
+    const query = searchQuery.trim().toLowerCase();
+    
+    // Check for team match
+    const matchedTeam = teams.find(
+      (t) =>
+        (t.team_id && t.team_id.toLowerCase() === query) ||
+        (t.abbreviation && t.abbreviation.toLowerCase() === query) ||
+        (t.full_name && t.full_name.toLowerCase() === query) ||
+        (t.nickname && t.nickname.toLowerCase() === query) ||
+        (t.city && t.city.toLowerCase() === query)
+    );
+
+    if (matchedTeam) {
+      router.push(`/teams/${matchedTeam.team_id}`);
+    } else {
       router.push(`/players?search=${encodeURIComponent(searchQuery)}`);
-      setIsOpen(false);
     }
+    setIsOpen(false);
   };
 
   // Close mobile menu on route change
@@ -74,13 +105,6 @@ const Navbar = () => {
                 Players
               </Link>
               <Link
-                href="/games"
-                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
-                aria-current={isActiveRoute("/games") ? "page" : undefined}
-              >
-                Games
-              </Link>
-              <Link
                 href="/leagues"
                 className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
                 aria-current={isActiveRoute("/leagues") ? "page" : undefined}
@@ -88,25 +112,32 @@ const Navbar = () => {
                 Seasons
               </Link>
               <Link
-                href="/franchises"
+                href="/leaders"
                 className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
-                aria-current={isActiveRoute("/franchises") ? "page" : undefined}
+                aria-current={isActiveRoute("/leaders") ? "page" : undefined}
               >
-                Franchises
+                Leaders
               </Link>
               <Link
-                href="/draft"
+                href="/games"
                 className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
-                aria-current={isActiveRoute("/draft") ? "page" : undefined}
+                aria-current={isActiveRoute("/games") ? "page" : undefined}
               >
-                Draft
+                Scores
               </Link>
               <Link
-                href="/contracts"
+                href="/playoffs"
                 className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
-                aria-current={isActiveRoute("/contracts") ? "page" : undefined}
+                aria-current={isActiveRoute("/playoffs") ? "page" : undefined}
               >
-                Contracts
+                Playoffs
+              </Link>
+              <Link
+                href="/stathead"
+                className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                aria-current={isActiveRoute("/stathead") ? "page" : undefined}
+              >
+                Stathead
               </Link>
             </div>
           </div>
@@ -115,16 +146,16 @@ const Navbar = () => {
           <div className="hidden md:block flex-1 max-w-md ml-8">
             <form onSubmit={handleSearch} className="relative" role="search">
               <label htmlFor="desktop-search" className="sr-only">
-                Search players
+                Search players or teams
               </label>
               <input
                 id="desktop-search"
                 type="search"
-                placeholder="Search players..."
+                placeholder="Search players or teams..."
                 className="w-full bg-slate-800 text-white rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                aria-label="Search players"
+                aria-label="Search players or teams"
               />
               <span className="absolute left-3 top-2.5 text-slate-400" aria-hidden="true">
                 🔍
@@ -166,13 +197,6 @@ const Navbar = () => {
               Players
             </Link>
             <Link
-              href="/games"
-              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
-              aria-current={isActiveRoute("/games") ? "page" : undefined}
-            >
-              Games
-            </Link>
-            <Link
               href="/leagues"
               className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
               aria-current={isActiveRoute("/leagues") ? "page" : undefined}
@@ -180,39 +204,46 @@ const Navbar = () => {
               Seasons
             </Link>
             <Link
-              href="/franchises"
+              href="/leaders"
               className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
-              aria-current={isActiveRoute("/franchises") ? "page" : undefined}
+              aria-current={isActiveRoute("/leaders") ? "page" : undefined}
             >
-              Franchises
+              Leaders
             </Link>
             <Link
-              href="/draft"
+              href="/games"
               className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
-              aria-current={isActiveRoute("/draft") ? "page" : undefined}
+              aria-current={isActiveRoute("/games") ? "page" : undefined}
             >
-              Draft
+              Scores
             </Link>
             <Link
-              href="/contracts"
+              href="/playoffs"
               className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
-              aria-current={isActiveRoute("/contracts") ? "page" : undefined}
+              aria-current={isActiveRoute("/playoffs") ? "page" : undefined}
             >
-              Contracts
+              Playoffs
+            </Link>
+            <Link
+              href="/stathead"
+              className="block hover:bg-slate-800 px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-orange-500"
+              aria-current={isActiveRoute("/stathead") ? "page" : undefined}
+            >
+              Stathead
             </Link>
           </div>
           <form onSubmit={handleSearch} className="mt-4 relative" role="search">
             <label htmlFor="mobile-search" className="sr-only">
-              Search players
+              Search players or teams
             </label>
             <input
               id="mobile-search"
               type="search"
-              placeholder="Search players..."
+              placeholder="Search players or teams..."
               className="w-full bg-slate-800 text-white rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Search players"
+              aria-label="Search players or teams"
             />
             <span className="absolute left-3 top-2.5 text-slate-400" aria-hidden="true">
               🔍

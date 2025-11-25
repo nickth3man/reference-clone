@@ -52,6 +52,7 @@ def get_games(
     if conditions:
         query += " WHERE " + " AND ".join(conditions)
 
+    query += " ORDER BY game_date DESC, game_time DESC"
     query += " LIMIT ? OFFSET ?"
     params.extend([limit, offset])
 

@@ -2,28 +2,30 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import { fetchAPI } from "../../lib/api";
-import { Season, Standings, SeasonLeaders, Award } from "../../types";
+import { Season, StandingsItem, SeasonLeaders, Award, PlayoffSeries } from "../../types";
 
 interface LeaguePageProps {
   season: Season;
-  standings: Standings[];
+  standings: StandingsItem[];
   leaders: SeasonLeaders;
   awards: Award[];
+  playoffSeries: PlayoffSeries[];
 }
 
 export const getServerSideProps: GetServerSideProps<LeaguePageProps> = async (context) => {
   const { season_id } = context.params as { season_id: string };
   try {
     // Run in parallel for speed
-    const [season, standings, leaders, awards] = await Promise.all([
+    const [season, standings, leaders, awards, playoffSeries] = await Promise.all([
       fetchAPI<Season>(`/seasons/${season_id}`),
-      fetchAPI<Standings[]>(`/seasons/${season_id}/standings`),
+      fetchAPI<StandingsItem[]>(`/seasons/${season_id}/standings`),
       fetchAPI<SeasonLeaders>(`/seasons/${season_id}/leaders`),
-      fetchAPI<Award[]>(`/seasons/${season_id}/awards`).catch(() => []), // Endpoint might not exist yet in routers/seasons.py, need to check or add it.
+      fetchAPI<Award[]>(`/seasons/${season_id}/awards`).catch(() => []),
+      fetchAPI<PlayoffSeries[]>(`/seasons/${season_id}/playoffs`).catch(() => []),
     ]);
 
     return {
-      props: { season, standings, leaders, awards },
+      props: { season, standings, leaders, awards, playoffSeries },
     };
   } catch (err) {
     console.error("Error fetching season data:", err);
@@ -31,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<LeaguePageProps> = async (co
   }
 };
 
-export default function LeaguePage({ season, standings, leaders, awards }: LeaguePageProps) {
+export default function LeaguePage({ season, standings, leaders, awards, playoffSeries }: LeaguePageProps) {
   // Group standings by Conference
   const eastStandings = standings.filter(t => t.conference === "Eastern" || t.conference === "East");
   const westStandings = standings.filter(t => t.conference === "Western" || t.conference === "West");
@@ -61,7 +63,7 @@ export default function LeaguePage({ season, standings, leaders, awards }: Leagu
     </div>
   );
 
-  const StandingsTable = ({ title, data }: { title: string, data: Standings[] }) => (
+  const StandingsTable = ({ title, data }: { title: string, data: StandingsItem[] }) => (
     <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
       <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
           <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>
@@ -83,7 +85,7 @@ export default function LeaguePage({ season, standings, leaders, awards }: Leagu
               <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                 <Link href={`/teams/${team.team_id}`} className="text-blue-600 hover:underline flex items-center">
                   {team.full_name || team.team_id}
-                  {team.playoff_seed && <span className="ml-1 text-xs text-gray-400">({team.playoff_seed})</span>}
+                  {/* Not adding seed here as StandingsItem might not have it populated for all logic, relying on order */}
                 </Link>
               </td>
               <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500 text-right">{team.wins}</td>
@@ -134,6 +136,43 @@ export default function LeaguePage({ season, standings, leaders, awards }: Leagu
             </div>
           </div>
         </div>
+
+        {/* Playoff Series */}
+        {playoffSeries && playoffSeries.length > 0 && (
+            <div>
+                <h2 className="text-xl font-bold mb-4 text-gray-900">Playoffs</h2>
+                <div className="bg-white shadow overflow-hidden sm:rounded-md">
+                    <ul className="divide-y divide-gray-200">
+                        {playoffSeries.map((series) => {
+                             const winner = series.winner_team_id;
+                             const loser = winner === series.higher_seed_team_id ? series.lower_seed_team_id : series.higher_seed_team_id;
+                             const winnerWins = winner === series.higher_seed_team_id ? series.higher_seed_wins : series.lower_seed_wins;
+                             const loserWins = winner === series.higher_seed_team_id ? series.lower_seed_wins : series.higher_seed_wins;
+
+                             return (
+                            <li key={series.series_id} className="px-4 py-4 sm:px-6">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                        <span className="text-sm font-medium text-indigo-600 truncate uppercase tracking-wide">
+                                            {series.round}
+                                        </span>
+                                        <div className="mt-2 flex items-center text-sm text-gray-700">
+                                            <Link href={`/teams/${winner}`} className="font-bold mr-2 hover:underline text-gray-900">{winner}</Link>
+                                            <span className="mx-1">over</span>
+                                            <Link href={`/teams/${loser}`} className="font-bold ml-2 hover:underline text-gray-900">{loser}</Link>
+                                            <span className="ml-2 text-gray-500">
+                                                ({winnerWins}-{loserWins})
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </div>
+        )}
 
         {/* Leaders Grid */}
         <div>

@@ -364,6 +364,19 @@ class TeamSeasonStats(BaseModel):
     average_age: float | None = None
 
 
+class PlayoffSeries(BaseModel):
+    series_id: int
+    season_id: str | None = None
+    round: str | None = None
+    conference: str | None = None
+    higher_seed_team_id: str | None = None
+    lower_seed_team_id: str | None = None
+    higher_seed_wins: int | None = None
+    lower_seed_wins: int | None = None
+    winner_team_id: str | None = None
+    series_result: str | None = None
+
+
 # Alias for clarity
 Standings = TeamSeasonStats
 

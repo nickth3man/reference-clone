@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { fetchAPI } from "@/lib/api";
 import type { Team, Player, Game, TeamSeasonStats } from "@/types";
 import { Card, Button, Badge } from "@/components/atoms";
@@ -74,8 +75,13 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
         </div>
         <div className="px-8 pb-8">
           <div className="relative -mt-16 mb-6 flex flex-col sm:flex-row items-center sm:items-end gap-6">
-            <div className="h-32 w-32 bg-white rounded-2xl shadow-lg flex items-center justify-center text-4xl font-bold text-slate-800 border-4 border-white">
-              {team.abbreviation}
+            <div className="h-32 w-32 bg-white rounded-2xl shadow-lg flex items-center justify-center overflow-hidden border-4 border-white relative">
+              {team.logo_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={team.logo_url} alt={team.full_name} className="w-full h-full object-contain p-2" />
+              ) : (
+                <span className="text-4xl font-bold text-slate-800">{team.abbreviation}</span>
+              )}
             </div>
             <div className="text-center sm:text-left flex-1">
               <h1 className="text-4xl font-bold text-slate-900">
@@ -83,15 +89,18 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
               </h1>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-2 text-slate-500">
                 <div className="flex items-center gap-1">
-                  {/* <MapPin className="h-4 w-4" /> */}
                   <span>
                     {team.city}, {team.state}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  {/* <Calendar className="h-4 w-4" /> */}
                   <span>Est. {team.founded_year}</span>
                 </div>
+                {team.conference && (
+                    <div className="flex items-center gap-1">
+                        <Badge variant="secondary">{team.conference}</Badge>
+                    </div>
+                )}
               </div>
             </div>
           </div>
@@ -161,11 +170,65 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
         </Card>
       )}
 
+      {/* Franchise History */}
+      <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900">
+            Franchise History
+          </h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+              <tr>
+                <th className="px-4 py-3 font-medium">Season</th>
+                <th className="px-4 py-3 font-medium">Lg</th>
+                <th className="px-4 py-3 font-medium">Team</th>
+                <th className="px-4 py-3 font-medium text-right">W</th>
+                <th className="px-4 py-3 font-medium text-right">L</th>
+                <th className="px-4 py-3 font-medium text-right">W/L%</th>
+                <th className="px-4 py-3 font-medium">Finish</th>
+                <th className="px-4 py-3 font-medium">Playoffs</th>
+                <th className="px-4 py-3 font-medium text-right">Pace</th>
+                <th className="px-4 py-3 font-medium text-right">ORtg</th>
+                <th className="px-4 py-3 font-medium text-right">DRtg</th>
+                <th className="px-4 py-3 font-medium text-right">SRS</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {stats.map((stat) => (
+                <tr key={stat.season_id} className="hover:bg-slate-50">
+                  <td className="px-4 py-3 font-medium text-slate-900">
+                    <Link href={`/leagues/${stat.season_id}`} className="text-blue-600 hover:underline">
+                        {stat.season_id}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3 text-slate-500">NBA</td>
+                  <td className="px-4 py-3 text-slate-900">{team.full_name}</td>
+                  <td className="px-4 py-3 text-right text-slate-900">{stat.wins}</td>
+                  <td className="px-4 py-3 text-right text-slate-900">{stat.losses}</td>
+                  <td className="px-4 py-3 text-right text-slate-500">{stat.win_pct?.toFixed(3)}</td>
+                  <td className="px-4 py-3 text-slate-500">
+                      {stat.conference_rank ? `${stat.conference_rank}th` : "-"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-500">
+                      {stat.playoff_seed ? `Seed ${stat.playoff_seed}` : "-"}
+                  </td>
+                  <td className="px-4 py-3 text-right text-slate-500">{stat.pace}</td>
+                  <td className="px-4 py-3 text-right text-slate-500">{stat.offensive_rating}</td>
+                  <td className="px-4 py-3 text-right text-slate-500">{stat.defensive_rating}</td>
+                  <td className="px-4 py-3 text-right text-slate-500">{stat.simple_rating_system}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
       {/* Roster */}
       <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            {/* <Users className="h-5 w-5 text-orange-500" /> */}
             Team Roster
           </h2>
           <Badge variant="default">{roster.length} Players</Badge>
@@ -175,10 +238,13 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
           <table className="w-full text-left">
             <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
               <tr>
+                <th className="px-6 py-3 font-medium w-16"></th>
                 <th className="px-6 py-3 font-medium">Player</th>
                 <th className="px-6 py-3 font-medium">Pos</th>
                 <th className="px-6 py-3 font-medium">Height</th>
                 <th className="px-6 py-3 font-medium">Weight</th>
+                <th className="px-6 py-3 font-medium">Exp</th>
+                <th className="px-6 py-3 font-medium">College</th>
                 <th className="px-6 py-3 font-medium">Country</th>
               </tr>
             </thead>
@@ -189,7 +255,19 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
                   onClick={() => router.push(`/players/${player.player_id}`)}
                   className="hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <td className="px-6 py-4 font-medium text-slate-900">{player.full_name}</td>
+                  <td className="px-6 py-4">
+                     <div className="w-10 h-10 relative rounded-full overflow-hidden bg-gray-100 border border-gray-200">
+                        {player.headshot_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={player.headshot_url} alt={player.full_name} className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs font-bold">
+                                {player.full_name?.charAt(0)}
+                            </div>
+                        )}
+                     </div>
+                  </td>
+                  <td className="px-6 py-4 font-medium text-blue-600 hover:underline">{player.full_name}</td>
                   <td className="px-6 py-4 text-slate-500">{player.position}</td>
                   <td className="px-6 py-4 text-slate-500">
                     {player.height_inches
@@ -199,6 +277,8 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
                   <td className="px-6 py-4 text-slate-500">
                     {player.weight_lbs ? `${player.weight_lbs} lbs` : "-"}
                   </td>
+                  <td className="px-6 py-4 text-slate-500">{player.experience_years}</td>
+                  <td className="px-6 py-4 text-slate-500">{player.college}</td>
                   <td className="px-6 py-4 text-slate-500">{player.birth_country}</td>
                 </tr>
               ))}

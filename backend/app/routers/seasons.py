@@ -4,7 +4,7 @@ import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
-from app.models import Season
+from app.models import Season, PlayoffSeries
 
 router = APIRouter()
 
@@ -77,3 +77,16 @@ def get_season_leaders(season_id: str) -> dict[str, list[dict[str, Any]]]:
             results[key] = []
 
     return results
+
+
+@router.get("/seasons/{season_id}/playoffs", response_model=list[dict[str, Any]])
+def get_season_playoffs(season_id: str) -> list[dict[str, Any]]:
+    query = """
+        SELECT * FROM playoff_series WHERE season_id = ?
+    """
+    df = execute_query_df(query, [season_id])
+    if df.empty:
+        return []
+
+    df = df.replace({np.nan: None})
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))

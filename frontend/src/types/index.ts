@@ -22,6 +22,26 @@ export interface Team {
   championships?: number;
 }
 
+export interface StandingsItem {
+  team_id: string;
+  full_name: string;
+  abbreviation: string;
+  logo_url?: string;
+  conference: string;
+  division: string;
+  wins: number;
+  losses: number;
+  win_pct: number;
+  games_behind?: number;
+  points_per_game?: number;
+  opponent_points_per_game?: number;
+  simple_rating_system?: number;
+  pace?: number;
+  offensive_rating?: number;
+  defensive_rating?: number;
+  net_rating?: number;
+}
+
 export interface Player {
   player_id: string;
   first_name?: string;
@@ -170,6 +190,19 @@ export interface SeasonLeaders {
   ast: SeasonLeader[];
   ws: SeasonLeader[];
   per: SeasonLeader[];
+}
+
+export interface PlayoffSeries {
+  series_id: number;
+  season_id?: string;
+  round?: string;
+  conference?: string;
+  higher_seed_team_id?: string;
+  lower_seed_team_id?: string;
+  higher_seed_wins?: number;
+  lower_seed_wins?: number;
+  winner_team_id?: string;
+  series_result?: string;
 }
 
 export * from "./season";
