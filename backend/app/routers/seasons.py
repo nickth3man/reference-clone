@@ -49,34 +49,75 @@ def get_season_standings(season_id: str) -> list[dict[str, Any]]:
 
 @router.get("/seasons/{season_id}/leaders", response_model=dict[str, list[dict[str, Any]]])
 def get_season_leaders(season_id: str) -> dict[str, list[dict[str, Any]]]:
-    categories = {
-        "pts": ("player_season_stats", "points_per_game"),
-        "trb": ("player_season_stats", "rebounds_per_game"),
-        "ast": ("player_season_stats", "assists_per_game"),
-        "ws": ("player_advanced_stats", "win_shares"),
-        "per": ("player_advanced_stats", "player_efficiency_rating"),
+    # Pre-defined SQL queries for leaders to avoid constructing SQL using f-strings
+    # This avoids potential SQL injection flags from linters and keeps queries explicit
+    categories_sql: dict[str, str] = {
+        "pts": (
+            "SELECT p.player_id, p.full_name, p.headshot_url, "
+            "s.points_per_game as value, s.team_id "
+            "FROM player_season_stats s "
+            "JOIN players p ON s.player_id = p.player_id "
+            "WHERE s.season_id = ? "
+            "ORDER BY s.points_per_game DESC "
+            "LIMIT 5"
+        ),
+        "trb": (
+            "SELECT p.player_id, p.full_name, p.headshot_url, "
+            "s.rebounds_per_game as value, s.team_id "
+            "FROM player_season_stats s "
+            "JOIN players p ON s.player_id = p.player_id "
+            "WHERE s.season_id = ? "
+            "ORDER BY s.rebounds_per_game DESC "
+            "LIMIT 5"
+        ),
+        "ast": (
+            "SELECT p.player_id, p.full_name, p.headshot_url, "
+            "s.assists_per_game as value, s.team_id "
+            "FROM player_season_stats s "
+            "JOIN players p ON s.player_id = p.player_id "
+            "WHERE s.season_id = ? "
+            "ORDER BY s.assists_per_game DESC "
+            "LIMIT 5"
+        ),
+        "ws": (
+            "SELECT p.player_id, p.full_name, p.headshot_url, "
+            "s.win_shares as value, s.team_id "
+            "FROM player_advanced_stats s "
+            "JOIN players p ON s.player_id = p.player_id "
+            "WHERE s.season_id = ? "
+            "ORDER BY s.win_shares DESC "
+            "LIMIT 5"
+        ),
+        "per": (
+            "SELECT p.player_id, p.full_name, p.headshot_url, "
+            "s.player_efficiency_rating as value, s.team_id "
+            "FROM player_advanced_stats s "
+            "JOIN players p ON s.player_id = p.player_id "
+            "WHERE s.season_id = ? "
+            "ORDER BY s.player_efficiency_rating DESC "
+            "LIMIT 5"
+        ),
     }
-
     results = {}
 
-    for key, (table, col) in categories.items():
-        query = f"""
-            SELECT p.player_id, p.full_name, p.headshot_url, s.{col} as value, s.team_id
-            FROM {table} s
-            JOIN players p ON s.player_id = p.player_id
-            WHERE s.season_id = ?
-            ORDER BY s.{col} DESC
-            LIMIT 5
-        """
+    for key, query in categories_sql.items():
+
         try:
             df = execute_query_df(query, [season_id])
+            if df.empty:
+                print(f"Warning: No data returned for leader category '{key}' in season '{season_id}'")
             df = df.replace({np.nan: None})  # type: ignore
             results[key] = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
         except Exception as e:
+            # Enhanced logging to debug the failed query
             print(f"Error fetching leaders for {key}: {e}")
+            print(f"Failed Query Structure:\n{query}")
+            print(f"Parameters: season_id={season_id}")
+            import traceback
+            traceback.print_exc()
             results[key] = []
 
-    return results
+    return results  # type: ignore
 
 
 @router.get("/seasons/{season_id}/playoffs", response_model=list[dict[str, Any]])

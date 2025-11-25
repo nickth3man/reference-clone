@@ -1,4 +1,5 @@
-from typing import Any
+from contextlib import asynccontextmanager
+from typing import Any, AsyncGenerator
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,11 +14,18 @@ from app.rate_limit import limiter
 from app.routers import boxscores, contracts, draft, franchises, games, players, seasons, teams
 from app.config import settings
 
-# Configure structured logging
-configure_logging(settings.LOG_LEVEL)
 logger = get_logger(__name__)
 
-app = FastAPI(title=settings.APP_NAME)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    # Configure structured logging
+    configure_logging(settings.LOG_LEVEL)
+    logger.info("Application started", extra={"app_name": settings.APP_NAME})
+    yield
+
+
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 # Add rate limiting
 app.state.limiter = limiter
@@ -46,8 +54,6 @@ async def global_exception_handler(request: Request, exc: Exception) -> JSONResp
         content={"detail": "Internal Server Error"},
     )
 
-
-logger.info("Application started", extra={"app_name": settings.APP_NAME})
 
 # CORS Setup
 origins = settings.CORS_ORIGINS

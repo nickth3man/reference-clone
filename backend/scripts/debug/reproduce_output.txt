@@ -1,0 +1,142 @@
+Starting test_leaders_query...
+Testing with season_id: 2025
+
+--- Testing category: pts ---
+Table: player_season_stats, Column: points_per_game
+Query:
+  # noqa: S608 - table and col are validated against a whitelist above
+                    SELECT p.player_id, p.full_name, p.headshot_url, s.points_per_game as value, s.team_id
+                    FROM player_season_stats s
+                    JOIN players p ON s.player_id = p.player_id
+                    WHERE s.season_id = ?
+                    ORDER BY s.points_per_game DESC
+                    LIMIT 5
+                
+Parameters: [season_id]
+FAILED for pts: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+Traceback (most recent call last):
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\scripts\debug\test_seasons_query.py", line 77, in test_leaders_query
+    df = execute_query_df(query, [season_id])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\app\database.py", line 41, in execute_query_df
+    return cast(pd.DataFrame, conn.execute(query, params).df())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.ParserException: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+
+--- Testing category: trb ---
+Table: player_season_stats, Column: rebounds_per_game
+Query:
+  # noqa: S608 - table and col are validated against a whitelist above
+                    SELECT p.player_id, p.full_name, p.headshot_url, s.rebounds_per_game as value, s.team_id
+                    FROM player_season_stats s
+                    JOIN players p ON s.player_id = p.player_id
+                    WHERE s.season_id = ?
+                    ORDER BY s.rebounds_per_game DESC
+                    LIMIT 5
+                
+Parameters: [season_id]
+FAILED for trb: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+Traceback (most recent call last):
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\scripts\debug\test_seasons_query.py", line 77, in test_leaders_query
+    df = execute_query_df(query, [season_id])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\app\database.py", line 41, in execute_query_df
+    return cast(pd.DataFrame, conn.execute(query, params).df())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.ParserException: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+
+--- Testing category: ast ---
+Table: player_season_stats, Column: assists_per_game
+Query:
+  # noqa: S608 - table and col are validated against a whitelist above
+                    SELECT p.player_id, p.full_name, p.headshot_url, s.assists_per_game as value, s.team_id
+                    FROM player_season_stats s
+                    JOIN players p ON s.player_id = p.player_id
+                    WHERE s.season_id = ?
+                    ORDER BY s.assists_per_game DESC
+                    LIMIT 5
+                
+Parameters: [season_id]
+FAILED for ast: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+Traceback (most recent call last):
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\scripts\debug\test_seasons_query.py", line 77, in test_leaders_query
+    df = execute_query_df(query, [season_id])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\app\database.py", line 41, in execute_query_df
+    return cast(pd.DataFrame, conn.execute(query, params).df())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.ParserException: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+
+--- Testing category: ws ---
+Table: player_advanced_stats, Column: win_shares
+Query:
+  # noqa: S608 - table and col are validated against a whitelist above
+                    SELECT p.player_id, p.full_name, p.headshot_url, s.win_shares as value, s.team_id
+                    FROM player_advanced_stats s
+                    JOIN players p ON s.player_id = p.player_id
+                    WHERE s.season_id = ?
+                    ORDER BY s.win_shares DESC
+                    LIMIT 5
+                
+Parameters: [season_id]
+FAILED for ws: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+Traceback (most recent call last):
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\scripts\debug\test_seasons_query.py", line 77, in test_leaders_query
+    df = execute_query_df(query, [season_id])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\app\database.py", line 41, in execute_query_df
+    return cast(pd.DataFrame, conn.execute(query, params).df())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.ParserException: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+
+--- Testing category: per ---
+Table: player_advanced_stats, Column: player_efficiency_rating
+Query:
+  # noqa: S608 - table and col are validated against a whitelist above
+                    SELECT p.player_id, p.full_name, p.headshot_url, s.player_efficiency_rating as value, s.team_id
+                    FROM player_advanced_stats s
+                    JOIN players p ON s.player_id = p.player_id
+                    WHERE s.season_id = ?
+                    ORDER BY s.player_efficiency_rating DESC
+                    LIMIT 5
+                
+Parameters: [season_id]
+FAILED for per: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^
+Traceback (most recent call last):
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\scripts\debug\test_seasons_query.py", line 77, in test_leaders_query
+    df = execute_query_df(query, [season_id])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nicki\Documents\Github_Desktop\reference-clone\backend\app\database.py", line 41, in execute_query_df
+    return cast(pd.DataFrame, conn.execute(query, params).df())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.ParserException: Parser Error: syntax error at or near "#"
+
+LINE 1:   # noqa: S608 - table and col are validated against a whitelist...
+          ^

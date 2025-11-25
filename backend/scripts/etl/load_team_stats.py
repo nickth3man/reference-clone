@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 import duckdb
 
@@ -72,7 +73,7 @@ def load_team_stats() -> None:
         ) VALUES (?, ?, 'Regular', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0)
     """
 
-    batch_data = []
+    batch_data: list[Any] = []
 
     # Clear existing data
     print("Clearing existing team_season_stats...")

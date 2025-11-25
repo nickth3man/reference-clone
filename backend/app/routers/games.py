@@ -58,8 +58,8 @@ def get_games(
     params.extend([limit, offset])
 
     df = execute_query_df(query, params)
-    df = cast(pd.DataFrame, df.replace({np.nan: None}))
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+    df = df.replace({np.nan: None})  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
 
 
 @router.get("/games/{game_id}", response_model=Game)
@@ -78,8 +78,8 @@ def get_game(game_id: str) -> dict[str, Any]:
     if df.empty:
         raise HTTPException(status_code=404, detail="Game not found")
 
-    df = cast(pd.DataFrame, df.replace({np.nan: None}))
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
+    df = cast(pd.DataFrame, df.replace({np.nan: None}))  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]  # type: ignore
 
 
 @router.get("/games/{game_id}/stats", response_model=GameStats | None)
@@ -89,5 +89,5 @@ def get_game_stats(game_id: str) -> dict[str, Any] | None:
     if df.empty:
         return None
 
-    df = cast(pd.DataFrame, df.replace({np.nan: None}))
-    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]
+    df = cast(pd.DataFrame, df.replace({np.nan: None}))  # type: ignore
+    return cast(list[dict[str, Any]], df.to_dict(orient="records"))[0]  # type: ignore
