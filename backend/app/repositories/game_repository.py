@@ -123,7 +123,8 @@ class GameRepository(BaseRepository[Game]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [TeamGameStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [TeamGameStats(**record) for record in records]
 
     def get_box_scores(self, game_id: str) -> list[BoxScore]:
         """Get player box scores for a specific game.
@@ -153,7 +154,8 @@ class GameRepository(BaseRepository[Game]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [BoxScore(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [BoxScore(**record) for record in records]
 
     def get_recent_games(self, limit: int = 10) -> list[Game]:
         """Get the most recent games.

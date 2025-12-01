@@ -119,7 +119,8 @@ class SeasonRepository(BaseRepository[Season]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [TeamSeasonStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [TeamSeasonStats(**record) for record in records]
 
     def get_leaders(
         self,

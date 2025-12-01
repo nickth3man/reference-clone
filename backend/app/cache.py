@@ -1,9 +1,8 @@
-"""Redis caching utilities.
-"""
+"""Redis caching utilities."""
 
 import json
 import os
-from typing import Any, cast
+from typing import TypeVar, cast
 
 import redis
 
@@ -40,7 +39,11 @@ def get_redis_client() -> redis.Redis | None:
     return redis_client
 
 
-def cache_get(key: str) -> Any | None:
+# TypeVar for cached values
+CacheValue = TypeVar("CacheValue")
+
+
+def cache_get(key: str) -> object | None:
     """Get value from cache.
 
     Args:
@@ -67,7 +70,7 @@ def cache_get(key: str) -> Any | None:
         return None
 
 
-def cache_set(key: str, value: Any, ttl: int = 300) -> bool:
+def cache_set(key: str, value: object, ttl: int = 300) -> bool:
     """Set value in cache.
 
     Args:

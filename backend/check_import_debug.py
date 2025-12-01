@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 
 try:
     from app.main import app
-    print("Successfully imported app.main")
+    print(f"Successfully imported app.main: {app}")
 except Exception as e:
     print(f"Error importing app.main: {e}")
     import traceback

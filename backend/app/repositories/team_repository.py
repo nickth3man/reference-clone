@@ -57,7 +57,8 @@ class TeamRepository(BaseRepository[Team]):
             return []
 
         df = df.where(pd.notnull(df), None)
-        return [TeamSeasonStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [TeamSeasonStats(**record) for record in records]
 
     def get_roster(self, team_id: str, season_id: str) -> list[dict[str, Any]]:
         # Resolve ID first
@@ -76,5 +77,5 @@ class TeamRepository(BaseRepository[Team]):
         if df.empty:
             return []
 
-        df = df.replace({float("nan"): None})
-        return df.to_dict(orient="records")  # type: ignore
+        df = df.replace({float("nan"): None})  # type: ignore[arg-type]
+        return df.to_dict(orient="records")  # type: ignore[return-value]

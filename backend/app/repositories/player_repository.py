@@ -78,7 +78,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerSeasonStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerSeasonStats(**record) for record in records]
 
     def get_gamelog(self, player_id: str, season_id: str | None = None) -> list[PlayerGameLog]:
         params = [player_id]
@@ -103,7 +104,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerGameLog(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerGameLog(**record) for record in records]
 
     def get_splits(self, player_id: str, season_id: str | None = None) -> list[PlayerSplits]:
         params = [player_id]
@@ -122,7 +124,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerSplits(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerSplits(**record) for record in records]
 
     def get_advanced_stats(
         self, player_id: str, season_id: str | None = None
@@ -143,7 +146,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerAdvancedStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerAdvancedStats(**record) for record in records]
 
     def get_contracts(self, player_id: str) -> list[Contract]:
         query = """
@@ -156,7 +160,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [Contract(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [Contract(**record) for record in records]
 
     def get_shooting_stats(self, player_id: str) -> list[PlayerShootingStats]:
         query = """
@@ -169,7 +174,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerShootingStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerShootingStats(**record) for record in records]
 
     def get_play_by_play_stats(self, player_id: str) -> list[PlayerPlayByPlayStats]:
         query = """
@@ -182,7 +188,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [PlayerPlayByPlayStats(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerPlayByPlayStats(**record) for record in records]
 
     def get_awards(self, player_id: str) -> list[Award]:
         query = """
@@ -195,7 +202,8 @@ class PlayerRepository(BaseRepository[Player]):
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)
-        return [Award(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [Award(**record) for record in records]
 
     def get_seasons(self, player_id: str) -> list[str]:
         query = """

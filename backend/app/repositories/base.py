@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 import pandas as pd
 from pydantic import BaseModel
@@ -15,7 +15,8 @@ class BaseRepository(Generic[T]):
             return []
         # Replace NaN with None for Pydantic compatibility
         df = df.where(pd.notnull(df), None)
-        return [self.model(**record) for record in df.to_dict(orient="records")]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [self.model(**record) for record in records]
 
     def _to_model(self, df: pd.DataFrame) -> T | None:
         models = self._to_models(df)

@@ -1,11 +1,11 @@
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel
 
 from app.repositories.base import BaseRepository
 
 T = TypeVar("T", bound=BaseModel)
-R = TypeVar("R", bound=BaseRepository)  # type: ignore
+R = TypeVar("R", bound=BaseRepository[Any])
 
 
 class BaseService(Generic[T, R]):
@@ -18,4 +18,5 @@ class BaseService(Generic[T, R]):
         raise NotImplementedError("Subclasses must implement get_all")
 
     def get_by_id(self, id: str) -> T | None:
-        return self.repository.get_by_id(id)
+        # Subclasses should implement this if needed
+        raise NotImplementedError("Subclasses must implement get_by_id")
