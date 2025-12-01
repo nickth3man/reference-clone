@@ -1,7 +1,5 @@
 """GraphQL schema and resolvers using Strawberry."""
 
-from typing import Any, cast
-
 import strawberry
 
 from app.core.database import execute_query_df

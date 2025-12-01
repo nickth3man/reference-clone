@@ -2,10 +2,8 @@
 
 from app.core.exceptions import EntityNotFoundError
 from app.models import (
-    Contract,
     Player,
     PlayerAdvancedStats,
-    PlayerGameLog,
     PlayerSeasonStats,
 )
 from app.repositories.player_repository import PlayerRepository
@@ -89,7 +87,7 @@ class PlayerService(BaseService[Player, PlayerRepository]):
         # Calculate career totals
         total_games = sum(s.games_played or 0 for s in stats)
         total_points = sum(s.points or 0 for s in stats)
-        seasons_played = len(set(s.season_id for s in stats if s.season_id))
+        seasons_played = len({s.season_id for s in stats if s.season_id})
 
         return {
             "player": player,
