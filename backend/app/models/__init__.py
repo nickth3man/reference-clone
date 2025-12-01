@@ -19,6 +19,7 @@ from app.models.player import (
     PlayerAdvancedStats,
     PlayerSplits,
     PlayerShootingStats,
+    PlayerAdjustedShooting,
     PlayerPlayByPlayStats,
     PlayerGameLog,
 )
@@ -37,6 +38,8 @@ from app.models.game import (
     BoxScore,
     TeamGameStats,
     GameStats,
+    GamePlayByPlay,
+    ShotChartData,
 )
 
 # Season models
@@ -44,6 +47,7 @@ from app.models.season import (
     Season,
     PlayoffSeries,
     Award,
+    LeagueSeasonAverage,
 )
 
 # Contract models

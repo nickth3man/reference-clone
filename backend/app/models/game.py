@@ -36,6 +36,8 @@ class Game(BaseModel):
     arena: str | None = None
     attendance: int | None = None
     game_duration_minutes: int | None = None
+    streak: str | None = None
+    notes: str | None = None
     playoff_round: str | None = None
     series_game_number: int | None = None
     winner_team_id: str | None = None
@@ -69,6 +71,49 @@ class BoxScore(BaseModel):
     points: int | None = None
     plus_minus: int | None = None
     game_score: float | None = None
+    true_shooting_pct: float | None = None
+    effective_fg_pct: float | None = None
+    three_point_attempt_rate: float | None = None
+    free_throw_rate: float | None = None
+    offensive_rebound_pct: float | None = None
+    defensive_rebound_pct: float | None = None
+    total_rebound_pct: float | None = None
+    assist_pct: float | None = None
+    steal_pct: float | None = None
+    block_pct: float | None = None
+    turnover_pct: float | None = None
+    usage_pct: float | None = None
+    offensive_rating: int | None = None
+    defensive_rating: int | None = None
+    box_plus_minus: float | None = None
+
+
+class GamePlayByPlay(BaseModel):
+    """Game play-by-play event."""
+
+    event_id: int
+    game_id: str
+    quarter: int | None = None
+    time_remaining: str | None = None
+    away_action: str | None = None
+    score: str | None = None
+    home_action: str | None = None
+
+
+class ShotChartData(BaseModel):
+    """Shot chart data point."""
+
+    shot_id: int
+    game_id: str
+    player_id: str | None = None
+    team_id: str | None = None
+    quarter: int | None = None
+    time_remaining: str | None = None
+    x_coordinate: float | None = None
+    y_coordinate: float | None = None
+    shot_type: str | None = None
+    distance_ft: int | None = None
+    is_make: bool | None = None
 
 
 class TeamGameStats(BaseModel):
@@ -78,8 +123,29 @@ class TeamGameStats(BaseModel):
     game_id: str
     team_id: str
     is_home: bool
+    field_goals_made: int | None = None
+    field_goals_attempted: int | None = None
+    three_pointers_made: int | None = None
+    three_pointers_attempted: int | None = None
+    free_throws_made: int | None = None
+    free_throws_attempted: int | None = None
+    offensive_rebounds: int | None = None
+    defensive_rebounds: int | None = None
+    total_rebounds: int | None = None
+    assists: int | None = None
+    steals: int | None = None
+    blocks: int | None = None
+    turnovers: int | None = None
+    personal_fouls: int | None = None
     points: int | None = None
-    # Additional team game stats can be added here
+    pace: float | None = None
+    offensive_rating: float | None = None
+    defensive_rating: float | None = None
+    possessions: float | None = None
+    effective_fg_pct: float | None = None
+    turnover_pct: float | None = None
+    offensive_rebound_pct: float | None = None
+    free_throw_rate: float | None = None
 
 
 # Alias for backward compatibility

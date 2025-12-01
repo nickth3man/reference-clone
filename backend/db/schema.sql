@@ -20,7 +20,7 @@ CREATE TABLE players (
     high_school VARCHAR(200),
     high_school_city VARCHAR(100),
     high_school_state VARCHAR(100),
-    college VARCHAR(200),
+    last_attended VARCHAR(200), -- Formerly 'college'
     draft_year INTEGER,
     draft_round INTEGER,
     draft_pick INTEGER,
@@ -83,6 +83,10 @@ CREATE TABLE seasons (
     sixth_man_player_id VARCHAR(20),
     mip_player_id VARCHAR(20),
     coy_coach_id VARCHAR(20),
+    ppg_leader_player_id VARCHAR(20),
+    rpg_leader_player_id VARCHAR(20),
+    apg_leader_player_id VARCHAR(20),
+    ws_leader_player_id VARCHAR(20),
     salary_cap DECIMAL(15,2),
     luxury_tax_threshold DECIMAL(15,2),
     num_teams INTEGER
@@ -145,13 +149,45 @@ CREATE TABLE player_season_stats (
     personal_fouls INTEGER,
     personal_fouls_per_game DECIMAL(5,2),
 
-    -- Per Possession Stats (calculated)
+    -- Per 36 Minutes Stats
     points_per_36 DECIMAL(5,2),
     rebounds_per_36 DECIMAL(5,2),
     assists_per_36 DECIMAL(5,2),
+    field_goals_per_36 DECIMAL(5,2),
+    field_goals_attempted_per_36 DECIMAL(5,2),
+    three_pointers_per_36 DECIMAL(5,2),
+    three_pointers_attempted_per_36 DECIMAL(5,2),
+    two_pointers_per_36 DECIMAL(5,2),
+    two_pointers_attempted_per_36 DECIMAL(5,2),
+    free_throws_per_36 DECIMAL(5,2),
+    free_throws_attempted_per_36 DECIMAL(5,2),
+    offensive_rebounds_per_36 DECIMAL(5,2),
+    defensive_rebounds_per_36 DECIMAL(5,2),
+    steals_per_36 DECIMAL(5,2),
+    blocks_per_36 DECIMAL(5,2),
+    turnovers_per_36 DECIMAL(5,2),
+    personal_fouls_per_36 DECIMAL(5,2),
+
+    -- Per 100 Possessions Stats
     points_per_100_poss DECIMAL(5,2),
     rebounds_per_100_poss DECIMAL(5,2),
     assists_per_100_poss DECIMAL(5,2),
+    field_goals_per_100_poss DECIMAL(5,2),
+    field_goals_attempted_per_100_poss DECIMAL(5,2),
+    three_pointers_per_100_poss DECIMAL(5,2),
+    three_pointers_attempted_per_100_poss DECIMAL(5,2),
+    two_pointers_per_100_poss DECIMAL(5,2),
+    two_pointers_attempted_per_100_poss DECIMAL(5,2),
+    free_throws_per_100_poss DECIMAL(5,2),
+    free_throws_attempted_per_100_poss DECIMAL(5,2),
+    offensive_rebounds_per_100_poss DECIMAL(5,2),
+    defensive_rebounds_per_100_poss DECIMAL(5,2),
+    steals_per_100_poss DECIMAL(5,2),
+    blocks_per_100_poss DECIMAL(5,2),
+    turnovers_per_100_poss DECIMAL(5,2),
+    personal_fouls_per_100_poss DECIMAL(5,2),
+    offensive_rating DECIMAL(6,2),
+    defensive_rating DECIMAL(6,2),
 
     FOREIGN KEY (player_id) REFERENCES players(player_id),
     FOREIGN KEY (season_id) REFERENCES seasons(season_id),
@@ -215,12 +251,17 @@ CREATE TABLE player_shooting_stats (
     team_id VARCHAR(10),
 
     -- Distance Breakdown
+    average_shot_distance DECIMAL(4,1),
+    pct_fga_at_rim DECIMAL(5,3),
     fg_pct_at_rim DECIMAL(5,3),
     fga_at_rim INTEGER,
+    pct_fga_3_10 DECIMAL(5,3),
     fg_pct_3_10 DECIMAL(5,3),
     fga_3_10 INTEGER,
+    pct_fga_10_16 DECIMAL(5,3),
     fg_pct_10_16 DECIMAL(5,3),
     fga_10_16 INTEGER,
+    pct_fga_16_3pt DECIMAL(5,3),
     fg_pct_16_3pt DECIMAL(5,3),
     fga_16_3pt INTEGER,
     fg_pct_3pt DECIMAL(5,3),
@@ -271,12 +312,17 @@ CREATE TABLE player_play_by_play_stats (
     -- Shooting Fouls
     shooting_fouls_drawn INTEGER,
     shooting_fouls_committed INTEGER,
+    offensive_fouls_committed INTEGER,
 
     -- And-1s
     and_one_attempts INTEGER,
 
     -- Blocked Attempts
     blocked_field_goal_attempts INTEGER,
+
+    -- Turnovers
+    bad_pass_turnovers INTEGER,
+    lost_ball_turnovers INTEGER,
 
     FOREIGN KEY (player_id) REFERENCES players(player_id),
     FOREIGN KEY (season_id) REFERENCES seasons(season_id)
@@ -321,6 +367,8 @@ CREATE TABLE games (
     arena VARCHAR(200),
     attendance INTEGER,
     game_duration_minutes INTEGER,
+    streak VARCHAR(10),
+    notes TEXT,
 
     -- Playoffs Specific
     playoff_round VARCHAR(50),
@@ -368,6 +416,21 @@ CREATE TABLE box_scores (
 
     -- Advanced (Game Level)
     game_score DECIMAL(6,2),
+    true_shooting_pct DECIMAL(5,3),
+    effective_fg_pct DECIMAL(5,3),
+    three_point_attempt_rate DECIMAL(5,3),
+    free_throw_rate DECIMAL(5,3),
+    offensive_rebound_pct DECIMAL(5,2),
+    defensive_rebound_pct DECIMAL(5,2),
+    total_rebound_pct DECIMAL(5,2),
+    assist_pct DECIMAL(5,2),
+    steal_pct DECIMAL(5,2),
+    block_pct DECIMAL(5,2),
+    turnover_pct DECIMAL(5,2),
+    usage_pct DECIMAL(5,2),
+    offensive_rating INTEGER,
+    defensive_rating INTEGER,
+    box_plus_minus DECIMAL(4,1),
 
     FOREIGN KEY (game_id) REFERENCES games(game_id),
     FOREIGN KEY (player_id) REFERENCES players(player_id),
@@ -470,8 +533,54 @@ CREATE TABLE team_season_stats (
     turnover_pct DECIMAL(5,2),
     opponent_turnover_pct DECIMAL(5,2),
 
+    -- Opponent Advanced
+    opponent_effective_fg_pct DECIMAL(5,3),
+    opponent_defensive_rebound_pct DECIMAL(5,2),
+    opponent_free_throw_rate DECIMAL(5,3),
+
+    -- Attendance
+    attendance INTEGER,
+    attendance_per_game INTEGER,
+
     -- Age
     average_age DECIMAL(4,2),
+
+    -- Per Game & Totals
+    games_played INTEGER,
+    minutes_played INTEGER,
+    field_goals_made INTEGER,
+    field_goals_attempted INTEGER,
+    field_goals_per_game DECIMAL(5,2),
+    field_goals_attempted_per_game DECIMAL(5,2),
+    three_pointers_made INTEGER,
+    three_pointers_attempted INTEGER,
+    three_pointers_per_game DECIMAL(5,2),
+    three_pointers_attempted_per_game DECIMAL(5,2),
+    two_pointers_made INTEGER,
+    two_pointers_attempted INTEGER,
+    two_point_pct DECIMAL(5,3),
+    two_pointers_per_game DECIMAL(5,2),
+    two_pointers_attempted_per_game DECIMAL(5,2),
+    free_throws_made INTEGER,
+    free_throws_attempted INTEGER,
+    free_throws_per_game DECIMAL(5,2),
+    free_throws_attempted_per_game DECIMAL(5,2),
+    offensive_rebounds INTEGER,
+    defensive_rebounds INTEGER,
+    total_rebounds INTEGER,
+    offensive_rebounds_per_game DECIMAL(5,2),
+    defensive_rebounds_per_game DECIMAL(5,2),
+    rebounds_per_game DECIMAL(5,2),
+    assists INTEGER,
+    assists_per_game DECIMAL(5,2),
+    steals INTEGER,
+    steals_per_game DECIMAL(5,2),
+    blocks INTEGER,
+    blocks_per_game DECIMAL(5,2),
+    turnovers INTEGER,
+    turnovers_per_game DECIMAL(5,2),
+    personal_fouls INTEGER,
+    personal_fouls_per_game DECIMAL(5,2),
 
     FOREIGN KEY (team_id) REFERENCES teams(team_id),
     FOREIGN KEY (season_id) REFERENCES seasons(season_id)
@@ -552,8 +661,22 @@ CREATE TABLE draft_picks (
 
     -- Career Production
     career_games INTEGER,
+    career_minutes_played INTEGER,
     career_points INTEGER,
+    career_total_rebounds INTEGER,
+    career_total_assists INTEGER,
+    
+    career_points_per_game DECIMAL(5,2),
+    career_rebounds_per_game DECIMAL(5,2),
+    career_assists_per_game DECIMAL(5,2),
+    
+    career_fg_pct DECIMAL(5,3),
+    career_three_point_pct DECIMAL(5,3),
+    career_ft_pct DECIMAL(5,3),
+
     career_win_shares DECIMAL(6,2),
+    career_ws_per_48 DECIMAL(6,3),
+    career_box_plus_minus DECIMAL(4,1),
     career_vorp DECIMAL(6,2),
 
     FOREIGN KEY (player_id) REFERENCES players(player_id),
@@ -723,5 +846,109 @@ CREATE TABLE coach_seasons (
 
     FOREIGN KEY (coach_id) REFERENCES coaches(coach_id),
     FOREIGN KEY (team_id) REFERENCES teams(team_id),
+    FOREIGN KEY (season_id) REFERENCES seasons(season_id)
+);
+
+-- 3. New Tables based on Specification
+
+CREATE TABLE game_play_by_play (
+    event_id SERIAL PRIMARY KEY,
+    game_id VARCHAR(20),
+    quarter INTEGER,
+    time_remaining VARCHAR(10), -- MM:SS
+    away_action TEXT,
+    score VARCHAR(20),
+    home_action TEXT,
+    
+    FOREIGN KEY (game_id) REFERENCES games(game_id)
+);
+
+CREATE TABLE shot_chart_data (
+    shot_id SERIAL PRIMARY KEY,
+    game_id VARCHAR(20),
+    player_id VARCHAR(20),
+    team_id VARCHAR(10),
+    quarter INTEGER,
+    time_remaining VARCHAR(10),
+    x_coordinate DECIMAL(5,2),
+    y_coordinate DECIMAL(5,2),
+    shot_type VARCHAR(50), -- 2P, 3P
+    distance_ft INTEGER,
+    is_make BOOLEAN,
+    
+    FOREIGN KEY (game_id) REFERENCES games(game_id),
+    FOREIGN KEY (player_id) REFERENCES players(player_id),
+    FOREIGN KEY (team_id) REFERENCES teams(team_id)
+);
+
+CREATE SEQUENCE seq_player_adjusted_shooting_id;
+CREATE TABLE player_adjusted_shooting (
+    stat_id INTEGER PRIMARY KEY DEFAULT nextval('seq_player_adjusted_shooting_id'),
+    player_id VARCHAR(20),
+    season_id VARCHAR(10),
+    team_id VARCHAR(10),
+    
+    -- Basic Shooting (Repeated for convenience or join)
+    fg_made INTEGER,
+    fg_attempted INTEGER,
+    fg_pct DECIMAL(5,3),
+    fg2_made INTEGER,
+    fg2_attempted INTEGER,
+    fg2_pct DECIMAL(5,3),
+    fg3_made INTEGER,
+    fg3_attempted INTEGER,
+    fg3_pct DECIMAL(5,3),
+    efg_pct DECIMAL(5,3),
+    ft_made INTEGER,
+    ft_attempted INTEGER,
+    ft_pct DECIMAL(5,3),
+    ts_pct DECIMAL(5,3),
+    ft_rate DECIMAL(5,3),
+    fg3_rate DECIMAL(5,3),
+    
+    -- League Adjusted (100 = League Average)
+    fg_plus INTEGER,
+    fg2_plus INTEGER,
+    fg3_plus INTEGER,
+    efg_plus INTEGER,
+    ft_plus INTEGER,
+    ts_plus INTEGER,
+    ft_rate_plus INTEGER,
+    fg3_rate_plus INTEGER,
+    
+    FOREIGN KEY (player_id) REFERENCES players(player_id),
+    FOREIGN KEY (season_id) REFERENCES seasons(season_id),
+    FOREIGN KEY (team_id) REFERENCES teams(team_id)
+);
+
+CREATE SEQUENCE seq_league_season_averages_id;
+CREATE TABLE league_season_averages (
+    stat_id INTEGER PRIMARY KEY DEFAULT nextval('seq_league_season_averages_id'),
+    season_id VARCHAR(10),
+    league VARCHAR(10),
+    
+    -- Player Averages
+    avg_age DECIMAL(4,1),
+    avg_height_inches DECIMAL(5,2),
+    avg_weight_lbs DECIMAL(5,2),
+    
+    -- Per Game Averages
+    points_pg DECIMAL(5,1),
+    rebounds_pg DECIMAL(5,1),
+    assists_pg DECIMAL(5,1),
+    steals_pg DECIMAL(5,1), -- Available since 1973-74
+    blocks_pg DECIMAL(5,1), -- Available since 1973-74
+    turnovers_pg DECIMAL(5,1), -- Available since 1973-74
+    
+    -- Shooting Averages
+    fg_pct DECIMAL(5,3),
+    fg3_pct DECIMAL(5,3), -- Available since 1979-80
+    ft_pct DECIMAL(5,3),
+    
+    -- Pace/Rating
+    pace DECIMAL(5,1),
+    off_rating DECIMAL(5,1),
+    def_rating DECIMAL(5,1),
+    
     FOREIGN KEY (season_id) REFERENCES seasons(season_id)
 );

@@ -18,6 +18,10 @@ class Season(BaseModel):
     sixth_man_player_id: str | None = None
     mip_player_id: str | None = None
     coy_coach_id: str | None = None
+    ppg_leader_player_id: str | None = None
+    rpg_leader_player_id: str | None = None
+    apg_leader_player_id: str | None = None
+    ws_leader_player_id: str | None = None
     salary_cap: float | None = None
     luxury_tax_threshold: float | None = None
     num_teams: int | None = None
@@ -50,3 +54,33 @@ class Award(BaseModel):
     total_points: int | None = None
     vote_share: float | None = None
     rank: int | None = None
+
+class LeagueSeasonAverage(BaseModel):
+    """League-wide season averages."""
+
+    stat_id: int
+    season_id: str | None = None
+    league: str | None = None
+    
+    # Player Averages
+    avg_age: float | None = None
+    avg_height_inches: float | None = None
+    avg_weight_lbs: float | None = None
+    
+    # Per Game Averages
+    points_pg: float | None = None
+    rebounds_pg: float | None = None
+    assists_pg: float | None = None
+    steals_pg: float | None = None
+    blocks_pg: float | None = None
+    turnovers_pg: float | None = None
+    
+    # Shooting Averages
+    fg_pct: float | None = None
+    fg3_pct: float | None = None
+    ft_pct: float | None = None
+    
+    # Pace/Rating
+    pace: float | None = None
+    off_rating: float | None = None
+    def_rating: float | None = None

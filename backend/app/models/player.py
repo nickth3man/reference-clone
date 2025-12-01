@@ -24,7 +24,7 @@ class Player(BaseModel):
     high_school: str | None = None
     high_school_city: str | None = None
     high_school_state: str | None = None
-    college: str | None = None
+    last_attended: str | None = None
     draft_year: int | None = None
     draft_round: int | None = None
     draft_pick: int | None = None
@@ -84,12 +84,46 @@ class PlayerSeasonStats(BaseModel):
     blocks_per_game: float | None = None
     personal_fouls: int | None = None
     personal_fouls_per_game: float | None = None
+    
+    # Per 36 Minutes
     points_per_36: float | None = None
     rebounds_per_36: float | None = None
     assists_per_36: float | None = None
+    field_goals_per_36: float | None = None
+    field_goals_attempted_per_36: float | None = None
+    three_pointers_per_36: float | None = None
+    three_pointers_attempted_per_36: float | None = None
+    two_pointers_per_36: float | None = None
+    two_pointers_attempted_per_36: float | None = None
+    free_throws_per_36: float | None = None
+    free_throws_attempted_per_36: float | None = None
+    offensive_rebounds_per_36: float | None = None
+    defensive_rebounds_per_36: float | None = None
+    steals_per_36: float | None = None
+    blocks_per_36: float | None = None
+    turnovers_per_36: float | None = None
+    personal_fouls_per_36: float | None = None
+
+    # Per 100 Possessions
     points_per_100_poss: float | None = None
     rebounds_per_100_poss: float | None = None
     assists_per_100_poss: float | None = None
+    field_goals_per_100_poss: float | None = None
+    field_goals_attempted_per_100_poss: float | None = None
+    three_pointers_per_100_poss: float | None = None
+    three_pointers_attempted_per_100_poss: float | None = None
+    two_pointers_per_100_poss: float | None = None
+    two_pointers_attempted_per_100_poss: float | None = None
+    free_throws_per_100_poss: float | None = None
+    free_throws_attempted_per_100_poss: float | None = None
+    offensive_rebounds_per_100_poss: float | None = None
+    defensive_rebounds_per_100_poss: float | None = None
+    steals_per_100_poss: float | None = None
+    blocks_per_100_poss: float | None = None
+    turnovers_per_100_poss: float | None = None
+    personal_fouls_per_100_poss: float | None = None
+    offensive_rating: float | None = None
+    defensive_rating: float | None = None
 
 
 class PlayerAdvancedStats(BaseModel):
@@ -162,12 +196,17 @@ class PlayerShootingStats(BaseModel):
     player_id: str | None = None
     season_id: str | None = None
     team_id: str | None = None
+    average_shot_distance: float | None = None
+    pct_fga_at_rim: float | None = None
     fg_pct_at_rim: float | None = None
     fga_at_rim: int | None = None
+    pct_fga_3_10: float | None = None
     fg_pct_3_10: float | None = None
     fga_3_10: int | None = None
+    pct_fga_10_16: float | None = None
     fg_pct_10_16: float | None = None
     fga_10_16: int | None = None
+    pct_fga_16_3pt: float | None = None
     fg_pct_16_3pt: float | None = None
     fga_16_3pt: int | None = None
     fg_pct_3pt: float | None = None
@@ -182,6 +221,43 @@ class PlayerShootingStats(BaseModel):
     corner_3_attempts: int | None = None
     heaves_attempted: int | None = None
     heaves_made: int | None = None
+
+
+class PlayerAdjustedShooting(BaseModel):
+    """Player adjusted shooting statistics."""
+
+    stat_id: int
+    player_id: str | None = None
+    season_id: str | None = None
+    team_id: str | None = None
+    
+    # Basic Shooting
+    fg_made: int | None = None
+    fg_attempted: int | None = None
+    fg_pct: float | None = None
+    fg2_made: int | None = None
+    fg2_attempted: int | None = None
+    fg2_pct: float | None = None
+    fg3_made: int | None = None
+    fg3_attempted: int | None = None
+    fg3_pct: float | None = None
+    efg_pct: float | None = None
+    ft_made: int | None = None
+    ft_attempted: int | None = None
+    ft_pct: float | None = None
+    ts_pct: float | None = None
+    ft_rate: float | None = None
+    fg3_rate: float | None = None
+    
+    # League Adjusted
+    fg_plus: int | None = None
+    fg2_plus: int | None = None
+    fg3_plus: int | None = None
+    efg_plus: int | None = None
+    ft_plus: int | None = None
+    ts_plus: int | None = None
+    ft_rate_plus: int | None = None
+    fg3_rate_plus: int | None = None
 
 
 class PlayerPlayByPlayStats(BaseModel):
@@ -202,8 +278,11 @@ class PlayerPlayByPlayStats(BaseModel):
     net_rating_off: float | None = None
     shooting_fouls_drawn: int | None = None
     shooting_fouls_committed: int | None = None
+    offensive_fouls_committed: int | None = None
     and_one_attempts: int | None = None
     blocked_field_goal_attempts: int | None = None
+    bad_pass_turnovers: int | None = None
+    lost_ball_turnovers: int | None = None
 
 
 class PlayerGameLog(BaseModel):
@@ -213,6 +292,8 @@ class PlayerGameLog(BaseModel):
     game_id: str
     player_id: str
     team_id: str
+    game_number: int | None = None
+    age: str | None = None
     is_starter: bool | None = None
     minutes_played: int | None = None
     did_not_play: bool | None = False
