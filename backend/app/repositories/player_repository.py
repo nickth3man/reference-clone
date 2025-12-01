@@ -7,6 +7,7 @@ from app.models import (
     Award,
     Contract,
     Player,
+    PlayerAdjustedShooting,
     PlayerAdvancedStats,
     PlayerGameLog,
     PlayerPlayByPlayStats,
@@ -176,6 +177,20 @@ class PlayerRepository(BaseRepository[Player]):
         df = df.where(pd.notnull(df), None)
         records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
         return [PlayerShootingStats(**record) for record in records]
+
+    def get_adjusted_shooting(self, player_id: str) -> list[PlayerAdjustedShooting]:
+        query = """
+            SELECT *
+            FROM player_adjusted_shooting
+            WHERE player_id = ?
+            ORDER BY season_id DESC
+        """
+        df = execute_query_df(query, [player_id])
+        if df.empty:
+            return []
+        df = df.where(pd.notnull(df), None)
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        return [PlayerAdjustedShooting(**record) for record in records]
 
     def get_play_by_play_stats(self, player_id: str) -> list[PlayerPlayByPlayStats]:
         query = """

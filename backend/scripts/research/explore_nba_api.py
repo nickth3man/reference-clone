@@ -1,4 +1,5 @@
 import time
+from collections.abc import Callable
 from typing import Any
 
 import pandas as pd
@@ -12,27 +13,27 @@ from nba_api.stats.endpoints import (  # type: ignore
 )
 
 
-def check_endpoint(name: str, endpoint_class: Any, **kwargs: Any):
+def check_endpoint(name: str, endpoint_class: Callable[..., Any], **kwargs: object) -> None:
     print(f"\n--- Checking {name} ---")
     try:
         endpoint = endpoint_class(**kwargs)
-        # Try different methods to get data frames
         dfs: list[pd.DataFrame] = endpoint.get_data_frames()
-        if dfs:
-            for i, df in enumerate(dfs):
-                print(f"DataFrame {i} columns: {list(df.columns)}")
-                if not df.empty:
-                    print(f"Sample data:\n{df.head(2)}")
-                else:
-                    print("DataFrame is empty.")
-        else:
+        if not dfs:
             print("No DataFrames returned.")
+            return  # Early return for cleaner flow
+
+        for i, df in enumerate(dfs):
+            print(f"DataFrame {i} ({len(df)} rows) columns: {list(df.columns)}")
+            if not df.empty:
+                print(f"Sample data:\n{df.head(2)}")
+            else:
+                print("DataFrame is empty.")
     except Exception as e:
         print(f"Error: {e}")
     time.sleep(1)  # Be nice to the API
 
 
-def explore():
+def explore() -> None:
     # 1. Draft History
     check_endpoint(
         "DraftHistory", drafthistory.DraftHistory, league_id="00", season_year_nullable="2023",

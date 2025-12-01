@@ -4,6 +4,7 @@ from app.models import (
     Award,
     Contract,
     Player,
+    PlayerAdjustedShooting,
     PlayerAdvancedStats,
     PlayerGameLog,
     PlayerPlayByPlayStats,
@@ -91,6 +92,14 @@ def get_player_shooting_stats(
     repo: PlayerRepository = Depends(get_player_repository),
 ) -> list[PlayerShootingStats]:
     return repo.get_shooting_stats(player_id)
+
+
+@router.get("/players/{player_id}/adjusted_shooting", response_model=list[PlayerAdjustedShooting])
+def get_player_adjusted_shooting(
+    player_id: str,
+    repo: PlayerRepository = Depends(get_player_repository),
+) -> list[PlayerAdjustedShooting]:
+    return repo.get_adjusted_shooting(player_id)
 
 
 @router.get("/players/{player_id}/playbyplay", response_model=list[PlayerPlayByPlayStats])

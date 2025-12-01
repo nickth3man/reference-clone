@@ -153,3 +153,34 @@ export interface PlayerPlayByPlayStats {
   blocked_field_goal_attempts?: number;
 }
 
+export interface PlayerAdjustedShooting {
+  stat_id: number;
+  player_id?: string;
+  season_id?: string;
+  team_id?: string;
+  fg_made?: number;
+  fg_attempted?: number;
+  fg_pct?: number;
+  fg2_made?: number;
+  fg2_attempted?: number;
+  fg2_pct?: number;
+  fg3_made?: number;
+  fg3_attempted?: number;
+  fg3_pct?: number;
+  efg_pct?: number;
+  ft_made?: number;
+  ft_attempted?: number;
+  ft_pct?: number;
+  ts_pct?: number;
+  ft_rate?: number;
+  fg3_rate?: number;
+  fg_plus?: number;
+  fg2_plus?: number;
+  fg3_plus?: number;
+  efg_plus?: number;
+  ft_plus?: number;
+  ts_plus?: number;
+  ft_rate_plus?: number;
+  fg3_rate_plus?: number;
+}
+

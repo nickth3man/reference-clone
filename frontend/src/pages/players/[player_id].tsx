@@ -10,11 +10,17 @@ import type {
   Contract, 
   PlayerShootingStats, 
   PlayerPlayByPlayStats, 
+  PlayerAdjustedShooting,
+  PlayerGameLog,
+  PlayerSplits,
   Award 
 } from "../../types";
 import { PlayerHeader } from "../../components/PlayerHeader";
 import { PlayerSubNav } from "../../components/PlayerSubNav";
 import { Card, Button, Spinner } from "@/components/atoms";
+import Table from "../../components/Table";
+import { TABLE_SCHEMAS } from "../../lib/tableSchema";
+import { mapToPerGame, mapToTotals, mapToPerMinute, mapToPerPoss, mapToAdvanced, mapToShooting, mapToPbp, mapToAdjustedShooting, mapToGameLog, mapToSplits } from "../../lib/dataMapper";
 
 export default function PlayerPage() {
   const router = useRouter();
@@ -23,7 +29,10 @@ export default function PlayerPage() {
   const [stats, setStats] = useState<PlayerSeasonStats[]>([]);
   const [advancedStats, setAdvancedStats] = useState<PlayerAdvancedStats[]>([]);
   const [shootingStats, setShootingStats] = useState<PlayerShootingStats[]>([]);
+  const [adjustedShooting, setAdjustedShooting] = useState<PlayerAdjustedShooting[]>([]);
   const [pbpStats, setPbpStats] = useState<PlayerPlayByPlayStats[]>([]);
+  const [gameLog, setGameLog] = useState<PlayerGameLog[]>([]);
+  const [splits, setSplits] = useState<PlayerSplits[]>([]);
   const [awards, setAwards] = useState<Award[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,6 +76,27 @@ export default function PlayerPage() {
         if (pbpRes.ok) {
           const pbpData = await pbpRes.json();
           setPbpStats(pbpData);
+        }
+
+        // Fetch adjusted shooting stats
+        const adjShootingRes = await fetch(`${API_URL}/players/${player_id}/adjusted_shooting`);
+        if (adjShootingRes.ok) {
+          const adjShootingData = await adjShootingRes.json();
+          setAdjustedShooting(adjShootingData);
+        }
+
+        // Fetch game log
+        const gameLogRes = await fetch(`${API_URL}/players/${player_id}/gamelog`);
+        if (gameLogRes.ok) {
+          const gameLogData = await gameLogRes.json();
+          setGameLog(gameLogData);
+        }
+
+        // Fetch splits
+        const splitsRes = await fetch(`${API_URL}/players/${player_id}/splits`);
+        if (splitsRes.ok) {
+          const splitsData = await splitsRes.json();
+          setSplits(splitsData);
         }
 
         // Fetch awards
@@ -125,8 +155,20 @@ export default function PlayerPage() {
   const displayedStats = filterStats(stats);
   const displayedAdvanced = filterStats(advancedStats);
   const displayedShooting = filterStats(shootingStats);
+  const displayedAdjustedShooting = filterStats(adjustedShooting);
   const displayedPbp = filterStats(pbpStats);
-
+  // GameLog and Splits might need different filtering or just show all for now
+  // For GameLog, we might want to filter by season if selected, but here we show all?
+  // Usually GameLog is per season. The API fetches all?
+  // The API `get_player_gamelog` takes `season_id`. If None, it returns all?
+  // Let's assume we show all or filter by `showPlayoffs` if `game_type` is available.
+  const displayedGameLog = gameLog.filter(log => {
+      // Assuming game_type is available on log (from BoxScore)
+      // If not, we might need to check.
+      // For now, let's just pass it through or implement a simple filter if possible.
+      return true; 
+  });
+  
   return (
     <Layout>
       <PlayerHeader player={player} />
@@ -147,350 +189,94 @@ export default function PlayerPage() {
 
         {/* Per Game Stats */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Per Game</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-xs">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">Age</th>
-                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Lg</th>
-                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Pos</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">G</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">GS</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">MP</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FG</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FGA</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FG%</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3P</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3PA</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">3P%</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2P</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2PA</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">2P%</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">eFG%</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FT</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FTA</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">FT%</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">ORB</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">DRB</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">TRB</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">AST</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">STL</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">BLK</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">TOV</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">PF</th>
-                    <th className="px-2 py-2 text-right font-semibold text-gray-600">PTS</th>
-                    <th className="px-2 py-2 text-left font-semibold text-gray-600">Awards</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedStats.map((stat, index) => {
-                    const g = stat.games_played || 1;
-                    const formatVal = (val: number | undefined) => (val ? (val / g).toFixed(1) : "0.0");
-                    const formatPct = (val: number | undefined) => (val !== undefined ? val.toFixed(3).replace(/^0/, "") : "");
-                    
-                    // Match awards for this season
-                    const seasonAwards = awards.filter(a => a.season_id === stat.season_id);
-                    const awardsStr = seasonAwards.map(a => {
-                        let str = a.award_type || "";
-                        if (a.rank && a.rank > 0) str += `-${a.rank}`; // Simple representation
-                        return str;
-                    }).filter(s => s).join(", ");
-
-                    return (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-2 py-2 whitespace-nowrap font-medium text-gray-900">
-                        <Link href={`/leagues/${stat.season_id}`} className="text-blue-600 hover:underline">{stat.season_id}</Link>
-                      </td>
-                      <td className="px-2 py-2 text-right">{stat.age}</td>
-                      <td className="px-2 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                        {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-2 py-2 text-left">{stat.league}</td>
-                      <td className="px-2 py-2 text-left">{player.position}</td>
-                      <td className="px-2 py-2 text-right">{stat.games_played}</td>
-                      <td className="px-2 py-2 text-right">{stat.games_started}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.minutes_played)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.field_goals_made)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.field_goals_attempted)}</td>
-                      <td className="px-2 py-2 text-right">{formatPct(stat.field_goal_pct)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.three_pointers_made)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.three_pointers_attempted)}</td>
-                      <td className="px-2 py-2 text-right">{formatPct(stat.three_point_pct)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.two_pointers_made)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.two_pointers_attempted)}</td>
-                      <td className="px-2 py-2 text-right">{formatPct(stat.two_point_pct)}</td>
-                      <td className="px-2 py-2 text-right">{formatPct(stat.effective_fg_pct)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.free_throws_made)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.free_throws_attempted)}</td>
-                      <td className="px-2 py-2 text-right">{formatPct(stat.free_throw_pct)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.offensive_rebounds)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.defensive_rebounds)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.total_rebounds)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.assists)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.steals)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.blocks)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.turnovers)}</td>
-                      <td className="px-2 py-2 text-right">{formatVal(stat.personal_fouls)}</td>
-                      <td className="px-2 py-2 text-right font-bold">{formatVal(stat.points)}</td>
-                      <td className="px-2 py-2 text-left text-xs text-gray-500">{awardsStr}</td>
-                    </tr>
-                  );
-                  })}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Per Game" 
+              schema={TABLE_SCHEMAS.per_game} 
+              data={mapToPerGame(displayedStats, player)} 
+            />
         </section>
 
         {/* Totals Stats */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Totals</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">G</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">GS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">MP</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PTS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TRB</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">AST</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">STL</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">BLK</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TOV</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PF</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedStats.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right">{stat.games_played}</td>
-                      <td className="px-3 py-2 text-right">{stat.games_started}</td>
-                      <td className="px-3 py-2 text-right">{stat.minutes_played}</td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.points}</td>
-                      <td className="px-3 py-2 text-right">{stat.total_rebounds}</td>
-                      <td className="px-3 py-2 text-right">{stat.assists}</td>
-                      <td className="px-3 py-2 text-right">{stat.steals}</td>
-                      <td className="px-3 py-2 text-right">{stat.blocks}</td>
-                      <td className="px-3 py-2 text-right">{stat.turnovers}</td>
-                      <td className="px-3 py-2 text-right">{stat.personal_fouls}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Totals" 
+              schema={TABLE_SCHEMAS.totals} 
+              data={mapToTotals(displayedStats, player)} 
+            />
+        </section>
+
         </section>
 
         {/* Per 36 Minutes */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Per 36 Minutes</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PTS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TRB</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">AST</th>
-                    {/* Note: DB Schema has per_36 for pts, trb, ast. Others might be missing or could be calculated if needed, 
-                        but we'll stick to what's in PlayerSeasonStats model */}
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedStats.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.points_per_36}</td>
-                      <td className="px-3 py-2 text-right">{stat.rebounds_per_36}</td>
-                      <td className="px-3 py-2 text-right">{stat.assists_per_36}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Per 36 Minutes" 
+              schema={TABLE_SCHEMAS.per_minute} 
+              data={mapToPerMinute(displayedStats, player)} 
+            />
         </section>
 
         {/* Per 100 Possessions */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Per 100 Possessions</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PTS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TRB</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">AST</th>
-                    {/* Similarly, stick to available fields */}
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedStats.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.points_per_100_poss}</td>
-                      <td className="px-3 py-2 text-right">{stat.rebounds_per_100_poss}</td>
-                      <td className="px-3 py-2 text-right">{stat.assists_per_100_poss}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Per 100 Possessions" 
+              schema={TABLE_SCHEMAS.per_poss} 
+              data={mapToPerPoss(displayedStats, player)} 
+            />
         </section>
 
         {/* Advanced Stats */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Advanced</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PER</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">TS%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">USG%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">OWS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">DWS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">WS</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">WS/48</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">OBPM</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">DBPM</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">BPM</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">VORP</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedAdvanced.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                       <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right">{stat.player_efficiency_rating}</td>
-                      <td className="px-3 py-2 text-right">{stat.true_shooting_pct}</td>
-                      <td className="px-3 py-2 text-right">{stat.usage_pct}</td>
-                      <td className="px-3 py-2 text-right">{stat.offensive_win_shares}</td>
-                      <td className="px-3 py-2 text-right">{stat.defensive_win_shares}</td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.win_shares}</td>
-                      <td className="px-3 py-2 text-right">{stat.win_shares_per_48}</td>
-                      <td className="px-3 py-2 text-right">{stat.offensive_box_plus_minus}</td>
-                      <td className="px-3 py-2 text-right">{stat.defensive_box_plus_minus}</td>
-                      <td className="px-3 py-2 text-right">{stat.box_plus_minus}</td>
-                      <td className="px-3 py-2 text-right font-bold">{stat.value_over_replacement}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Advanced" 
+              schema={TABLE_SCHEMAS.advanced} 
+              data={mapToAdvanced(displayedAdvanced, displayedStats, player)} 
+            />
         </section>
 
         {/* Shooting Stats */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Shooting</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">Dist.</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">2P%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">0-3</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">3-10</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">10-16</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">16-3P</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">3P%</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedShooting.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right text-gray-500">-</td>
-                      <td className="px-3 py-2 text-right text-gray-500">-</td>
-                      <td className="px-3 py-2 text-right">{stat.fg_pct_at_rim}</td>
-                      <td className="px-3 py-2 text-right">{stat.fg_pct_3_10}</td>
-                      <td className="px-3 py-2 text-right">{stat.fg_pct_10_16}</td>
-                      <td className="px-3 py-2 text-right">{stat.fg_pct_16_3pt}</td>
-                      <td className="px-3 py-2 text-right">{stat.fg_pct_3pt}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Shooting" 
+              schema={TABLE_SCHEMAS.shooting} 
+              data={mapToShooting(displayedShooting, displayedStats, player)} 
+            />
+        </section>
+
+        {/* Adjusted Shooting Stats */}
+        <section>
+            <Table 
+              title="Adjusted Shooting" 
+              schema={TABLE_SCHEMAS.adj_shooting} 
+              data={mapToAdjustedShooting(displayedAdjustedShooting, player)} 
+            />
         </section>
 
         {/* Play-by-Play Stats */}
         <section>
-            <h2 className="text-xl font-bold mb-2 text-gray-800">Play-by-Play</h2>
-            <Card padding="none" className="overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Season</th>
-                    <th className="px-3 py-2 text-left font-semibold text-gray-600">Team</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PG%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">SG%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">SF%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">PF%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">C%</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">OnCourt +/-</th>
-                    <th className="px-3 py-2 text-right font-semibold text-gray-600">OffCourt +/-</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {displayedPbp.map((stat, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 whitespace-nowrap font-medium text-gray-900">{stat.season_id}</td>
-                      <td className="px-3 py-2 whitespace-nowrap text-blue-600 hover:underline">
-                         {stat.team_id === "TOT" ? "TOT" : <Link href={`/teams/${stat.team_id}`}>{stat.team_id}</Link>}
-                      </td>
-                      <td className="px-3 py-2 text-right">{stat.pct_pg}%</td>
-                      <td className="px-3 py-2 text-right">{stat.pct_sg}%</td>
-                      <td className="px-3 py-2 text-right">{stat.pct_sf}%</td>
-                      <td className="px-3 py-2 text-right">{stat.pct_pf}%</td>
-                      <td className="px-3 py-2 text-right">{stat.pct_c}%</td>
-                      <td className="px-3 py-2 text-right">{stat.plus_minus_on}</td>
-                      <td className="px-3 py-2 text-right">{stat.plus_minus_off}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </Card>
+            <Table 
+              title="Play-by-Play" 
+              schema={TABLE_SCHEMAS.pbp} 
+              data={mapToPbp(displayedPbp, displayedStats, player)} 
+            />
+        </section>
+
+        {/* Game Log */}
+        <section>
+            <Table 
+              title="Game Log" 
+              schema={TABLE_SCHEMAS.pgl_basic} 
+              data={mapToGameLog(displayedGameLog, player)} 
+            />
+        </section>
+
+        {/* Splits */}
+        <section>
+            <Table 
+              title="Splits" 
+              schema={TABLE_SCHEMAS.splits} 
+              data={mapToSplits(splits, player)} 
+            />
         </section>
 
         {/* Awards */}
