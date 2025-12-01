@@ -124,7 +124,9 @@ class PlayerRepository(BaseRepository[Player]):
         df = df.where(pd.notnull(df), None)
         return [PlayerSplits(**record) for record in df.to_dict(orient="records")]
 
-    def get_advanced_stats(self, player_id: str, season_id: str | None = None) -> list[PlayerAdvancedStats]:
+    def get_advanced_stats(
+        self, player_id: str, season_id: str | None = None
+    ) -> list[PlayerAdvancedStats]:
         params = [player_id]
         query = """
             SELECT *

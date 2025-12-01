@@ -55,7 +55,7 @@ class TeamRepository(BaseRepository[Team]):
         df = execute_query_df(query, [resolved_id])
         if df.empty:
             return []
-        
+
         df = df.where(pd.notnull(df), None)
         return [TeamSeasonStats(**record) for record in df.to_dict(orient="records")]
 
@@ -72,7 +72,7 @@ class TeamRepository(BaseRepository[Team]):
             WHERE s.team_id = ? AND s.season_id = ?
         """
         df = execute_query_df(query, [resolved_id, season_id])
-        
+
         if df.empty:
             return []
 

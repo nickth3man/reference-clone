@@ -1,10 +1,14 @@
+from datetime import datetime
 from typing import Any, cast
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
+from app.logging_config import get_logger
 from app.models import Team, TeamSeasonStats
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -53,7 +57,8 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
     """
     # First resolve team_id if it's an abbreviation
     team_df = execute_query_df(
-        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id],
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?",
+        [team_id, team_id],
     )
     resolved_team_id = team_df.iloc[0]["team_id"] if not team_df.empty else team_id
 
@@ -71,8 +76,25 @@ def get_team_stats(team_id: str) -> list[dict[str, Any]]:
 # We will use player_season_stats for a specific season roster.
 
 
+def _get_current_season() -> str:
+    """Calculate the current NBA season year.
+
+    NBA seasons span two calendar years (e.g., 2024-25 season).
+    If we're before October, we're still in the previous season.
+    """
+    now = datetime.now()
+    # NBA season typically starts in October
+    if now.month >= 10:
+        return str(now.year + 1)
+    return str(now.year)
+
+
 @router.get("/teams/{team_id}/roster", response_model=list[dict[str, Any]])
-def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any]]:
+def get_team_roster(team_id: str, season_id: str | None = None) -> list[dict[str, Any]]:
+    # Use dynamic current season if not specified
+    if season_id is None:
+        season_id = _get_current_season()
+        logger.info(f"Using current season: {season_id}")
     # Join player_season_stats with players
     query = """
         SELECT p.*, s.season_id, s.team_id
@@ -86,7 +108,8 @@ def get_team_roster(team_id: str, season_id: str = "2025") -> list[dict[str, Any
 
     # First verify team exists (and resolve ID if abbr provided)
     team_df = execute_query_df(
-        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?", [team_id, team_id],
+        "SELECT team_id FROM teams WHERE team_id = ? OR abbreviation = ?",
+        [team_id, team_id],
     )
     resolved_team_id = (
         team_df.iloc[0]["team_id"] if not team_df.empty else team_id

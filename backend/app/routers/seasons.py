@@ -4,7 +4,10 @@ import numpy as np
 from fastapi import APIRouter, HTTPException
 
 from app.database import execute_query_df
+from app.logging_config import get_logger
 from app.models import Season
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -101,20 +104,25 @@ def get_season_leaders(season_id: str) -> dict[str, list[dict[str, Any]]]:
     results = {}
 
     for key, query in categories_sql.items():
-
         try:
             df = execute_query_df(query, [season_id])
             if df.empty:
-                print(f"Warning: No data returned for leader category '{key}' in season '{season_id}'")
+                logger.warning(
+                    "No data returned for leader category",
+                    extra={"category": key, "season_id": season_id},
+                )
             df = df.replace({np.nan: None})  # type: ignore
             results[key] = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
         except Exception as e:
             # Enhanced logging to debug the failed query
-            print(f"Error fetching leaders for {key}: {e}")
-            print(f"Failed Query Structure:\n{query}")
-            print(f"Parameters: season_id={season_id}")
-            import traceback
-            traceback.print_exc()
+            logger.exception(
+                "Error fetching leaders",
+                extra={
+                    "category": key,
+                    "season_id": season_id,
+                    "error": str(e),
+                },
+            )
             results[key] = []
 
     return results  # type: ignore

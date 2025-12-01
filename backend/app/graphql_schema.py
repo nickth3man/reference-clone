@@ -18,21 +18,27 @@ class Team:
     team_id: str
     abbreviation: str | None = None
     nickname: str | None = None
+    full_name: str | None = None
     city: str | None = None
     arena: str | None = None
+    conference: str | None = None
+    division: str | None = None
+    is_active: bool | None = None
 
 
 @strawberry.type
 class Player:
     """GraphQL type for Player."""
 
-    person_id: str
-    display_first_last: str | None = None
-    team_name: str | None = None
+    player_id: str
+    full_name: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
     position: str | None = None
-    height: str | None = None
-    weight: str | None = None
-    country: str | None = None
+    height_inches: int | None = None
+    weight_lbs: int | None = None
+    college: str | None = None
+    is_active: bool | None = None
 
 
 @strawberry.type
@@ -41,10 +47,11 @@ class Game:
 
     game_id: str
     game_date: str | None = None
-    team_abbreviation_home: str | None = None
-    team_abbreviation_away: str | None = None
-    pts_home: float | None = None
-    pts_away: float | None = None
+    game_type: str | None = None
+    home_team_id: str | None = None
+    away_team_id: str | None = None
+    home_team_score: int | None = None
+    away_team_score: int | None = None
 
 
 @strawberry.type
@@ -52,10 +59,17 @@ class Query:
     """GraphQL Query root."""
 
     @strawberry.field
-    def teams(self) -> list[Team]:
+    def teams(self, active_only: bool = True) -> list[Team]:
         """Get all teams."""
         logger.info("GraphQL: Fetching all teams")
-        query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details"
+        query = """
+            SELECT team_id, abbreviation, nickname, full_name, city, arena,
+                   conference, division, is_active
+            FROM teams
+        """
+        if active_only:
+            query += " WHERE is_active = TRUE AND league = 'NBA'"
+        query += " ORDER BY full_name"
         df = execute_query_df(query)
         df = df.replace({np.nan: None})  # type: ignore
         records = cast(list[dict[str, Any]], df.to_dict(orient="records"))  # type: ignore
@@ -65,8 +79,13 @@ class Query:
     def team(self, team_id: str) -> Team | None:
         """Get team by ID."""
         logger.info(f"GraphQL: Fetching team {team_id}")
-        query = "SELECT team_id, abbreviation, nickname, city, arena FROM team_details WHERE team_id = ?"
-        df = execute_query_df(query, [team_id])
+        query = """
+            SELECT team_id, abbreviation, nickname, full_name, city, arena,
+                   conference, division, is_active
+            FROM teams
+            WHERE team_id = ? OR abbreviation = ?
+        """
+        df = execute_query_df(query, [team_id, team_id])
         if df.empty:
             return None
         df = df.replace({np.nan: None})  # type: ignore
@@ -78,9 +97,9 @@ class Query:
         """Get all players with pagination."""
         logger.info(f"GraphQL: Fetching players (limit={limit}, offset={offset})")
         query = """
-            SELECT person_id, display_first_last, team_name, position,
-                   height, weight, country
-            FROM common_player_info
+            SELECT player_id, full_name, first_name, last_name, position,
+                   height_inches, weight_lbs, college, is_active
+            FROM players
             LIMIT ? OFFSET ?
         """
         df = execute_query_df(query, [limit, offset])
@@ -93,10 +112,10 @@ class Query:
         """Get player by ID."""
         logger.info(f"GraphQL: Fetching player {player_id}")
         query = """
-            SELECT person_id, display_first_last, team_name, position,
-                   height, weight, country
-            FROM common_player_info
-            WHERE person_id = ?
+            SELECT player_id, full_name, first_name, last_name, position,
+                   height_inches, weight_lbs, college, is_active
+            FROM players
+            WHERE player_id = ?
         """
         df = execute_query_df(query, [player_id])
         if df.empty:
@@ -110,9 +129,9 @@ class Query:
         """Get recent games."""
         logger.info(f"GraphQL: Fetching games (limit={limit})")
         query = """
-            SELECT game_id, game_date, team_abbreviation_home,
-                   team_abbreviation_away, pts_home, pts_away
-            FROM game
+            SELECT game_id, CAST(game_date AS VARCHAR) as game_date, game_type,
+                   home_team_id, away_team_id, home_team_score, away_team_score
+            FROM games
             ORDER BY game_date DESC
             LIMIT ?
         """
