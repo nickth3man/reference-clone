@@ -1,4 +1,5 @@
 """Season repository for data access layer."""
+import math
 
 from typing import Any
 
@@ -7,6 +8,7 @@ import pandas as pd
 from app.database import execute_query_df
 from app.models import Season, TeamSeasonStats, StandingsItem
 from app.repositories.base import BaseRepository
+from app.utils.dataframe import clean_nan
 
 
 class SeasonRepository(BaseRepository[Season]):
@@ -96,12 +98,48 @@ class SeasonRepository(BaseRepository[Season]):
         df = execute_query_df(query, params)
         if df.empty:
             return []
-        
-        # Clean NaN values and convert to Pydantic models
-        df = df.where(pd.notnull(df), None)
+
+        # Clean NaN/NaT to None for downstream calculations
+        df = clean_nan(df)
         records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
-        # Create Pydantic models from the records
-        return [StandingsItem(**record) for record in records]
+
+        # Map pythagorean_wins to pw and calculate pl for each record
+        standings_items = []
+        for record in records:
+            record["conference"] = record.get("conference") or ""
+            record["division"] = record.get("division") or ""
+            record["team"] = record.get("full_name")
+            record["wl_pct"] = record.get("win_pct")
+            record["gb"] = record.get("games_behind")
+            record["ps_g"] = record.get("points_per_game")
+            record["pa_g"] = record.get("opponent_points_per_game")
+            games_played = record.get("games_played")
+            if games_played is None and record.get("wins") is not None and record.get("losses") is not None:
+                games_played = record["wins"] + record["losses"]
+
+            pw_raw = record.get("pythagorean_wins")
+            if pw_raw is None and games_played and record.get("points_per_game") and record.get("opponent_points_per_game"):
+                pts = float(record["points_per_game"])
+                opp_pts = float(record["opponent_points_per_game"])
+                exponent = 16.5
+                denominator = (pts**exponent) + (opp_pts**exponent)
+                if denominator:
+                    pw_raw = float(games_played) * (pts**exponent / denominator)
+
+            if pw_raw is not None:
+                record["pw"] = round(pw_raw, 1)
+                record["pl"] = round(games_played - pw_raw, 1) if games_played is not None else None
+            else:
+                record["pw"] = None
+                record["pl"] = None
+
+            for key, value in list(record.items()):
+                if isinstance(value, float) and math.isnan(value):
+                    record[key] = None
+
+            standings_items.append(StandingsItem(**record))
+
+        return standings_items
 
     def get_team_stats(self, season_id: str) -> list[TeamSeasonStats]:
         """Get all team stats for a specific season.

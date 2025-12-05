@@ -168,11 +168,11 @@ class FourFactors(BaseModel):
     
     team: str
     pace: float | None = None
-    effective_fg_pct: float | None = None
-    turnover_pct: float | None = None
-    offensive_rebound_pct: float | None = None
-    free_throw_rate: float | None = None
-    offensive_rating: float | None = None
+    efg_pct: float | None = None
+    tov_pct: float | None = None
+    orb_pct: float | None = None
+    ft_per_fga: float | None = None
+    ortg: float | None = None
 
 
 # Alias for backward compatibility

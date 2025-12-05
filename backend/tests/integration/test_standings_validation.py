@@ -33,11 +33,11 @@ def test_standings_api_endpoint():
         
         # Check all fields from StandingsItem model
         expected_fields = [
-            "team_id", "full_name", "abbreviation", "logo_url", 
+            "team_id", "full_name", "abbreviation", "logo_url",
             "conference", "division", "wins", "losses", "win_pct",
             "games_behind", "points_per_game", "opponent_points_per_game",
-            "simple_rating_system", "pace", "offensive_rating", 
-            "defensive_rating", "net_rating"
+            "simple_rating_system", "pace", "offensive_rating",
+            "defensive_rating", "net_rating", "pw", "pl"
         ]
         
         missing_fields = []
@@ -166,17 +166,20 @@ def test_source_of_truth_requirements():
     
     # Based on the Basketball-Reference.com table structure from the plan
     # Conference Standings table columns from the plan
+    # Updated to include PW/PL (Pythagorean Wins/Losses) as per requirements
     required_columns = [
-        "Team", "W", "L", "W/L%", "GB", "PTS", "Opp PTS"
+        "Team", "W", "L", "W/L%", "GB", "PW", "PL", "PTS", "Opp PTS"
     ]
     
     # Map these to our field names
     column_mapping = {
         "Team": "full_name",
-        "W": "wins", 
+        "W": "wins",
         "L": "losses",
         "W/L%": "win_pct",
         "GB": "games_behind",
+        "PW": "pw",
+        "PL": "pl",
         "PTS": "points_per_game",
         "Opp PTS": "opponent_points_per_game"
     }

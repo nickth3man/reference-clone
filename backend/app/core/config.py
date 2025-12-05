@@ -14,8 +14,12 @@ class Settings(BaseSettings):
 
     # Database
     # Defaulting to the relative path we had before, but making it configurable
+    # Note: this file lives at backend/app/core/config.py, so we need to traverse
+    # four levels to reach the repo root where the shared DuckDB file resides.
     DB_PATH: str = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        ),
         "data",
         "nba.duckdb",
     )

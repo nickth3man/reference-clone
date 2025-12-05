@@ -22,7 +22,10 @@ def clean_nan(df: pd.DataFrame) -> pd.DataFrame:
         DataFrame with NaN replaced by None
 
     """
-    return df.where(pd.notnull(df), None)
+    if df.empty:
+        return df
+    # Cast to object so pandas will keep None (and drop NaT) instead of NaN
+    return df.astype(object).where(pd.notnull(df), None)
 
 
 def df_to_records(df: pd.DataFrame) -> list[dict[str, Any]]:

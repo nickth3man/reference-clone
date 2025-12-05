@@ -142,6 +142,7 @@ export type ColumnKey =
   | 'college'
   | 'w'
   | 'l'
+  | 'wl'
   | 'wl_pct'
   | 'gb'
   | 'opp_pts'
@@ -157,6 +158,7 @@ export type ColumnKey =
   | 'q4'
   | 'ot1'
   | 'ot2'
+  | 'ot'
   | 'total'
   | 'pk'
   | 'yrs'
@@ -305,6 +307,7 @@ export const COLUMN_METADATA: Record<ColumnKey, ColumnDef> = {
   college: { key: 'college', label: 'College', type: 'string' },
   w: { key: 'w', label: 'W', type: 'int' },
   l: { key: 'l', label: 'L', type: 'int' },
+  wl: { key: 'wl', label: 'W/L', type: 'string' },
   wl_pct: { key: 'wl_pct', label: 'W/L%', type: 'percent' },
   gb: { key: 'gb', label: 'GB', type: 'float' },
   opp_pts: { key: 'opp_pts', label: 'Opp PTS', type: 'float' },
@@ -320,6 +323,7 @@ export const COLUMN_METADATA: Record<ColumnKey, ColumnDef> = {
   q4: { key: 'q4', label: 'Q4', type: 'int' },
   ot1: { key: 'ot1', label: 'OT1', type: 'int' },
   ot2: { key: 'ot2', label: 'OT2', type: 'int' },
+  ot: { key: 'ot', label: 'OT', type: 'string' },
   total: { key: 'total', label: 'Total', type: 'int' },
   pk: { key: 'pk', label: 'Pk', type: 'int' },
   yrs: { key: 'yrs', label: 'Yrs', type: 'int' },
@@ -499,7 +503,7 @@ export const TABLE_SCHEMAS: Record<TableId, TableSchema> = {
   tgl_basic: {
     id: 'tgl_basic',
     columns: [
-      'rk', 'g', 'date', 'opp', 'w', 'l', 'tm', 'opp_pts',
+      'rk', 'g', 'date', 'home_away', 'opp', 'wl', 'tm', 'opp_pts',
       'fg', 'fga', 'fg_pct',
       'threep', 'threep_att', 'threep_pct',
       'ft', 'fta', 'ft_pct',
@@ -510,7 +514,8 @@ export const TABLE_SCHEMAS: Record<TableId, TableSchema> = {
   games: {
     id: 'games',
     columns: [
-      'g', 'date', 'start_et', 'opp', 'w', 'l', 'tm', 'opp_pts', 'streak', 'notes',
+      'g', 'date', 'start_et', 'home_away', 'opp', 'wl', 'ot',
+      'tm', 'opp_pts', 'w', 'l', 'streak', 'notes',
     ],
   },
   confs_standings_E: {

@@ -6,19 +6,19 @@ client = TestClient(app)
 
 
 def test_franchises_endpoint():
-    response = client.get("/franchises")
+    response = client.get("/api/v1/franchises")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
 def test_draft_picks_endpoint():
-    response = client.get("/draft/picks")
+    response = client.get("/api/v1/draft/picks")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
 def test_contracts_endpoint():
-    response = client.get("/contracts")
+    response = client.get("/api/v1/contracts")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
@@ -87,7 +87,17 @@ def test_team_roster_endpoint():
     # Check that we get the expected fields
     if response.json():
         roster_entry = response.json()[0]
-        expected_fields = ["No.", "Player", "Pos", "Ht", "Wt", "Birth Date", "Country", "Exp", "College"]
+        expected_fields = [
+            "no",
+            "player",
+            "pos",
+            "ht",
+            "wt",
+            "birth_date",
+            "country",
+            "exp",
+            "college",
+        ]
         
         for field in expected_fields:
             assert field in roster_entry, f"Missing field: {field}"
@@ -103,7 +113,36 @@ def test_team_game_log_endpoint():
     if response.json():
         game_log_entry = response.json()[0]
         # These should be present based on the repository implementation
-        expected_fields = ["Rk", "G", "Date", " ", "Opp", "W/L", "Tm", "Opp", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
+        expected_fields = [
+            "rk",
+            "g",
+            "date",
+            "home_away",
+            "opp",
+            "wl",
+            "w",
+            "l",
+            "tm",
+            "opp_pts",
+            "fg",
+            "fga",
+            "fg_pct",
+            "threep",
+            "threep_att",
+            "threep_pct",
+            "ft",
+            "fta",
+            "ft_pct",
+            "orb",
+            "drb",
+            "trb",
+            "ast",
+            "stl",
+            "blk",
+            "tov",
+            "pf",
+            "pts",
+        ]
         
         for field in expected_fields:
             assert field in game_log_entry, f"Missing field: {field}"
@@ -119,7 +158,21 @@ def test_team_schedule_endpoint():
     if response.json():
         schedule_entry = response.json()[0]
         # These should be present based on the repository implementation
-        expected_fields = ["G", "Date", "Start (ET)", " ", "Opponent", "W/L", "OT", "Tm", "Opp", "W", "L", "Streak", "Notes"]
+        expected_fields = [
+            "g",
+            "date",
+            "start_et",
+            "home_away",
+            "opp",
+            "wl",
+            "w",
+            "l",
+            "tm",
+            "opp_pts",
+            "streak",
+            "notes",
+            "ot",
+        ]
         
         for field in expected_fields:
             assert field in schedule_entry, f"Missing field: {field}"

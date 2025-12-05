@@ -1,6 +1,8 @@
 """Team-related Pydantic models."""
 
-from datetime import datetime
+from __future__ import annotations
+
+from datetime import date as date_type, datetime
 
 from pydantic import BaseModel
 
@@ -167,3 +169,68 @@ class TeamGameLog(BaseModel):
     free_throw_rate: float | None = None
     offensive_rating: float | None = None
     defensive_rating: float | None = None
+
+
+class RosterRow(BaseModel):
+    """Roster row aligned to Basketball-Reference roster table."""
+
+    no: str | None = None
+    player: str | None = None
+    pos: str | None = None
+    ht: str | None = None
+    wt: str | None = None
+    birth_date: date_type | None = None
+    country: str | None = None
+    exp: str | None = None
+    college: str | None = None
+
+
+class TeamGameLogRow(BaseModel):
+    """Team game log row aligned to tgl_basic table."""
+
+    rk: int
+    g: int
+    date: date_type | None = None
+    home_away: str | None = None
+    opp: str | None = None
+    wl: str | None = None
+    w: int | None = None
+    l: int | None = None
+    tm: float | None = None
+    opp_pts: float | None = None
+    fg: float | None = None
+    fga: float | None = None
+    fg_pct: float | None = None
+    threep: float | None = None
+    threep_att: float | None = None
+    threep_pct: float | None = None
+    ft: float | None = None
+    fta: float | None = None
+    ft_pct: float | None = None
+    orb: float | None = None
+    drb: float | None = None
+    trb: float | None = None
+    ast: float | None = None
+    stl: float | None = None
+    blk: float | None = None
+    tov: float | None = None
+    pf: float | None = None
+    pts: float | None = None
+
+
+class TeamScheduleRow(BaseModel):
+    """Team schedule/results row aligned to games table."""
+
+    g: int
+    date: date_type | None = None
+    start_et: str | None = None
+    home_away: str | None = None
+    opp: str | None = None
+    wl: str | None = None
+    w: int | None = None
+    l: int | None = None
+    tm: int | None = None
+    opp_pts: int | None = None
+    streak: str | None = None
+    notes: str | None = None
+    ot: str | None = None

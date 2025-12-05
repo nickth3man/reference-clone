@@ -29,6 +29,9 @@ from app.models.team import (
     Team,
     TeamSeasonStats,
     TeamRoster,
+    RosterRow,
+    TeamGameLogRow,
+    TeamScheduleRow,
     Standings,
 )
 
@@ -78,6 +81,9 @@ __all__ = [
     "Team",
     "TeamSeasonStats",
     "TeamRoster",
+    "RosterRow",
+    "TeamGameLogRow",
+    "TeamScheduleRow",
     "Standings",
     "StandingsItem",
     # Game

@@ -1,10 +1,17 @@
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 
 from app.database import execute_query_df
-from app.models import Team, TeamSeasonStats
+from app.models import (
+    RosterRow,
+    Team,
+    TeamGameLogRow,
+    TeamScheduleRow,
+    TeamSeasonStats,
+)
 from app.repositories.base import BaseRepository
+from app.utils.dataframe import clean_nan
 
 
 class TeamRepository(BaseRepository[Team]):
@@ -56,90 +63,133 @@ class TeamRepository(BaseRepository[Team]):
         if df.empty:
             return []
 
-        df = df.where(pd.notnull(df), None)
+        df = clean_nan(df)
         records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
         return [TeamSeasonStats(**record) for record in records]
 
-    def get_team_game_log(self, team_id: str) -> list[dict[str, Any]]:
-        """Return team game log (tgl_basic) rows."""
+    def get_team_game_log(self, team_id: str) -> list[TeamGameLogRow]:
+        """Return team game log (tgl_basic) rows with source-of-truth columns."""
         resolved_id = self.resolve_team_id(team_id)
         if not resolved_id:
             return []
 
         query = """
-            WITH base AS (
+            WITH team_games AS (
                 SELECT
                     g.game_id,
-                    g.game_date AS Date,
-                    g.game_time,
-                    s.is_home,
-                    CASE WHEN s.is_home THEN '' ELSE '@' END AS " ",
-                    CASE WHEN s.is_home THEN g.away_team_id ELSE g.home_team_id END AS opponent_id,
-                    opp.abbreviation AS Opp,
-                    CASE WHEN g.winner_team_id = s.team_id THEN 'W' ELSE 'L' END AS "W/L",
-                    COALESCE(s.points, CASE WHEN s.team_id = g.home_team_id THEN g.home_team_score ELSE g.away_team_score END) AS Tm,
-                    CASE WHEN s.team_id = g.home_team_id THEN g.away_team_score ELSE g.home_team_score END AS OppScore,
-                    s.field_goals_made AS FG,
-                    s.field_goals_attempted AS FGA,
-                    CASE WHEN s.field_goals_attempted > 0 THEN ROUND(s.field_goals_made * 1.0 / s.field_goals_attempted, 3) ELSE NULL END AS "FG%",
-                    s.three_pointers_made AS "3P",
-                    s.three_pointers_attempted AS "3PA",
-                    CASE WHEN s.three_pointers_attempted > 0 THEN ROUND(s.three_pointers_made * 1.0 / s.three_pointers_attempted, 3) ELSE NULL END AS "3P%",
-                    s.free_throws_made AS FT,
-                    s.free_throws_attempted AS FTA,
-                    CASE WHEN s.free_throws_attempted > 0 THEN ROUND(s.free_throws_made * 1.0 / s.free_throws_attempted, 3) ELSE NULL END AS "FT%",
-                    s.offensive_rebounds AS ORB,
-                    s.defensive_rebounds AS DRB,
-                    s.total_rebounds AS TRB,
-                    s.assists AS AST,
-                    s.steals AS STL,
-                    s.blocks AS BLK,
-                    s.turnovers AS TOV,
-                    s.personal_fouls AS PF,
-                    COALESCE(s.points, CASE WHEN s.team_id = g.home_team_id THEN g.home_team_score ELSE g.away_team_score END) AS PTS
-                FROM team_game_stats s
-                JOIN games g ON g.game_id = s.game_id
-                LEFT JOIN teams opp ON opp.team_id = CASE WHEN s.is_home THEN g.away_team_id ELSE g.home_team_id END
-                WHERE s.team_id = ?
+                    CAST(g.game_date AS DATE) AS date,
+                    g.team_id_home AS team_id,
+                    g.team_abbreviation_home AS team_abbr,
+                    g.matchup_home AS matchup_text,
+                    g.wl_home AS wl,
+                    g.pts_home AS tm_pts,
+                    g.fgm_home AS fg,
+                    g.fga_home AS fga,
+                    g.fg_pct_home AS fg_pct,
+                    g.fg3m_home AS threep,
+                    g.fg3a_home AS threep_att,
+                    g.fg3_pct_home AS threep_pct,
+                    g.ftm_home AS ft,
+                    g.fta_home AS fta,
+                    g.ft_pct_home AS ft_pct,
+                    g.oreb_home AS orb,
+                    g.dreb_home AS drb,
+                    g.reb_home AS trb,
+                    g.ast_home AS ast,
+                    g.stl_home AS stl,
+                    g.blk_home AS blk,
+                    g.tov_home AS tov,
+                    g.pf_home AS pf,
+                    g.pts_home AS pts
+                FROM game g
+                WHERE g.team_id_home = ?
+            ),
+            opponents AS (
+                SELECT
+                    game_id,
+                    team_id_home AS opp_team_id,
+                    team_abbreviation_home AS opp_abbr,
+                    pts_home AS opp_pts
+                FROM game
+            ),
+            game_scores AS (
+                SELECT
+                    g.game_id,
+                    g.home_team_id,
+                    g.away_team_id,
+                    g.home_team_score,
+                    g.away_team_score,
+                    home.abbreviation AS home_abbr,
+                    away.abbreviation AS away_abbr
+                FROM games g
+                LEFT JOIN teams home ON home.team_id = g.home_team_id
+                LEFT JOIN teams away ON away.team_id = g.away_team_id
             )
             SELECT
-                ROW_NUMBER() OVER (ORDER BY Date, game_time, game_id) AS Rk,
-                ROW_NUMBER() OVER (ORDER BY Date, game_time, game_id) AS G,
-                Date,
-                " ",
-                Opp,
-                "W/L",
-                Tm,
-                OppScore AS Opp,
-                FG,
-                FGA,
-                "FG%",
-                "3P",
-                "3PA",
-                "3P%",
-                FT,
-                FTA,
-                "FT%",
-                ORB,
-                DRB,
-                TRB,
-                AST,
-                STL,
-                BLK,
-                TOV,
-                PF,
-                PTS
-            FROM base
-            ORDER BY Date, game_time, game_id
+                ROW_NUMBER() OVER (ORDER BY tg.date, tg.game_id) AS rk,
+                ROW_NUMBER() OVER (ORDER BY tg.date, tg.game_id) AS g,
+                tg.date,
+                CASE
+                    WHEN gs.home_team_id = tg.team_id THEN ''
+                    WHEN gs.away_team_id = tg.team_id THEN '@'
+                    WHEN tg.matchup_text ILIKE '%@%' THEN '@'
+                    ELSE ''
+                END AS home_away,
+                COALESCE(
+                    o.opp_abbr,
+                    CASE WHEN gs.home_team_id = tg.team_id THEN gs.away_abbr ELSE gs.home_abbr END,
+                    CASE WHEN gs.home_team_id = tg.team_id THEN gs.away_team_id ELSE gs.home_team_id END
+                ) AS opp,
+                CASE
+                    WHEN tg.wl = 'W' THEN 'W'
+                    WHEN tg.wl = 'L' THEN 'L'
+                    ELSE NULL
+                END AS wl,
+                CASE WHEN tg.wl = 'W' THEN 1 WHEN tg.wl = 'L' THEN 0 END AS w,
+                CASE WHEN tg.wl = 'L' THEN 1 WHEN tg.wl = 'W' THEN 0 END AS l,
+                COALESCE(
+                    tg.tm_pts,
+                    CASE WHEN gs.home_team_id = tg.team_id THEN gs.home_team_score ELSE gs.away_team_score END
+                ) AS tm,
+                COALESCE(
+                    o.opp_pts,
+                    CASE WHEN gs.home_team_id = tg.team_id THEN gs.away_team_score ELSE gs.home_team_score END
+                ) AS opp_pts,
+                tg.fg,
+                tg.fga,
+                tg.fg_pct,
+                tg.threep,
+                tg.threep_att,
+                tg.threep_pct,
+                tg.ft,
+                tg.fta,
+                tg.ft_pct,
+                tg.orb,
+                tg.drb,
+                tg.trb,
+                tg.ast,
+                tg.stl,
+                tg.blk,
+                tg.tov,
+                tg.pf,
+                tg.pts
+            FROM team_games tg
+            LEFT JOIN opponents o
+                ON o.game_id = tg.game_id
+               AND o.opp_team_id <> tg.team_id
+            LEFT JOIN game_scores gs
+                ON gs.game_id = tg.game_id
+            ORDER BY tg.date, tg.game_id
         """
         df = execute_query_df(query, [resolved_id])
         if df.empty:
             return []
-        df = df.where(pd.notnull(df), None)
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = clean_nan(df)
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [TeamGameLogRow(**record) for record in records]
 
-    def get_team_schedule(self, team_id: str) -> list[dict[str, Any]]:
-        """Return team schedule/results (games table)."""
+    def get_team_schedule(self, team_id: str) -> list[TeamScheduleRow]:
+        """Return team schedule/results (games table) with source-of-truth columns."""
         resolved_id = self.resolve_team_id(team_id)
         if not resolved_id:
             return []
@@ -148,17 +198,28 @@ class TeamRepository(BaseRepository[Team]):
             WITH base AS (
                 SELECT
                     g.game_id,
-                    g.game_date AS Date,
-                    g.game_time AS "Start (ET)",
-                    CASE WHEN g.home_team_id = ? THEN '' ELSE '@' END AS " ",
-                    COALESCE(opp.abbreviation, CASE WHEN g.home_team_id = ? THEN g.away_team_id ELSE g.home_team_id END) AS Opponent,
-                    CASE WHEN g.winner_team_id = ? THEN 'W' ELSE 'L' END AS "W/L",
+                    CAST(g.game_date AS DATE) AS date,
+                    CAST(g.game_time AS VARCHAR) AS start_et,
+                    CASE WHEN g.home_team_id = ? THEN '' ELSE '@' END AS home_away,
+                    COALESCE(opp.abbreviation, CASE WHEN g.home_team_id = ? THEN g.away_team_id ELSE g.home_team_id END) AS opp,
                     CASE
-                        WHEN COALESCE(g.home_ot1, g.away_ot1, g.home_ot2, g.away_ot2, g.home_ot3, g.away_ot3, g.home_ot4, g.away_ot4) IS NOT NULL
-                        THEN 'OT' ELSE '' END AS OT,
-                    CASE WHEN g.home_team_id = ? THEN g.home_team_score ELSE g.away_team_score END AS Tm,
-                    CASE WHEN g.home_team_id = ? THEN g.away_team_score ELSE g.home_team_score END AS Opp,
-                    CASE WHEN g.winner_team_id = ? THEN 1 ELSE 0 END AS is_win
+                        WHEN g.home_team_score IS NULL OR g.away_team_score IS NULL THEN NULL
+                        WHEN (g.home_team_id = ? AND g.home_team_score > g.away_team_score)
+                             OR (g.away_team_id = ? AND g.away_team_score > g.home_team_score)
+                        THEN 'W' ELSE 'L'
+                    END AS wl,
+                    CASE
+                        WHEN g.home_team_score IS NULL OR g.away_team_score IS NULL THEN NULL
+                        WHEN (g.home_team_id = ? AND g.home_team_score > g.away_team_score)
+                             OR (g.away_team_id = ? AND g.away_team_score > g.home_team_score)
+                        THEN 1 ELSE 0
+                    END AS is_win,
+                    CASE WHEN g.home_team_id = ? THEN g.home_team_score ELSE g.away_team_score END AS tm,
+                    CASE WHEN g.home_team_id = ? THEN g.away_team_score ELSE g.home_team_score END AS opp_pts,
+                    CASE
+                        WHEN COALESCE(g.home_ot1, g.away_ot1, g.home_ot2, g.away_ot2, g.home_ot3, g.away_ot3, g.home_ot4, g.away_ot4) IS NOT NULL THEN 'OT'
+                        ELSE ''
+                    END AS ot
                 FROM games g
                 LEFT JOIN teams opp ON opp.team_id = CASE WHEN g.home_team_id = ? THEN g.away_team_id ELSE g.home_team_id END
                 WHERE g.home_team_id = ? OR g.away_team_id = ?
@@ -166,48 +227,60 @@ class TeamRepository(BaseRepository[Team]):
             numbered AS (
                 SELECT
                     *,
-                    ROW_NUMBER() OVER (ORDER BY Date, "Start (ET)", game_id) AS G,
+                    ROW_NUMBER() OVER (ORDER BY date, start_et, game_id) AS g_num,
                     SUM(CASE WHEN is_win = 1 THEN 1 ELSE 0 END)
-                        OVER (ORDER BY Date, "Start (ET)", game_id ROWS UNBOUNDED PRECEDING) AS W,
+                        OVER (ORDER BY date, start_et, game_id ROWS UNBOUNDED PRECEDING) AS w_total,
                     SUM(CASE WHEN is_win = 0 THEN 1 ELSE 0 END)
-                        OVER (ORDER BY Date, "Start (ET)", game_id ROWS UNBOUNDED PRECEDING) AS L,
+                        OVER (ORDER BY date, start_et, game_id ROWS UNBOUNDED PRECEDING) AS l_total,
                     CASE
-                        WHEN is_win = LAG(is_win, 1, is_win) OVER (ORDER BY Date, "Start (ET)", game_id)
+                        WHEN is_win IS NULL THEN NULL
+                        WHEN is_win = LAG(is_win, 1, is_win) OVER (ORDER BY date, start_et, game_id)
                         THEN 0 ELSE 1 END AS change_flag
                 FROM base
             ),
             streaked AS (
                 SELECT
                     *,
-                    SUM(change_flag) OVER (ORDER BY Date, "Start (ET)", game_id ROWS UNBOUNDED PRECEDING) AS grp
+                    CASE
+                        WHEN change_flag IS NULL THEN NULL
+                        ELSE SUM(change_flag) OVER (ORDER BY date, start_et, game_id ROWS UNBOUNDED PRECEDING)
+                    END AS grp
                 FROM numbered
             )
             SELECT
-                G,
-                Date,
-                "Start (ET)",
-                " ",
-                Opponent,
-                "W/L",
-                OT,
-                Tm,
-                Opp,
-                W,
-                L,
-                (CASE WHEN is_win = 1 THEN 'W' ELSE 'L' END) ||
-                    ROW_NUMBER() OVER (PARTITION BY grp ORDER BY Date, "Start (ET)", game_id) AS Streak,
-                NULL AS Notes
+                g_num AS g,
+                date,
+                start_et,
+                home_away,
+                opp,
+                CASE
+                    WHEN is_win IS NULL THEN NULL
+                    WHEN is_win = 1 THEN 'W'
+                    ELSE 'L'
+                END AS wl,
+                w_total AS w,
+                l_total AS l,
+                tm,
+                opp_pts,
+                CASE
+                    WHEN is_win IS NULL THEN NULL
+                    ELSE (CASE WHEN is_win = 1 THEN 'W' ELSE 'L' END) ||
+                        ROW_NUMBER() OVER (PARTITION BY grp ORDER BY date, start_et, game_id)
+                END AS streak,
+                NULL AS notes,
+                ot
             FROM streaked
-            ORDER BY Date, "Start (ET)", game_id
+            ORDER BY date, start_et, game_id
         """
-        params = [resolved_id] * 9
+        params = [resolved_id] * 11
         df = execute_query_df(query, params)
         if df.empty:
             return []
-        df = df.where(pd.notnull(df), None)
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = clean_nan(df)
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [TeamScheduleRow(**record) for record in records]
 
-    def get_roster(self, team_id: str) -> list[dict[str, Any]]:
+    def get_roster(self, team_id: str) -> list[RosterRow]:
         """Return team roster matching Basketball-Reference roster table columns."""
         resolved_id = self.resolve_team_id(team_id)
         if not resolved_id:
@@ -215,25 +288,27 @@ class TeamRepository(BaseRepository[Team]):
 
         query = """
             SELECT
-                c.jersey AS "No.",
-                COALESCE(p.full_name, c.display_first_last) AS "Player",
-                c.position AS "Pos",
-                c.height AS "Ht",
-                c.weight AS "Wt",
-                p.birth_date AS "Birth Date",
-                c.country AS "Country",
-                c.season_exp AS "Exp",
-                COALESCE(p.college, c.school, c.last_affiliation) AS "College"
+                c.jersey AS no,
+                COALESCE(p.full_name, c.display_first_last) AS player,
+                c.position AS pos,
+                c.height AS ht,
+                c.weight AS wt,
+                CAST(p.birth_date AS DATE) AS birth_date,
+                c.country AS country,
+                CAST(c.season_exp AS VARCHAR) AS exp,
+                COALESCE(p.college, c.school, c.last_affiliation) AS college
             FROM common_player_info c
             LEFT JOIN players p
                 ON p.player_id = c.person_id
             WHERE c.team_id = ?
-            ORDER BY "No." NULLS LAST, "Player"
+              AND c.rosterstatus = 'Active'
+            ORDER BY no NULLS LAST, player
         """
         df = execute_query_df(query, [resolved_id])
 
         if df.empty:
             return []
 
-        df = df.where(pd.notnull(df), None)
-        return cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        df = clean_nan(df)
+        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        return [RosterRow(**record) for record in records]

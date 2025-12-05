@@ -6,7 +6,13 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from app.core.logging import get_logger
 from app.dependencies import get_team_repository
-from app.models import Team, TeamSeasonStats
+from app.models import (
+    RosterRow,
+    Team,
+    TeamGameLogRow,
+    TeamScheduleRow,
+    TeamSeasonStats,
+)
 from app.repositories.team_repository import TeamRepository
 from app.utils.dates import get_current_season
 
@@ -45,12 +51,12 @@ def get_team_stats(
     return repo.get_stats(team_id)
 
 
-@router.get("/{team_id}/roster", response_model=list[dict[str, Any]])
+@router.get("/{team_id}/roster", response_model=list[RosterRow])
 def get_team_roster(
     team_id: str,
     season_id: str | None = None,
     repo: TeamRepository = Depends(get_team_repository),
-) -> list[dict[str, Any]]:
+) -> list[RosterRow]:
     """Get team roster for a specific season."""
     # Use dynamic current season if not specified
     if season_id is None:
@@ -59,18 +65,18 @@ def get_team_roster(
 
     return repo.get_roster(team_id)
 
-@router.get("/{team_id}/gamelog", response_model=list[dict[str, Any]])
+@router.get("/{team_id}/gamelog", response_model=list[TeamGameLogRow])
 def get_team_game_log(
     team_id: str,
     repo: TeamRepository = Depends(get_team_repository),
-) -> list[dict[str, Any]]:
+) -> list[TeamGameLogRow]:
     """Get team game log for all seasons."""
     return repo.get_team_game_log(team_id)
 
-@router.get("/{team_id}/schedule", response_model=list[dict[str, Any]])
+@router.get("/{team_id}/schedule", response_model=list[TeamScheduleRow])
 def get_team_schedule(
     team_id: str,
     repo: TeamRepository = Depends(get_team_repository),
-) -> list[dict[str, Any]]:
+) -> list[TeamScheduleRow]:
     """Get team schedule/results for all seasons."""
     return repo.get_team_schedule(team_id)
