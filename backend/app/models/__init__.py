@@ -8,7 +8,7 @@ Usage:
     from app.models.player import PlayerSeasonStats, PlayerAdvancedStats
     from app.models.team import TeamSeasonStats
 """
-
+ 
 # Base models
 from app.models.base import AppBaseModel
 
@@ -32,14 +32,18 @@ from app.models.team import (
     Standings,
 )
 
+# Standings models
+from app.models.standings import StandingsItem
+
 # Game models
 from app.models.game import (
     Game,
     BoxScore,
     TeamGameStats,
-    GameStats,
     GamePlayByPlay,
     ShotChartData,
+    LineScore,
+    FourFactors,
 )
 
 # Season models
@@ -75,11 +79,15 @@ __all__ = [
     "TeamSeasonStats",
     "TeamRoster",
     "Standings",
+    "StandingsItem",
     # Game
     "Game",
     "BoxScore",
     "TeamGameStats",
-    "GameStats",
+    "GamePlayByPlay",
+    "ShotChartData",
+    "LineScore",
+    "FourFactors",
     # Season
     "Season",
     "PlayoffSeries",

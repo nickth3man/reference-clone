@@ -3,7 +3,7 @@
 from typing import Any
 
 from app.core.exceptions import EntityNotFoundError
-from app.models import Season, TeamSeasonStats
+from app.models import Season, TeamSeasonStats, StandingsItem
 from app.repositories.season_repository import SeasonRepository
 from app.services.base import BaseService
 from app.utils.dates import get_current_season
@@ -68,7 +68,7 @@ class SeasonService(BaseService[Season, SeasonRepository]):
         self,
         season_id: str | None = None,
         conference: str | None = None,
-    ) -> list[dict[str, Any]]:
+    ) -> list[StandingsItem]:
         """Get standings for a season.
 
         Args:
@@ -86,7 +86,7 @@ class SeasonService(BaseService[Season, SeasonRepository]):
     def get_conference_standings(
         self,
         season_id: str | None = None,
-    ) -> dict[str, list[dict[str, Any]]]:
+    ) -> dict[str, list[StandingsItem]]:
         """Get standings split by conference.
 
         Args:

@@ -70,27 +70,22 @@ class TeamService(BaseService[Team, TeamRepository]):
             List of player records on the current roster
 
         """
-        current_season = get_current_season()
-        return self.repository.get_roster(team_id, current_season)
+        return self.repository.get_roster(team_id)
 
     def get_team_roster(
         self,
         team_id: str,
-        season_id: str | None = None,
     ) -> list[dict[str, Any]]:
         """Get team roster for a specific season.
 
         Args:
             team_id: The team identifier
-            season_id: The season (defaults to current)
 
         Returns:
             List of player records on the roster
 
         """
-        if season_id is None:
-            season_id = get_current_season()
-        return self.repository.get_roster(team_id, season_id)
+        return self.repository.get_roster(team_id)
 
     def get_team_season_record(
         self,
@@ -120,6 +115,28 @@ class TeamService(BaseService[Team, TeamRepository]):
 
         # Return most recent if season not found
         return stats[0] if stats else None
+
+    def get_team_game_log(self, team_id: str) -> list[dict[str, Any]]:
+        """Get team game log for all seasons.
+
+        Args:
+            team_id: The team identifier
+
+        Returns:
+            List of game log records
+        """
+        return self.repository.get_team_game_log(team_id)
+
+    def get_team_schedule(self, team_id: str) -> list[dict[str, Any]]:
+        """Get team schedule/results for all seasons.
+
+        Args:
+            team_id: The team identifier
+
+        Returns:
+            List of schedule records
+        """
+        return self.repository.get_team_schedule(team_id)
 
     def get_team_franchise_history(self, team_id: str) -> dict[str, Any]:
         """Get franchise history for a team.

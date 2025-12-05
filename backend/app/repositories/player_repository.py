@@ -1,5 +1,6 @@
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from app.database import execute_query_df
@@ -86,7 +87,7 @@ class PlayerRepository(BaseRepository[Player]):
         df = execute_query_df(query, [player_id])
         if df.empty:
             return []
-        df = df.where(pd.notnull(df), None)
+        df = df.replace({np.nan: None, np.inf: None, -np.inf: None})
         records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
         return [PlayerSeasonStats(**record) for record in records]
 

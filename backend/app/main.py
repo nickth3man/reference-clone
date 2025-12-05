@@ -11,7 +11,7 @@ from strawberry.fastapi import GraphQLRouter
 from app.graphql_schema import schema
 from app.logging_config import configure_logging, get_logger
 from app.rate_limit import limiter
-from app.routers import boxscores, contracts, draft, franchises, games, players, seasons, teams
+from app.api.v1.router import router as v1_router
 from app.config import settings
 
 logger = get_logger(__name__)
@@ -66,14 +66,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(teams.router, tags=["Teams"])
-app.include_router(franchises.router, tags=["Franchises"])
-app.include_router(players.router, tags=["Players"])
-app.include_router(games.router, tags=["Games"])
-app.include_router(seasons.router, tags=["Seasons"])
-app.include_router(boxscores.router, tags=["Box Scores"])
-app.include_router(draft.router, tags=["Draft"])
-app.include_router(contracts.router, tags=["Contracts"])
+app.include_router(v1_router)
 
 # Add GraphQL endpoint
 graphql_app: GraphQLRouter[Any, Any] = GraphQLRouter(schema)

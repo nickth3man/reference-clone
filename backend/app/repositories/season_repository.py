@@ -5,7 +5,7 @@ from typing import Any
 import pandas as pd
 
 from app.database import execute_query_df
-from app.models import Season, TeamSeasonStats
+from app.models import Season, TeamSeasonStats, StandingsItem
 from app.repositories.base import BaseRepository
 
 
@@ -66,7 +66,7 @@ class SeasonRepository(BaseRepository[Season]):
         self,
         season_id: str,
         conference: str | None = None,
-    ) -> list[dict[str, Any]]:
+    ) -> list[StandingsItem]:
         """Get standings for a specific season.
 
         Args:
@@ -96,8 +96,12 @@ class SeasonRepository(BaseRepository[Season]):
         df = execute_query_df(query, params)
         if df.empty:
             return []
+        
+        # Clean NaN values and convert to Pydantic models
         df = df.where(pd.notnull(df), None)
-        return df.to_dict(orient="records")  # type: ignore[return-value]
+        records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
+        # Create Pydantic models from the records
+        return [StandingsItem(**record) for record in records]
 
     def get_team_stats(self, season_id: str) -> list[TeamSeasonStats]:
         """Get all team stats for a specific season.

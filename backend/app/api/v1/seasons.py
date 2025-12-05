@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from app.core.logging import get_logger
 from app.dependencies import get_season_repository
-from app.models import Season
+from app.models import Season, StandingsItem
 from app.repositories.season_repository import SeasonRepository
 
 logger = get_logger(__name__)
@@ -34,12 +34,12 @@ def get_season(
     return season
 
 
-@router.get("/{season_id}/standings", response_model=list[dict[str, Any]])
+@router.get("/{season_id}/standings", response_model=list[StandingsItem])
 def get_season_standings(
     season_id: str,
     conference: str | None = None,
     repo: SeasonRepository = Depends(get_season_repository),
-) -> list[dict[str, Any]]:
+) -> list[StandingsItem]:
     """Get standings for a specific season."""
     return repo.get_standings(season_id, conference)
 

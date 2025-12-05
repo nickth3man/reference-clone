@@ -57,4 +57,20 @@ def get_team_roster(
         season_id = get_current_season()
         logger.info(f"Using current season: {season_id}")
 
-    return repo.get_roster(team_id, season_id)
+    return repo.get_roster(team_id)
+
+@router.get("/{team_id}/gamelog", response_model=list[dict[str, Any]])
+def get_team_game_log(
+    team_id: str,
+    repo: TeamRepository = Depends(get_team_repository),
+) -> list[dict[str, Any]]:
+    """Get team game log for all seasons."""
+    return repo.get_team_game_log(team_id)
+
+@router.get("/{team_id}/schedule", response_model=list[dict[str, Any]])
+def get_team_schedule(
+    team_id: str,
+    repo: TeamRepository = Depends(get_team_repository),
+) -> list[dict[str, Any]]:
+    """Get team schedule/results for all seasons."""
+    return repo.get_team_schedule(team_id)

@@ -20,3 +20,6 @@ yarn-error.log*
 # Next.js
 .next/
 *.tsbuildinfo
+.roomodes
+.roo/mcp.json
+.roo/rules/baby-steps.md

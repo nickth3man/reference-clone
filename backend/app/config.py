@@ -26,6 +26,8 @@ class Settings(BaseSettings):
         "http://localhost:8001",
         "http://localhost:8002",
         "http://localhost:8003",
+        "http://localhost:3600",
+        "http://127.0.0.1:3600",
     ]
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)

@@ -148,5 +148,32 @@ class TeamGameStats(BaseModel):
     free_throw_rate: float | None = None
 
 
+class LineScore(BaseModel):
+    """Line score for a game."""
+    
+    team: str
+    q1: int | None = None
+    q2: int | None = None
+    q3: int | None = None
+    q4: int | None = None
+    ot1: int | None = None
+    ot2: int | None = None
+    ot3: int | None = None
+    ot4: int | None = None
+    total: int | None = None
+
+
+class FourFactors(BaseModel):
+    """Four factors statistics for a team in a game."""
+    
+    team: str
+    pace: float | None = None
+    effective_fg_pct: float | None = None
+    turnover_pct: float | None = None
+    offensive_rebound_pct: float | None = None
+    free_throw_rate: float | None = None
+    offensive_rating: float | None = None
+
+
 # Alias for backward compatibility
 GameStats = TeamGameStats
