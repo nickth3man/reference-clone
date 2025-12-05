@@ -22,6 +22,14 @@ class PlayerRepository(BaseRepository[Player]):
     def __init__(self) -> None:
         super().__init__(Player)
 
+    def _table_exists(self, table_name: str) -> bool:
+        """Return True if a DuckDB table/view exists."""
+        try:
+            df = execute_query_df(f"PRAGMA table_info('{table_name}')")
+        except Exception:
+            return False
+        return not df.empty
+
     def get_players(
         self,
         search: str | None = None,
@@ -179,13 +187,20 @@ class PlayerRepository(BaseRepository[Player]):
         return [PlayerShootingStats(**record) for record in records]
 
     def get_adjusted_shooting(self, player_id: str) -> list[PlayerAdjustedShooting]:
+        if not self._table_exists("player_adjusted_shooting"):
+            return []
+
         query = """
             SELECT *
             FROM player_adjusted_shooting
             WHERE player_id = ?
             ORDER BY season_id DESC
         """
-        df = execute_query_df(query, [player_id])
+        try:
+            df = execute_query_df(query, [player_id])
+        except Exception:
+            return []
+
         if df.empty:
             return []
         df = df.where(pd.notnull(df), None)

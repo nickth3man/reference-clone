@@ -205,8 +205,6 @@ export default function PlayerPage() {
             />
         </section>
 
-        </section>
-
         {/* Per 36 Minutes */}
         <section>
             <Table 

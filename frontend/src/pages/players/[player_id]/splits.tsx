@@ -6,6 +6,9 @@ import { PlayerHeader } from "../../../components/PlayerHeader";
 import { PlayerSubNav } from "../../../components/PlayerSubNav";
 import { API_URL } from "@/lib/api";
 import type { Player, PlayerSplits } from "../../../types";
+import Table from "@/components/Table";
+import { TABLE_SCHEMAS } from "@/lib/tableSchema";
+import { mapToSplits } from "@/lib/dataMapper";
 
 export default function PlayerSplitsPage() {
   const router = useRouter();
@@ -102,78 +105,11 @@ export default function PlayerSplitsPage() {
           splitTypes.map((type) => (
             <div key={type} className="mb-8">
               <h3 className="text-lg font-bold mb-2 text-gray-700">{type}</h3>
-              <div className="bg-white shadow overflow-hidden rounded-lg overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Value
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        G
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        PTS
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        TRB
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        AST
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        FG%
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        3P%
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        FT%
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        TS%
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {groupedSplits[type].map((split, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {split.split_value}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.games}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                          {split.points_per_game?.toFixed(1)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.rebounds && split.games
-                            ? (split.rebounds / split.games).toFixed(1)
-                            : "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.assists && split.games
-                            ? (split.assists / split.games).toFixed(1)
-                            : "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.field_goal_pct?.toFixed(3)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.three_point_pct?.toFixed(3)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.free_throw_pct?.toFixed(3)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {split.true_shooting_pct?.toFixed(3)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <Table
+                title=""
+                schema={TABLE_SCHEMAS.splits}
+                data={mapToSplits(groupedSplits[type], player)}
+              />
             </div>
           ))
         )}

@@ -2,8 +2,12 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { fetchAPI } from "@/lib/api";
-import type { Team, Player, Game, TeamSeasonStats } from "@/types";
+import type { Team, Player, Game } from "@/types";
+import type { TeamSeasonStats } from "@/types/season";
 import { Card, Button, Badge } from "@/components/atoms";
+import Table from "@/components/Table";
+import { TABLE_SCHEMAS } from "@/lib/tableSchema";
+import { mapTeamPerGame, mapTeamTotals, mapTeamAdvanced, mapTeamGameLog } from "@/lib/dataMapper";
 // import { Calendar, MapPin, Users } from 'lucide-react';
 
 interface TeamPageProps {
@@ -166,9 +170,63 @@ export default function TeamPage({ team, roster, games, stats }: TeamPageProps) 
                 <p className="text-sm text-gray-500">FT%</p>
                 <p className="text-lg font-bold text-gray-900">{currentStats.free_throw_pct}</p>
              </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Finish</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {currentStats.conference_rank ? `${currentStats.conference_rank} in Conf` : "-"}
+                </p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Expected W-L</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {currentStats.pythagorean_wins !== undefined && currentStats.games_played
+                    ? `${currentStats.pythagorean_wins.toFixed(1)}-${(currentStats.games_played - currentStats.pythagorean_wins).toFixed(1)}`
+                    : "-"}
+                </p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Attendance</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {currentStats.attendance ? currentStats.attendance.toLocaleString() : "-"}
+                  {currentStats.attendance_per_game ? ` (${currentStats.attendance_per_game.toLocaleString()}/G)` : ""}
+                </p>
+             </div>
+             <div className="text-center">
+                <p className="text-sm text-gray-500">Arena</p>
+                <p className="text-lg font-bold text-gray-900">{team.arena || "-"}</p>
+             </div>
           </div>
         </Card>
       )}
+
+      {stats.length > 0 && (
+        <div className="space-y-6">
+          <Card padding="md" rounded="xl" className="overflow-hidden border-slate-100">
+            <h2 className="text-xl font-bold mb-3 text-slate-900">Per Game</h2>
+            <Table title="" schema={TABLE_SCHEMAS.per_game} data={mapTeamPerGame(stats, team)} />
+          </Card>
+
+          <Card padding="md" rounded="xl" className="overflow-hidden border-slate-100">
+            <h2 className="text-xl font-bold mb-3 text-slate-900">Totals</h2>
+            <Table title="" schema={TABLE_SCHEMAS.totals} data={mapTeamTotals(stats, team)} />
+          </Card>
+
+          <Card padding="md" rounded="xl" className="overflow-hidden border-slate-100">
+            <h2 className="text-xl font-bold mb-3 text-slate-900">Advanced</h2>
+            <Table title="" schema={TABLE_SCHEMAS.advanced} data={mapTeamAdvanced(stats, team)} />
+          </Card>
+        </div>
+      )}
+
+      <Card padding="md" rounded="xl" className="overflow-hidden border-slate-100">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            Team Game Log
+          </h2>
+          <Badge variant="default">{games.length} Games</Badge>
+        </div>
+        <Table title="" schema={TABLE_SCHEMAS.tgl_basic} data={mapTeamGameLog(games, team.team_id)} />
+      </Card>
 
       {/* Franchise History */}
       <Card padding="none" rounded="xl" className="overflow-hidden border-slate-100">

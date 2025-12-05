@@ -4,6 +4,9 @@ import { fetchAPI } from "@/lib/api";
 import type { DraftPick } from "../../types";
 import { useRouter } from "next/router";
 import { Input, Card } from "@/components/atoms";
+import Table from "@/components/Table";
+import { TABLE_SCHEMAS } from "@/lib/tableSchema";
+import { mapDraftPicks } from "@/lib/dataMapper";
 
 interface DraftPageProps {
   picks: DraftPick[];
@@ -79,40 +82,17 @@ export default function DraftIndex({ picks, year }: DraftPageProps) {
         </div>
       </div>
 
-      <Card variant="bordered" padding="none" className="overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
-              <tr>
-                <th className="px-6 py-3">Pick</th>
-                <th className="px-6 py-3">Team</th>
-                <th className="px-6 py-3">Player</th>
-                <th className="px-6 py-3">College</th>
-                <th className="px-6 py-3 text-right">WS</th>
-                <th className="px-6 py-3 text-right">VORP</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filteredPicks.map((pick) => (
-                <tr key={pick.pick_id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4 text-slate-600">{pick.overall_pick}</td>
-                  <td className="px-6 py-4 font-medium text-slate-900">{pick.team_id}</td>
-                  <td className="px-6 py-4 font-medium text-slate-900">{pick.player_name}</td>
-                  <td className="px-6 py-4 text-slate-600">{pick.college}</td>
-                  <td className="px-6 py-4 text-right text-slate-600">{pick.career_win_shares}</td>
-                  <td className="px-6 py-4 text-right text-slate-600">{pick.career_vorp}</td>
-                </tr>
-              ))}
-              {filteredPicks.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
-                    No picks found matching &quot;{searchQuery}&quot;
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+      <Card variant="bordered" padding="md" className="overflow-hidden">
+        <Table
+          title=""
+          schema={TABLE_SCHEMAS.draft_stats}
+          data={mapDraftPicks(filteredPicks)}
+        />
+        {filteredPicks.length === 0 && (
+          <div className="p-4 text-center text-slate-500">
+            No picks found matching &quot;{searchQuery}&quot;
+          </div>
+        )}
       </Card>
     </div>
   );

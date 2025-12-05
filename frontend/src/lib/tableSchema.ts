@@ -127,6 +127,7 @@ export type ColumnKey =
   | 'and1s'
   | 'blocked'
   | 'date'
+  | 'home_away'
   | 'opp'
   | 'result'
   | 'gmsc'
@@ -175,6 +176,10 @@ export type ColumnKey =
   | 'round'
   | 'winner'
   | 'loser'
+  | 'mp_total'
+  | 'pts_total'
+  | 'trb_total'
+  | 'ast_total'
   | 'split_value'; // For splits table key
 
 export interface ColumnDef {
@@ -285,6 +290,7 @@ export const COLUMN_METADATA: Record<ColumnKey, ColumnDef> = {
   and1s: { key: 'and1s', label: 'And1', type: 'int' },
   blocked: { key: 'blocked', label: 'Blkd', type: 'int' },
   date: { key: 'date', label: 'Date', type: 'date' },
+  home_away: { key: 'home_away', label: '', type: 'string', align: 'center', width: 60 },
   opp: { key: 'opp', label: 'Opp', type: 'string' },
   result: { key: 'result', label: 'Result', type: 'string' },
   gmsc: { key: 'gmsc', label: 'GmSc', type: 'float' },
@@ -333,6 +339,10 @@ export const COLUMN_METADATA: Record<ColumnKey, ColumnDef> = {
   round: { key: 'round', label: 'Round', type: 'string' },
   winner: { key: 'winner', label: 'Winner', type: 'string' },
   loser: { key: 'loser', label: 'Loser', type: 'string' },
+  mp_total: { key: 'mp_total', label: 'MP (Total)', type: 'int' },
+  pts_total: { key: 'pts_total', label: 'PTS (Total)', type: 'int' },
+  trb_total: { key: 'trb_total', label: 'TRB (Total)', type: 'int' },
+  ast_total: { key: 'ast_total', label: 'AST (Total)', type: 'int' },
   split_value: { key: 'split_value', label: 'Split', type: 'string' },
 };
 
@@ -460,7 +470,7 @@ export const TABLE_SCHEMAS: Record<TableId, TableSchema> = {
   pgl_basic: {
     id: 'pgl_basic',
     columns: [
-      'rk', 'g', 'date', 'age', 'tm', 'opp', 'result', 'gs', 'mp',
+      'rk', 'g', 'date', 'age', 'tm', 'home_away', 'opp', 'result', 'gs', 'mp',
       'fg', 'fga', 'fg_pct',
       'threep', 'threep_att', 'threep_pct',
       'ft', 'fta', 'ft_pct',
@@ -566,9 +576,10 @@ export const TABLE_SCHEMAS: Record<TableId, TableSchema> = {
   draft_stats: {
     id: 'draft_stats',
     columns: [
-      'rk', 'pk', 'tm', 'player', 'college', 'yrs', 'g', 'mp', 'pts', 'trb', 'ast',
+      'rk', 'pk', 'tm', 'player', 'college', 'yrs',
+      'g', 'mp', 'pts', 'trb', 'ast',
       'fg_pct', 'threep_pct', 'ft_pct',
-      'mp', 'pts', 'trb', 'ast', // Totals
+      'mp_total', 'pts_total', 'trb_total', 'ast_total',
       'ws', 'ws_48', 'bpm', 'vorp',
     ],
   },

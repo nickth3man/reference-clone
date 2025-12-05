@@ -29,6 +29,8 @@ export const StandingsTable: React.FC<StandingsTableProps> = ({ title, standings
             <th className="px-2 py-1 text-right" title="Offensive Rating">OffRtg</th>
             <th className="px-2 py-1 text-right" title="Defensive Rating">DefRtg</th>
             <th className="px-2 py-1 text-right" title="Net Rating">NetRtg</th>
+          <th className="px-2 py-1 text-right" title="Points Per Game">PTS</th>
+          <th className="px-2 py-1 text-right" title="Opponent Points Per Game">Opp PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +53,8 @@ export const StandingsTable: React.FC<StandingsTableProps> = ({ title, standings
               <td className="px-2 py-1 text-right">{team.offensive_rating?.toFixed(1)}</td>
               <td className="px-2 py-1 text-right">{team.defensive_rating?.toFixed(1)}</td>
               <td className="px-2 py-1 text-right">{team.net_rating?.toFixed(1)}</td>
+            <td className="px-2 py-1 text-right">{team.points_per_game?.toFixed(1)}</td>
+            <td className="px-2 py-1 text-right">{team.opponent_points_per_game?.toFixed(1)}</td>
             </tr>
           ))}
         </tbody>

@@ -8,10 +8,11 @@ A full-stack basketball statistics dashboard with Python backend and Next.js fro
 .
 ├── backend/              # FastAPI backend
 │   ├── app/             # Production application code
-│   │   ├── main.py      # FastAPI app entry point
-│   │   ├── database.py  # Database utilities
-│   │   ├── models.py    # Data models
-│   │   └── routers/     # API endpoints
+│   │   ├── main_new.py  # Canonical FastAPI entry point (v1 stack)
+│   │   ├── main.py      # Legacy entry point (compat-only)
+│   │   ├── core/        # Config/logging/rate-limit/DB utilities (use these)
+│   │   ├── api/         # Routers (v1 + GraphQL)
+│   │   └── routers/     # Legacy API endpoints (deprecated)
 │   └── scripts/         # Dev utilities (db inspection, debug, misc)
 ├── frontend/            # Next.js frontend
 │   └── src/             # Source code
@@ -103,8 +104,10 @@ npm run format
    ```
 3. Run the server:
    ```bash
-   uv run uvicorn app.main:app --reload
+   uv run uvicorn app.main_new:app --reload --host 0.0.0.0 --port 8001
    ```
+   - Health: `http://localhost:8001/health`
+   - API base: `http://localhost:8001/api/v1`
 
 ### Frontend Setup
 

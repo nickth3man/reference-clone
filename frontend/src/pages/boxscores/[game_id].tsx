@@ -50,6 +50,21 @@ const calculateEFG = (fgm: number | undefined, fga: number | undefined, tpm: num
   return val.toFixed(3);
 };
 
+const pct = (made?: number, att?: number) => {
+  if (!att) return "-";
+  return (made ?? 0) / att;
+};
+
+const otColumns = (game: Game) => {
+  const keys = [
+    { key: "ot1", home: game.home_ot1, away: game.away_ot1 },
+    { key: "ot2", home: game.home_ot2, away: game.away_ot2 },
+    { key: "ot3", home: game.home_ot3, away: game.away_ot3 },
+    { key: "ot4", home: game.home_ot4, away: game.away_ot4 },
+  ];
+  return keys.filter(k => k.home !== null && k.home !== undefined && k.away !== null && k.away !== undefined);
+};
+
 const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
   <div className="mt-8">
     <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
@@ -83,10 +98,16 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
               3PA
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
+              3P%
+            </th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
               FT
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
               FTA
+            </th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
+              FT%
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
               ORB
@@ -152,18 +173,27 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.field_goals_attempted}
                   </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                  {pct(player.field_goals_made, player.field_goals_attempted) !== "-" ? pct(player.field_goals_made, player.field_goals_attempted).toFixed(3) : "-"}
+                </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.three_pointers_made}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.three_pointers_attempted}
                   </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                  {pct(player.three_pointers_made, player.three_pointers_attempted) !== "-" ? pct(player.three_pointers_made, player.three_pointers_attempted).toFixed(3) : "-"}
+                </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.free_throws_made}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.free_throws_attempted}
                   </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                  {pct(player.free_throws_made, player.free_throws_attempted) !== "-" ? pct(player.free_throws_made, player.free_throws_attempted).toFixed(3) : "-"}
+                </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
                     {player.offensive_rebounds}
                   </td>
@@ -210,6 +240,73 @@ const StatTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
   </div>
 );
 
+const AdvancedTable = ({ team, players }: { team: Team; players: BoxScore[] }) => (
+  <div className="mt-8">
+    <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+      <Link href={`/teams/${team.team_id}`} className="hover:underline text-blue-800">
+        {team.city} {team.nickname} — Advanced
+      </Link>
+    </h3>
+    <div className="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+      <table className="min-w-full divide-y divide-gray-300">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+              Player
+            </th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">MP</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">TS%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">eFG%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">3PAr</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">FTr</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">ORB%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">DRB%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">TRB%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">AST%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">STL%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">BLK%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">TOV%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">USG%</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">ORtg</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">DRtg</th>
+            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">BPM</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white">
+          {players.map((player) => (
+            <tr key={`${player.player_id}-adv`}>
+              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                <Link
+                  href={`/players/${player.player_id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {player.full_name}
+                </Link>
+              </td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.minutes_played}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.true_shooting_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.effective_fg_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.three_point_attempt_rate}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.free_throw_rate}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.offensive_rebound_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.defensive_rebound_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.total_rebound_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.assist_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.steal_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.block_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.turnover_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.usage_pct}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.offensive_rating}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.defensive_rating}</td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">{player.box_plus_minus}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
 export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: BoxScorePageProps) {
   // Filter players by team
   const homePlayers = boxScores.filter((p) => p.team_id === game.home_team_id);
@@ -244,7 +341,7 @@ export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: Bo
             </div>
           </div>
 
-          {/* Quarter Scores (if available) */}
+          {/* Line Score (with OT if available) */}
           <div className="mt-6 flex justify-center">
             <table className="border-collapse border border-gray-200 text-sm">
               <thead>
@@ -254,6 +351,9 @@ export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: Bo
                   <th className="border border-gray-200 px-3 py-1">2</th>
                   <th className="border border-gray-200 px-3 py-1">3</th>
                   <th className="border border-gray-200 px-3 py-1">4</th>
+                  {otColumns(game).map((ot, idx) => (
+                    <th key={ot.key} className="border border-gray-200 px-3 py-1">{`OT${idx + 1}`}</th>
+                  ))}
                   <th className="border border-gray-200 px-3 py-1 font-bold">T</th>
                 </tr>
               </thead>
@@ -266,6 +366,11 @@ export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: Bo
                   <td className="border border-gray-200 px-3 py-1">{game.away_q2}</td>
                   <td className="border border-gray-200 px-3 py-1">{game.away_q3}</td>
                   <td className="border border-gray-200 px-3 py-1">{game.away_q4}</td>
+                  {otColumns(game).map((_, idx) => (
+                    <td key={`away-ot-${idx}`} className="border border-gray-200 px-3 py-1">
+                      {(game as any)[`away_ot${idx + 1}`]}
+                    </td>
+                  ))}
                   <td className="border border-gray-200 px-3 py-1 font-bold">
                     {game.away_team_score}
                   </td>
@@ -278,6 +383,11 @@ export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: Bo
                   <td className="border border-gray-200 px-3 py-1">{game.home_q2}</td>
                   <td className="border border-gray-200 px-3 py-1">{game.home_q3}</td>
                   <td className="border border-gray-200 px-3 py-1">{game.home_q4}</td>
+                  {otColumns(game).map((_, idx) => (
+                    <td key={`home-ot-${idx}`} className="border border-gray-200 px-3 py-1">
+                      {(game as any)[`home_ot${idx + 1}`]}
+                    </td>
+                  ))}
                   <td className="border border-gray-200 px-3 py-1 font-bold">
                     {game.home_team_score}
                   </td>
@@ -290,6 +400,8 @@ export default function BoxScorePage({ game, boxScores, homeTeam, awayTeam }: Bo
         {/* Box Scores */}
         <StatTable team={awayTeam} players={awayPlayers} />
         <StatTable team={homeTeam} players={homePlayers} />
+        <AdvancedTable team={awayTeam} players={awayPlayers} />
+        <AdvancedTable team={homeTeam} players={homePlayers} />
       </div>
     </Layout>
   );

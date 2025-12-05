@@ -45,6 +45,20 @@ export interface PlayerSeasonStats {
   points_per_100_poss?: number;
   rebounds_per_100_poss?: number;
   assists_per_100_poss?: number;
+  field_goals_per_100_poss?: number;
+  field_goals_attempted_per_100_poss?: number;
+  three_pointers_per_100_poss?: number;
+  three_pointers_attempted_per_100_poss?: number;
+  two_pointers_per_100_poss?: number;
+  two_pointers_attempted_per_100_poss?: number;
+  free_throws_per_100_poss?: number;
+  free_throws_attempted_per_100_poss?: number;
+  offensive_rebounds_per_100_poss?: number;
+  defensive_rebounds_per_100_poss?: number;
+  steals_per_100_poss?: number;
+  blocks_per_100_poss?: number;
+  turnovers_per_100_poss?: number;
+  personal_fouls_per_100_poss?: number;
 }
 
 export interface PlayerAdvancedStats {
@@ -111,6 +125,7 @@ export interface PlayerShootingStats {
   player_id?: string;
   season_id?: string;
   team_id?: string;
+  average_shot_distance?: number;
   fg_pct_at_rim?: number;
   fga_at_rim?: number;
   fg_pct_3_10?: number;
@@ -121,6 +136,10 @@ export interface PlayerShootingStats {
   fga_16_3pt?: number;
   fg_pct_3pt?: number;
   fga_3pt?: number;
+  pct_fga_at_rim?: number;
+  pct_fga_3_10?: number;
+  pct_fga_10_16?: number;
+  pct_fga_16_3pt?: number;
   pct_fga_2pt?: number;
   pct_fga_3pt?: number;
   pct_fg_assisted_2pt?: number;
@@ -151,6 +170,8 @@ export interface PlayerPlayByPlayStats {
   shooting_fouls_committed?: number;
   and_one_attempts?: number;
   blocked_field_goal_attempts?: number;
+  bad_pass_turnovers?: number;
+  lost_ball_turnovers?: number;
 }
 
 export interface PlayerAdjustedShooting {
