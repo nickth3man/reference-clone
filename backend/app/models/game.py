@@ -150,7 +150,7 @@ class TeamGameStats(BaseModel):
 
 class LineScore(BaseModel):
     """Line score for a game."""
-    
+
     team: str
     q1: int | None = None
     q2: int | None = None
@@ -165,7 +165,7 @@ class LineScore(BaseModel):
 
 class FourFactors(BaseModel):
     """Four factors statistics for a team in a game."""
-    
+
     team: str
     pace: float | None = None
     efg_pct: float | None = None

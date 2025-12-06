@@ -3,7 +3,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 from app.models import (
     Award,
     Contract,
@@ -84,10 +84,10 @@ class PlayerRepository(BaseRepository[Player]):
             WHERE player_id = ?
             ORDER BY season_id DESC
         """
-        df = execute_query_df(query, [player_id])
+        df: pd.DataFrame = execute_query_df(query, [player_id])
         if df.empty:
             return []
-        df = df.replace({np.nan: None, np.inf: None, -np.inf: None})
+        df = df.fillna(value=None).replace({np.inf: None, -np.inf: None})  # type: ignore[call-overload]
         records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
         return [PlayerSeasonStats(**record) for record in records]
 
@@ -138,7 +138,7 @@ class PlayerRepository(BaseRepository[Player]):
         return [PlayerSplits(**record) for record in records]
 
     def get_advanced_stats(
-        self, player_id: str, season_id: str | None = None
+        self, player_id: str, season_id: str | None = None,
     ) -> list[PlayerAdvancedStats]:
         params = [player_id]
         query = """

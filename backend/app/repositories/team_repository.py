@@ -1,8 +1,7 @@
-from typing import Any, cast
+from typing import Any
 
-import pandas as pd
 
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 from app.models import (
     RosterRow,
     Team,
@@ -11,7 +10,7 @@ from app.models import (
     TeamSeasonStats,
 )
 from app.repositories.base import BaseRepository
-from app.utils.dataframe import clean_nan
+from app.utils.dataframe import clean_nan, df_to_records
 
 
 class TeamRepository(BaseRepository[Team]):
@@ -43,7 +42,7 @@ class TeamRepository(BaseRepository[Team]):
         return self._to_model(df)
 
     def resolve_team_id(self, team_id_or_abbr: str) -> str | None:
-        """Helper to resolve a team ID from an ID or abbreviation."""
+        """Resolve a team ID from an ID or abbreviation."""
         team = self.get_by_id(team_id_or_abbr)
         return team.team_id if team else None
 
@@ -64,7 +63,7 @@ class TeamRepository(BaseRepository[Team]):
             return []
 
         df = clean_nan(df)
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        records = df_to_records(df)
         return [TeamSeasonStats(**record) for record in records]
 
     def get_team_game_log(self, team_id: str) -> list[TeamGameLogRow]:
@@ -185,7 +184,7 @@ class TeamRepository(BaseRepository[Team]):
         if df.empty:
             return []
         df = clean_nan(df)
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        records = df_to_records(df)
         return [TeamGameLogRow(**record) for record in records]
 
     def get_team_schedule(self, team_id: str) -> list[TeamScheduleRow]:
@@ -277,7 +276,7 @@ class TeamRepository(BaseRepository[Team]):
         if df.empty:
             return []
         df = clean_nan(df)
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        records = df_to_records(df)
         return [TeamScheduleRow(**record) for record in records]
 
     def get_roster(self, team_id: str) -> list[RosterRow]:
@@ -310,5 +309,5 @@ class TeamRepository(BaseRepository[Team]):
             return []
 
         df = clean_nan(df)
-        records = cast(list[dict[str, Any]], df.to_dict(orient="records"))
+        records = df_to_records(df)
         return [RosterRow(**record) for record in records]

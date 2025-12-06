@@ -44,6 +44,19 @@ def get_season_standings(
     return repo.get_standings(season_id, conference)
 
 
+@router.get("/{season_id}/leaders", response_model=dict[str, list[dict[str, Any]]])
+def get_season_all_leaders(
+    season_id: str,
+    limit: int = 5,
+    repo: SeasonRepository = Depends(get_season_repository),
+) -> dict[str, list[dict[str, Any]]]:
+    """Get all statistical leaders for a season.
+
+    Returns leaders in categories: pts, trb, ast, ws, per
+    """
+    return repo.get_all_leaders(season_id, limit)
+
+
 @router.get("/{season_id}/leaders/{stat_category}", response_model=list[dict[str, Any]])
 def get_season_leaders(
     season_id: str,
@@ -57,6 +70,15 @@ def get_season_leaders(
     steals_per_game, blocks_per_game, field_goal_pct, three_point_pct, free_throw_pct
     """
     return repo.get_leaders(season_id, stat_category, limit)
+
+
+@router.get("/{season_id}/awards", response_model=list[dict[str, Any]])
+def get_season_awards(
+    season_id: str,
+    repo: SeasonRepository = Depends(get_season_repository),
+) -> list[dict[str, Any]]:
+    """Get awards for a specific season."""
+    return repo.get_awards(season_id)
 
 
 @router.get("/{season_id}/playoffs", response_model=list[dict[str, Any]])

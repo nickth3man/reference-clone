@@ -1,4 +1,4 @@
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 
 
 def check_games() -> None:

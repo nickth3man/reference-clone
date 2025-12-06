@@ -129,9 +129,9 @@ class StatsService:
             JOIN players p ON s.player_id = p.player_id
             WHERE s.player_id IN ({placeholders})
                 AND s.season_id = ?
-        """
+        """  # noqa: S608
 
-        params = list(player_ids) + [season_id]
+        params = [*player_ids, season_id]
         df = execute_query_df(query, params)
         return df_to_records(df)
 
@@ -164,8 +164,8 @@ class StatsService:
             JOIN teams t ON s.team_id = t.team_id
             WHERE s.team_id IN ({placeholders})
                 AND s.season_id = ?
-        """
+        """  # noqa: S608
 
-        params = list(team_ids) + [season_id]
+        params = [*team_ids, season_id]
         df = execute_query_df(query, params)
         return df_to_records(df)

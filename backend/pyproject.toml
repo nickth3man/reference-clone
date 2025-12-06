@@ -19,7 +19,6 @@ dependencies = [
   "numpy",
   "slowapi",
   "python-json-logger>=3.0.0",
-  "redis",
   "strawberry-graphql[fastapi]",
   "nba-api>=1.11.3",
   "basketball-reference-web-scraper>=4.15.4",
@@ -35,6 +34,7 @@ dev = [
   "mypy",
   "ruff",
   "pytest",
+  "pytest-cov",
   "types-python-dateutil",
   "pandas-stubs",
   "make>=0.1.6.post2",
@@ -43,6 +43,7 @@ dev = [
 
 testing = [
   "pytest",
+  "pytest-cov",
   "httpx>=0.28.1",
   "pytest-asyncio",
 ]
@@ -174,8 +175,7 @@ follow_imports = "silent"
 module = [
     "slowapi.*",
     "pythonjsonlogger.*",
-    "nba_api.*",
-    "redis.*"
+    "nba_api.*"
 ]
 ignore_missing_imports = true
 
@@ -188,15 +188,22 @@ ignore_missing_imports = true
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
+pythonpath = ["."]
 
-[tool.pyright]
-include = ["backend"]
-exclude = [
-    "**/__pycache__",
-    "**/.mypy_cache",
-    "backend/scripts/research",
-    "backend/scripts/db_inspection",
+[tool.coverage.run]
+source = ["app"]
+branch = true
+omit = [
+    "app/scripts/*",
+    "app/api/graphql/*",
 ]
-pythonVersion = "3.10"
-typeCheckingMode = "strict"
-reportMissingImports = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+show_missing = true

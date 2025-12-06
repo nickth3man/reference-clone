@@ -34,4 +34,5 @@ class StandingsItem(BaseModel):
 
 class Standings(list[StandingsItem]):
     """Standings model."""
+
     pass

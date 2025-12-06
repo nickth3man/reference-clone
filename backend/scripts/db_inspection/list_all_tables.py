@@ -4,10 +4,10 @@ import sys
 # Add backend to path to import app
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
-from app.database import execute_query
+from app.core.database import execute_query
 
 
-def list_tables():
+def list_tables() -> None:
     print("Listing all tables in DB...")
     try:
         # DuckDB specific query to list tables

@@ -4,10 +4,10 @@ import sys
 # Add backend to path to import app
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
-from app.database import execute_query
+from app.core.database import execute_query
 
 
-def check_data():
+def check_data() -> None:
     tables = [
         "games",
         "team_game_stats",
@@ -34,7 +34,7 @@ def check_data():
     print("Checking data counts...")
     for table in tables:
         try:
-            result = execute_query(f"SELECT COUNT(*) FROM {table}")
+            result = execute_query(f"SELECT COUNT(*) FROM {table}")  # noqa: S608
             count = result[0][0]
             print(f"{table}: {count} rows")
         except Exception as e:

@@ -1,11 +1,10 @@
 import os
-import platform
 import socket
 import subprocess
 import time
 
 
-def find_free_port(start_port=8000, max_port=9000):
+def find_free_port(start_port: int = 8000, max_port: int = 9000) -> int:
     for port in range(start_port, max_port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
@@ -16,7 +15,7 @@ def find_free_port(start_port=8000, max_port=9000):
     raise OSError("No free ports found")
 
 
-def main():
+def main() -> None:
     # Find ports for backend and frontend - Avoid 8000/3000 due to Docker conflicts (Kong, Langfuse)
     backend_port = find_free_port(8600, 8900)
     frontend_port = find_free_port(3600, 3900)
@@ -34,24 +33,31 @@ def main():
     env = os.environ.copy()
     env["NEXT_PUBLIC_API_URL"] = f"http://127.0.0.1:{backend_port}"
 
-    # Start backend
-    if platform.system() == "Windows":
-        backend_cmd = f"cd backend && uv run uvicorn app.main:app --reload --port {backend_port}"
-        frontend_cmd = f"cd frontend && set PORT={frontend_port} && npm run dev"
-    else:
-        backend_cmd = f"cd backend && uv run uvicorn app.main:app --reload --port {backend_port}"
-        frontend_cmd = f"cd frontend && PORT={frontend_port} npm run dev"
+    backend_cmd: list[str] = [
+        "uv",
+        "run",
+        "uvicorn",
+        "app.main:app",
+        "--reload",
+        "--port",
+        str(backend_port),
+    ]
+    frontend_cmd: list[str] = ["npm", "run", "dev"]
 
-    processes = []
+    backend_env = env.copy()
+    frontend_env = env.copy()
+    frontend_env["PORT"] = str(frontend_port)
+
+    processes: list[subprocess.Popen[bytes]] = []
     try:
         # Launch backend
-        processes.append(subprocess.Popen(backend_cmd, shell=True, env=env))
+        processes.append(subprocess.Popen(backend_cmd, cwd="backend", env=backend_env))  # noqa: S603
 
         # Give backend a moment to start
         time.sleep(2)
 
         # Launch frontend
-        processes.append(subprocess.Popen(frontend_cmd, shell=True, env=env))
+        processes.append(subprocess.Popen(frontend_cmd, cwd="frontend", env=frontend_env))  # noqa: S603
 
         # Wait for both processes
         for p in processes:

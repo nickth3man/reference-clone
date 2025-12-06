@@ -1,6 +1,6 @@
 from typing import Any, cast
 
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 from app.models import Team
 
 

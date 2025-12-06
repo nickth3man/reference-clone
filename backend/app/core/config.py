@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # four levels to reach the repo root where the shared DuckDB file resides.
     DB_PATH: str = os.path.join(
         os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
         ),
         "data",
         "nba.duckdb",

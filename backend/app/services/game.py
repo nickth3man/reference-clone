@@ -3,7 +3,7 @@
 from typing import Any
 
 from app.core.exceptions import EntityNotFoundError
-from app.models import BoxScore, Game, TeamGameStats
+from app.models import Game
 from app.repositories.game_repository import GameRepository
 from app.services.base import BaseService
 

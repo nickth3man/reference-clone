@@ -4,7 +4,7 @@ from typing import Any
 
 import pandas as pd
 
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 from app.models import BoxScore, Game, TeamGameStats
 from app.repositories.base import BaseRepository
 

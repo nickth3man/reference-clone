@@ -25,7 +25,7 @@ ABBR_MAP = {
 }
 
 
-def load_stats() -> None:
+def load_stats() -> None:  # noqa: C901
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 
@@ -364,7 +364,11 @@ def load_stats() -> None:
             # Outliers or errors like -100000.0 cause overflow
             # Clean data before inserting
 
-            def clean_decimal(val: Any, max_val: float = 999.99, min_val: float = -999.99) -> float | None:
+            def clean_decimal(
+                val: float | int | str | None,
+                max_val: float = 999.99,
+                min_val: float = -999.99,
+            ) -> float | None:
                 if val is None:
                     return None
                 try:

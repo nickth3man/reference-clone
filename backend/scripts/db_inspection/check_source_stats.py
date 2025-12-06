@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(
 DB_PATH = os.path.join(BASE_DIR, "data", "nba.duckdb")
 
 
-def check_stats():
+def check_stats() -> None:
     print(f"Connecting to {DB_PATH}...")
     con = duckdb.connect(DB_PATH)
 
@@ -31,7 +31,7 @@ def check_stats():
                 print(col)
 
             print(f"--- Sample data from '{table}' ---")
-            sample = con.execute(f"SELECT * FROM {table} LIMIT 1").fetchall()
+            sample = con.execute(f"SELECT * FROM {table} LIMIT 1").fetchall()  # noqa: S608
             print(sample)
         else:
             print(f"\nTable '{table}' does not exist.")

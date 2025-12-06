@@ -34,7 +34,7 @@ def get_db_connection(read_only: bool = False) -> duckdb.DuckDBPyConnection:
 
 
 def execute_query(
-    query: str, params: list[Any] | None = None, read_only: bool = True
+    query: str, params: list[Any] | None = None, read_only: bool = True,
 ) -> list[Any]:
     """Execute a query and return results as a list.
 
@@ -76,8 +76,8 @@ def execute_query_df(
     conn = get_db_connection(read_only=read_only)
     try:
         if params:
-            return cast(pd.DataFrame, conn.execute(query, params).df())
-        return cast(pd.DataFrame, conn.execute(query).df())
+            return conn.execute(query, params).df()
+        return conn.execute(query).df()
     finally:
         if not read_only:
             conn.close()

@@ -84,7 +84,7 @@ class PlayerSeasonStats(BaseModel):
     blocks_per_game: float | None = None
     personal_fouls: int | None = None
     personal_fouls_per_game: float | None = None
-    
+
     # Per 36 Minutes
     points_per_36: float | None = None
     rebounds_per_36: float | None = None
@@ -230,7 +230,7 @@ class PlayerAdjustedShooting(BaseModel):
     player_id: str | None = None
     season_id: str | None = None
     team_id: str | None = None
-    
+
     # Basic Shooting
     fg_made: int | None = None
     fg_attempted: int | None = None
@@ -248,7 +248,7 @@ class PlayerAdjustedShooting(BaseModel):
     ts_pct: float | None = None
     ft_rate: float | None = None
     fg3_rate: float | None = None
-    
+
     # League Adjusted
     fg_plus: int | None = None
     fg2_plus: int | None = None

@@ -5,30 +5,30 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_franchises_endpoint():
+def test_franchises_endpoint() -> None:
     response = client.get("/api/v1/franchises")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
-def test_draft_picks_endpoint():
+def test_draft_picks_endpoint() -> None:
     response = client.get("/api/v1/draft/picks")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
-def test_contracts_endpoint():
+def test_contracts_endpoint() -> None:
     response = client.get("/api/v1/contracts")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
-def test_standings_endpoint():
+def test_standings_endpoint() -> None:
     # Test current season standings
     response = client.get("/api/v1/seasons/2024/standings")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     # Test that we get the expected fields matching Pydantic model
     standings = response.json()
     if standings:
@@ -39,12 +39,12 @@ def test_standings_endpoint():
             "conference", "division", "wins", "losses", "win_pct",
             "games_behind", "points_per_game", "opponent_points_per_game",
             "simple_rating_system", "pace", "offensive_rating",
-            "defensive_rating", "net_rating"
+            "defensive_rating", "net_rating",
         ]
-        
+
         for field in expected_fields:
             assert field in first_team, f"Missing field: {field}"
-            
+
         # Verify types
         assert isinstance(first_team["wins"], int)
         assert isinstance(first_team["losses"], int)
@@ -53,24 +53,24 @@ def test_standings_endpoint():
             assert isinstance(first_team["games_behind"], (int, float))
 
 
-def test_standings_conference_filter():
+def test_standings_conference_filter() -> None:
     # Test conference filtering
     # Test Eastern conference
     response = client.get("/api/v1/seasons/2024/standings?conference=Eastern")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     standings = response.json()
     if standings:
         # All teams should be from Eastern conference
         for team in standings:
             assert team["conference"] == "Eastern" or team["conference"] == "East"
-            
+
     # Test Western conference
     response = client.get("/api/v1/seasons/2024/standings?conference=Western")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     standings = response.json()
     if standings:
         # All teams should be from Western conference
@@ -78,12 +78,12 @@ def test_standings_conference_filter():
             assert team["conference"] == "Western" or team["conference"] == "West"
 
 
-def test_team_roster_endpoint():
+def test_team_roster_endpoint() -> None:
     # Test roster endpoint with a known team
     response = client.get("/api/v1/teams/GSW/roster")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     # Check that we get the expected fields
     if response.json():
         roster_entry = response.json()[0]
@@ -98,17 +98,17 @@ def test_team_roster_endpoint():
             "exp",
             "college",
         ]
-        
+
         for field in expected_fields:
             assert field in roster_entry, f"Missing field: {field}"
 
 
-def test_team_game_log_endpoint():
+def test_team_game_log_endpoint() -> None:
     # Test game log endpoint with a known team
     response = client.get("/api/v1/teams/GSW/gamelog")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     # Check that we get the expected fields from the repository implementation
     if response.json():
         game_log_entry = response.json()[0]
@@ -143,17 +143,17 @@ def test_team_game_log_endpoint():
             "pf",
             "pts",
         ]
-        
+
         for field in expected_fields:
             assert field in game_log_entry, f"Missing field: {field}"
 
 
-def test_team_schedule_endpoint():
+def test_team_schedule_endpoint() -> None:
     # Test schedule endpoint with a known team
     response = client.get("/api/v1/teams/GSW/schedule")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-    
+
     # Check that we get the expected fields from the repository implementation
     if response.json():
         schedule_entry = response.json()[0]
@@ -173,12 +173,12 @@ def test_team_schedule_endpoint():
             "notes",
             "ot",
         ]
-        
+
         for field in expected_fields:
             assert field in schedule_entry, f"Missing field: {field}"
 
 
-def test_box_score_line_score_endpoint():
+def test_box_score_line_score_endpoint() -> None:
     """Test the line score endpoint for box scores."""
     # This would normally use a real game ID, but for testing we'll use a mock
     # For now, just test that the endpoint exists and returns the correct status code
@@ -187,7 +187,7 @@ def test_box_score_line_score_endpoint():
     assert response.status_code in [200, 404]
 
 
-def test_box_score_four_factors_endpoint():
+def test_box_score_four_factors_endpoint() -> None:
     """Test the four factors endpoint for box scores."""
     # This would normally use a real game ID, but for testing we'll use a mock
     # For now, just test that the endpoint exists and returns the correct status code

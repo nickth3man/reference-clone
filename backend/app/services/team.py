@@ -3,7 +3,7 @@
 from typing import Any
 
 from app.core.exceptions import EntityNotFoundError
-from app.models import Player, Team, TeamSeasonStats
+from app.models import RosterRow, Team, TeamGameLogRow, TeamScheduleRow, TeamSeasonStats
 from app.repositories.team_repository import TeamRepository
 from app.services.base import BaseService
 from app.utils.dates import get_current_season
@@ -60,7 +60,7 @@ class TeamService(BaseService[Team, TeamRepository]):
         """
         return self.repository.get_teams(active_only=False)
 
-    def get_team_current_roster(self, team_id: str) -> list[dict[str, Any]]:
+    def get_team_current_roster(self, team_id: str) -> list[RosterRow]:
         """Get the current season roster for a team.
 
         Args:
@@ -75,7 +75,7 @@ class TeamService(BaseService[Team, TeamRepository]):
     def get_team_roster(
         self,
         team_id: str,
-    ) -> list[dict[str, Any]]:
+    ) -> list[RosterRow]:
         """Get team roster for a specific season.
 
         Args:
@@ -116,7 +116,7 @@ class TeamService(BaseService[Team, TeamRepository]):
         # Return most recent if season not found
         return stats[0] if stats else None
 
-    def get_team_game_log(self, team_id: str) -> list[dict[str, Any]]:
+    def get_team_game_log(self, team_id: str) -> list[TeamGameLogRow]:
         """Get team game log for all seasons.
 
         Args:
@@ -124,10 +124,11 @@ class TeamService(BaseService[Team, TeamRepository]):
 
         Returns:
             List of game log records
+
         """
         return self.repository.get_team_game_log(team_id)
 
-    def get_team_schedule(self, team_id: str) -> list[dict[str, Any]]:
+    def get_team_schedule(self, team_id: str) -> list[TeamScheduleRow]:
         """Get team schedule/results for all seasons.
 
         Args:
@@ -135,6 +136,7 @@ class TeamService(BaseService[Team, TeamRepository]):
 
         Returns:
             List of schedule records
+
         """
         return self.repository.get_team_schedule(team_id)
 

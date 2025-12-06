@@ -9,8 +9,8 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.database import get_db_connection
-from app.logging_config import configure_logging, get_logger
+from app.core.database import get_db_connection
+from app.core.logging import configure_logging, get_logger
 
 configure_logging("INFO")
 logger = get_logger(__name__)

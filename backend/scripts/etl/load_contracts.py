@@ -1,9 +1,8 @@
-from app.database import execute_query, execute_query_df
+from app.core.database import execute_query, execute_query_df
 
 
 def create_contracts_table() -> None:
-    """Create the contracts table if it doesn't exist.
-    """
+    """Create the contracts table if it doesn't exist."""
     create_sequence_sql = "CREATE SEQUENCE IF NOT EXISTS contracts_id_seq;"
     execute_query(create_sequence_sql, read_only=False)
 
@@ -33,8 +32,7 @@ def create_contracts_table() -> None:
 
 
 def load_sample_contracts() -> None:
-    """Load some sample contract data for testing.
-    """
+    """Load some sample contract data for testing."""
     # Check if contracts exist
     df = execute_query_df("SELECT count(*) as count FROM contracts")
     if df.iloc[0]["count"] > 0:

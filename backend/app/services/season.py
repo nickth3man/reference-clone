@@ -3,7 +3,7 @@
 from typing import Any
 
 from app.core.exceptions import EntityNotFoundError
-from app.models import Season, TeamSeasonStats, StandingsItem
+from app.models import Season, StandingsItem
 from app.repositories.season_repository import SeasonRepository
 from app.services.base import BaseService
 from app.utils.dates import get_current_season

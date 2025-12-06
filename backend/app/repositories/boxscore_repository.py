@@ -1,6 +1,7 @@
 """Boxscore repository for data access layer."""
+from __future__ import annotations
 
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
 
@@ -8,6 +9,9 @@ from app.core.database import execute_query_df
 from app.models import BoxScore
 from app.repositories.base import BaseRepository
 from app.utils.dataframe import clean_nan, df_to_records
+
+if TYPE_CHECKING:
+    from app.models.game import FourFactors, LineScore
 
 
 class BoxscoreRepository(BaseRepository[BoxScore]):
@@ -79,7 +83,7 @@ class BoxscoreRepository(BaseRepository[BoxScore]):
         df = execute_query_df(query, [team_id, game_id])
         return self._to_models(df)
 
-    def get_line_score(self, game_id: str) -> list["LineScore"]:
+    def get_line_score(self, game_id: str) -> list[LineScore]:
         """Return line score rows (home/away) for a game."""
         query = """
             SELECT
@@ -133,14 +137,15 @@ class BoxscoreRepository(BaseRepository[BoxScore]):
         if df.empty:
             return []
 
-        df = df.where(pd.notnull(df), None)
         from app.models.game import LineScore
 
-        return [LineScore(**record) for record in df.to_dict(orient="records")]
+        df = df.where(pd.notnull(df), None)
+        records = df_to_records(df)
+        return [LineScore(**record) for record in records]
 
     @staticmethod
     def _safe_div(numerator: float | None, denominator: float | None) -> float | None:
-        if numerator is None or denominator in (None, 0):
+        if numerator is None or denominator is None or denominator == 0:
             return None
         return numerator / denominator
 
@@ -168,7 +173,7 @@ class BoxscoreRepository(BaseRepository[BoxScore]):
 
         return (fga or 0) + 0.4 * (fta or 0) - 1.07 * oreb_factor * ((fga or 0) - (fg or 0)) + (tov or 0)
 
-    def get_four_factors(self, game_id: str) -> list["FourFactors"]:
+    def get_four_factors(self, game_id: str) -> list[FourFactors]:
         """Compute four factors for both teams of a game."""
         raw = execute_query_df(
             """
@@ -211,7 +216,7 @@ class BoxscoreRepository(BaseRepository[BoxScore]):
             return []
 
         raw = clean_nan(raw)
-        records = cast(list[dict[str, Any]], raw.to_dict(orient="records"))
+        records = df_to_records(raw)
 
         from app.models.game import FourFactors
 
@@ -240,16 +245,18 @@ class BoxscoreRepository(BaseRepository[BoxScore]):
                 ortg = self._safe_div(record.get("pts"), team_poss)
                 ortg = ortg * 100 if ortg is not None else None
 
+            team_value = record.get("team") or record.get("team_id") or ""
+
             results.append(
                 FourFactors(
-                    team=record.get("team") or record.get("team_id"),
+                    team=str(team_value),
                     pace=pace,
                     efg_pct=efg,
                     tov_pct=tov_pct,
                     orb_pct=orb_pct,
                     ft_per_fga=ft_per_fga,
                     ortg=ortg,
-                )
+                ),
             )
 
         return results

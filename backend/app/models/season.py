@@ -61,12 +61,12 @@ class LeagueSeasonAverage(BaseModel):
     stat_id: int
     season_id: str | None = None
     league: str | None = None
-    
+
     # Player Averages
     avg_age: float | None = None
     avg_height_inches: float | None = None
     avg_weight_lbs: float | None = None
-    
+
     # Per Game Averages
     points_pg: float | None = None
     rebounds_pg: float | None = None
@@ -74,12 +74,12 @@ class LeagueSeasonAverage(BaseModel):
     steals_pg: float | None = None
     blocks_pg: float | None = None
     turnovers_pg: float | None = None
-    
+
     # Shooting Averages
     fg_pct: float | None = None
     fg3_pct: float | None = None
     ft_pct: float | None = None
-    
+
     # Pace/Rating
     pace: float | None = None
     off_rating: float | None = None

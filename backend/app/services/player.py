@@ -1,4 +1,5 @@
 """Player service for business logic."""
+from typing import Any
 
 from app.core.exceptions import EntityNotFoundError
 from app.models import (
@@ -69,7 +70,7 @@ class PlayerService(BaseService[Player, PlayerRepository]):
             offset=offset,
         )
 
-    def get_player_career_summary(self, player_id: str) -> dict:
+    def get_player_career_summary(self, player_id: str) -> dict[str, Any]:
         """Get a summary of a player's career.
 
         Args:

@@ -1,7 +1,11 @@
 {
-  "include": ["backend"],
+  "include": ["backend/app"],
   "exclude": [
-    "backend/.venv"
+    "backend/.venv",
+    "backend/scripts",
+    "backend/tests",
+    "**/__pycache__",
+    "**/.mypy_cache"
   ],
   "pythonVersion": "3.12",
   "typeCheckingMode": "strict",

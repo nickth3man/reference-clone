@@ -5,7 +5,7 @@ from typing import Any
 
 import pandas as pd
 
-from app.database import execute_query_df
+from app.core.database import execute_query_df
 from app.models import Season, TeamSeasonStats, StandingsItem
 from app.repositories.base import BaseRepository
 from app.utils.dataframe import clean_nan
@@ -104,7 +104,7 @@ class SeasonRepository(BaseRepository[Season]):
         records: list[dict[str, Any]] = df.to_dict(orient="records")  # type: ignore[assignment]
 
         # Map pythagorean_wins to pw and calculate pl for each record
-        standings_items = []
+        standings_items: list[StandingsItem] = []
         for record in records:
             record["conference"] = record.get("conference") or ""
             record["division"] = record.get("division") or ""
@@ -234,3 +234,95 @@ class SeasonRepository(BaseRepository[Season]):
             return []
         df = df.where(pd.notnull(df), None)
         return df.to_dict(orient="records")  # type: ignore[return-value]
+
+    def get_awards(self, season_id: str) -> list[dict[str, Any]]:
+        """Get awards for a specific season.
+
+        Args:
+            season_id: The season identifier
+
+        Returns:
+            List of award records
+
+        """
+        query = """
+            SELECT *
+            FROM awards
+            WHERE season_id = ?
+            ORDER BY award_type, player_id
+        """
+        df = execute_query_df(query, [season_id])
+        if df.empty:
+            return []
+        df = df.where(pd.notnull(df), None)
+        return df.to_dict(orient="records")  # type: ignore[return-value]
+
+    def get_all_leaders(self, season_id: str, limit: int = 5) -> dict[str, list[dict[str, Any]]]:
+        """Get all statistical leaders for a season in one call.
+
+        Args:
+            season_id: The season identifier
+            limit: Maximum number of leaders per category
+
+        Returns:
+            Dictionary with leader categories as keys
+
+        """
+        categories_sql: dict[str, str] = {
+            "pts": """
+                SELECT p.player_id, p.full_name, p.headshot_url,
+                    s.points_per_game as value, s.team_id
+                FROM player_season_stats s
+                JOIN players p ON s.player_id = p.player_id
+                WHERE s.season_id = ?
+                ORDER BY s.points_per_game DESC
+                LIMIT ?
+            """,
+            "trb": """
+                SELECT p.player_id, p.full_name, p.headshot_url,
+                    s.rebounds_per_game as value, s.team_id
+                FROM player_season_stats s
+                JOIN players p ON s.player_id = p.player_id
+                WHERE s.season_id = ?
+                ORDER BY s.rebounds_per_game DESC
+                LIMIT ?
+            """,
+            "ast": """
+                SELECT p.player_id, p.full_name, p.headshot_url,
+                    s.assists_per_game as value, s.team_id
+                FROM player_season_stats s
+                JOIN players p ON s.player_id = p.player_id
+                WHERE s.season_id = ?
+                ORDER BY s.assists_per_game DESC
+                LIMIT ?
+            """,
+            "ws": """
+                SELECT p.player_id, p.full_name, p.headshot_url,
+                    s.win_shares as value, s.team_id
+                FROM player_advanced_stats s
+                JOIN players p ON s.player_id = p.player_id
+                WHERE s.season_id = ?
+                ORDER BY s.win_shares DESC
+                LIMIT ?
+            """,
+            "per": """
+                SELECT p.player_id, p.full_name, p.headshot_url,
+                    s.player_efficiency_rating as value, s.team_id
+                FROM player_advanced_stats s
+                JOIN players p ON s.player_id = p.player_id
+                WHERE s.season_id = ?
+                ORDER BY s.player_efficiency_rating DESC
+                LIMIT ?
+            """,
+        }
+
+        results: dict[str, list[dict[str, Any]]] = {}
+        for key, query in categories_sql.items():
+            try:
+                df = execute_query_df(query, [season_id, limit])
+                df = df.where(pd.notnull(df), None)
+                results[key] = df.to_dict(orient="records")  # type: ignore[assignment]
+            except Exception:
+                results[key] = []
+
+        return results

@@ -1,6 +1,6 @@
 import os
 from contextlib import suppress
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import duckdb
@@ -77,7 +77,7 @@ def load_players() -> None:
         nba_debut = None
         if y_from:
             with suppress(ValueError):
-                nba_debut = datetime(int(y_from), 10, 1)
+                nba_debut = datetime(int(y_from), 10, 1, tzinfo=timezone.utc)
 
         # Exp
         exp = (int(y_to) - int(y_from) + 1) if (y_to and y_from) else None

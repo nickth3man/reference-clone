@@ -6,7 +6,7 @@ backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')
 if backend_path not in sys.path:
     sys.path.insert(0, backend_path)
 
-from app.database import execute_query_df  # noqa: E402
+from app.core.database import execute_query_df  # noqa: E402
 
 def test_leaders_query() -> None:
     output_file = os.path.join(os.path.dirname(__file__), "reproduce_output.txt")

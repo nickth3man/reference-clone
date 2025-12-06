@@ -141,7 +141,7 @@ class TeamGameLog(BaseModel):
     game_result: str | None = None
     team_score: int | None = None
     opponent_score: int | None = None
-    
+
     # Basic Stats
     field_goals_made: int | None = None
     field_goals_attempted: int | None = None
@@ -160,7 +160,7 @@ class TeamGameLog(BaseModel):
     blocks: int | None = None
     turnovers: int | None = None
     personal_fouls: int | None = None
-    
+
     # Advanced / Four Factors
     pace: float | None = None
     effective_fg_pct: float | None = None
@@ -195,7 +195,7 @@ class TeamGameLogRow(BaseModel):
     opp: str | None = None
     wl: str | None = None
     w: int | None = None
-    l: int | None = None
+    l: int | None = None  # noqa: E741
     tm: float | None = None
     opp_pts: float | None = None
     fg: float | None = None
@@ -228,7 +228,7 @@ class TeamScheduleRow(BaseModel):
     opp: str | None = None
     wl: str | None = None
     w: int | None = None
-    l: int | None = None
+    l: int | None = None  # noqa: E741
     tm: int | None = None
     opp_pts: int | None = None
     streak: str | None = None
